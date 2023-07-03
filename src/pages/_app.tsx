@@ -1,18 +1,14 @@
 import createCache from "@emotion/cache";
 import { CacheProvider } from "@emotion/react";
 import { CssBaseline, PaletteMode } from "@mui/material";
-import {
-  StyledEngineProvider,
-  ThemeProvider,
-  createTheme,
-} from "@mui/material/styles";
+import { StyledEngineProvider, ThemeProvider } from "@mui/material/styles";
 import Layout from "components/Layout";
 import { type Session } from "next-auth";
 import { SessionProvider } from "next-auth/react";
 import { type AppType } from "next/app";
 import React from "react";
 import "~/styles/globals.css";
-import { getDesignTokens } from "~/styles/theme";
+import { getTheme } from "~/styles/theme";
 import { api } from "~/utils/api";
 
 const cache = createCache({
@@ -38,7 +34,7 @@ const MyApp: AppType<{ session: Session | null }> = ({
   );
 
   // Update the theme only if the mode changes
-  const theme = React.useMemo(() => createTheme(getDesignTokens(mode)), [mode]);
+  const theme = React.useMemo(() => getTheme(mode), [mode]);
   // const theme = createTheme(getDesignTokens("light"));
 
   return (
