@@ -15,7 +15,7 @@ export default function Header() {
             underline="none"
             className="text-lg font-bold"
           >
-            HotelBooking.com
+            SUTDHotelBooking.com
           </Link>
         </Box>
         <Link
