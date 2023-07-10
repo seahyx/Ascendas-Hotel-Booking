@@ -1,31 +1,24 @@
-import { Box, Container, Link, Typography } from "@mui/material";
+import { Box, Button, Container } from "@mui/material";
+import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
+import Image from "next/image";
 
 export default function Header() {
   return (
     <Box
       component="header"
-      className="w-full py-4"
-      sx={{ borderBottom: 1, borderColor: "divider.main" }}
+      className="absolute left-0 right-0 top-0 z-50 w-full py-4"
     >
-      <Container maxWidth="md" className="flex w-full justify-center">
+      <Container maxWidth="md" className="flex w-full items-start">
         <Box className="grow">
-          <Link
-            href="/"
-            color="inherit"
-            underline="none"
-            className="text-lg font-bold"
-          >
-            SUTDHotelBooking.com
-          </Link>
+          <Image src="/logo.png" width={60} height={60} alt="Site Logo" />
         </Box>
-        <Link
+        <Button
+          variant="contained"
+          startIcon={<AccountCircleOutlinedIcon fontSize="large" />}
           href="/"
-          color="text.secondary"
-          underline="none"
-          className="place-self-end"
         >
           Login/Register
-        </Link>
+        </Button>
       </Container>
     </Box>
   );

@@ -2,10 +2,11 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import Link from "@mui/material/Link";
+import { ThemeContext } from "@emotion/react";
 
 function Copyright() {
   return (
-    <Typography variant="body2" color="text.secondary" align="center">
+    <Typography variant="body2" color="secondary.contrastText" align="center">
       {"Copyright © "}
       <Link color="inherit" href="/">
         SUTDHotelBooking.com
@@ -20,16 +21,15 @@ export default function Footer() {
   return (
     <Box
       component="footer"
-      sx={{
-        backgroundColor: (theme) =>
-          theme.palette.mode === "light"
-            ? theme.palette.grey[200]
-            : theme.palette.grey[800],
-      }}
+      bgcolor="secondary.main"
       className="flex h-32 justify-center py-8"
     >
       <Container maxWidth="sm">
-        <Typography variant="body1" align="center">
+        <Typography
+          variant="body1"
+          color="secondary.contrastText"
+          align="center"
+        >
           Hotel booking case study site. Not for commercial usage.
         </Typography>
         <Copyright />

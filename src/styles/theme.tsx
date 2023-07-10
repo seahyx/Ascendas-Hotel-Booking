@@ -18,10 +18,8 @@ export const getTheme = (mode: PaletteMode) =>
               main: "#f97316",
             },
             secondary: {
-              main: "#1e0024",
-            },
-            divider: {
-              main: blueGrey[100],
+              main: "#240900",
+              contrastText: "#ffffff66",
             },
           }
         : {
@@ -30,12 +28,27 @@ export const getTheme = (mode: PaletteMode) =>
               main: "#f97316",
             },
             secondary: {
-              main: "#1e0024",
-            },
-            divider: {
-              main: blueGrey[800],
+              main: "#240900",
+              contrastText: "#ffffff66",
             },
           }),
+    },
+    shape: {
+      borderRadius: 8,
+    },
+    typography: {
+      fontFamily: [
+        "-apple-system",
+        "BlinkMacSystemFont",
+        '"Segoe UI"',
+        "Roboto",
+        '"Helvetica Neue"',
+        "Arial",
+        "sans-serif",
+        '"Apple Color Emoji"',
+        '"Segoe UI Emoji"',
+        '"Segoe UI Symbol"',
+      ].join(","),
     },
     components: {
       MuiLink: {
