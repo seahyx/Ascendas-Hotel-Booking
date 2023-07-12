@@ -17,7 +17,7 @@ export default function Home() {
         />
       </Head>
       <ThemeProvider theme={getTheme("dark")}>
-        <Box className="relative h-[20rem] w-full">
+        <Box className="relative h-80 w-full">
           <Container
             maxWidth="md"
             className="absolute bottom-0 left-0 right-0 z-20"
