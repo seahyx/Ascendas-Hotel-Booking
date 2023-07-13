@@ -1,6 +1,6 @@
 import { ThemeProvider } from "@emotion/react";
 import { Box, Container, Typography, useTheme } from "@mui/material";
-import SearchBar from "components/SearchBar";
+import SearchBar from "~/components/SearchBar";
 import Head from "next/head";
 import Image from "next/image";
 import { getTheme } from "~/styles/theme";
