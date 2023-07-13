@@ -2,7 +2,7 @@ import createCache from "@emotion/cache";
 import { CacheProvider } from "@emotion/react";
 import { CssBaseline, PaletteMode } from "@mui/material";
 import { StyledEngineProvider, ThemeProvider } from "@mui/material/styles";
-import Layout from "components/Layout";
+import Layout from "~/components/Layout";
 import { type Session } from "next-auth";
 import { SessionProvider } from "next-auth/react";
 import { type AppType } from "next/app";
