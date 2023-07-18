@@ -1,6 +1,7 @@
 import { Box, Container, Stack } from "@mui/material";
-import TopBarWithSearch from "components/TopBarWithSearch";
+
 import Head from "next/head";
+import TopBarWithSearch from "~/components/TopBarWithSearch";
 
 function Sidebar() {
   return (
