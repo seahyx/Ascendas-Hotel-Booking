@@ -2,11 +2,13 @@ import createCache from "@emotion/cache";
 import { CacheProvider } from "@emotion/react";
 import { CssBaseline, PaletteMode } from "@mui/material";
 import { StyledEngineProvider, ThemeProvider } from "@mui/material/styles";
-import Layout from "~/components/Layout";
+import { LocalizationProvider } from "@mui/x-date-pickers";
+import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { type Session } from "next-auth";
 import { SessionProvider } from "next-auth/react";
 import { type AppType } from "next/app";
 import React from "react";
+import Layout from "~/components/Layout";
 import "~/styles/globals.css";
 import { getTheme } from "~/styles/theme";
 import { api } from "~/utils/api";
@@ -39,16 +41,18 @@ const MyApp: AppType<{ session: Session | null }> = ({
 
   return (
     <SessionProvider session={session}>
-      <StyledEngineProvider injectFirst>
-        <ThemeProvider theme={theme}>
-          <CssBaseline />
-          <CacheProvider value={cache}>
-            <Layout>
-              <Component {...pageProps} />
-            </Layout>
-          </CacheProvider>
-        </ThemeProvider>
-      </StyledEngineProvider>
+      <LocalizationProvider dateAdapter={AdapterDateFns}>
+        <StyledEngineProvider injectFirst>
+          <ThemeProvider theme={theme}>
+            <CssBaseline />
+            <CacheProvider value={cache}>
+              <Layout>
+                <Component {...pageProps} />
+              </Layout>
+            </CacheProvider>
+          </ThemeProvider>
+        </StyledEngineProvider>
+      </LocalizationProvider>
     </SessionProvider>
   );
 };

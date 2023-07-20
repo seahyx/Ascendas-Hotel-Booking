@@ -1,12 +1,15 @@
 import { ThemeProvider } from "@emotion/react";
 import { Box, Container, Typography, useTheme } from "@mui/material";
-import SearchBar from "~/components/SearchBar";
 import Head from "next/head";
 import Image from "next/image";
+import { useState } from "react";
+import SearchBar from "~/components/SearchBar";
 import { getTheme } from "~/styles/theme";
+import { Destination } from "~/utils/destinations";
 
-export default function Home() {
+export default function Home(props) {
   const theme = useTheme();
+  const [destOption, setDestOption] = useState<Destination | null>(null);
   return (
     <>
       <Head>
@@ -17,7 +20,7 @@ export default function Home() {
         />
       </Head>
       <ThemeProvider theme={getTheme("dark")}>
-        <Box className="relative h-[20rem] w-full">
+        <Box className="relative mb-6 h-[20rem] w-full">
           <Container
             maxWidth="md"
             className="absolute bottom-0 left-0 right-0 z-20"
@@ -53,7 +56,13 @@ export default function Home() {
               maxWidth="md"
               className="absolute -bottom-6 left-0 right-0 z-20"
             >
-              <SearchBar />
+              <SearchBar
+                onDestChange={(dest) => {
+                  setDestOption(dest);
+                  console.log(`Destination value selected:`);
+                  console.log(dest);
+                }}
+              />
             </Container>
           </ThemeProvider>
         </Box>
