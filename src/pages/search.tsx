@@ -26,15 +26,14 @@ function Sidebar() {
 }
 
 function ResultList() {
+  const numberOfTestResults = 6;
+  const results = [];
+  for (let i = 0; i < numberOfTestResults; i++) {
+    results.push(<Box className="h-56" bgcolor="green"></Box>);
+  }
   return(
     <Stack className="pt-4 w-full object-right" spacing={2}>
-      <Box className="h-56" bgcolor="green"></Box>
-      <Box className="h-56" bgcolor="green"></Box>
-      <Box className="h-56" bgcolor="green"></Box>
-      <Box className="h-56" bgcolor="green"></Box>
-      <Box className="h-56" bgcolor="green"></Box>
-      <Box className="h-56" bgcolor="green"></Box>
-      <Box className="h-56" bgcolor="green"></Box>
+      {results}
       <Box className="h-56" bgcolor="green"></Box>
     </Stack>
   );
