@@ -1,4 +1,4 @@
-import { Checkbox, Box, Slider, Container, Grid, Rating, Stack, Typography, TextField, FormGroup, FormControlLabel } from "@mui/material";
+import { Checkbox, Box, Card, Slider, Container, Grid, Rating, Stack, Typography, FormGroup, FormControlLabel, Slide } from "@mui/material";
 import Head from "next/head";
 import TopBarWithSearch from "~/components/TopBarWithSearch";
 
@@ -8,23 +8,27 @@ function Sidebar() {
       <Box className="h-64" bgcolor="secondary.light"></Box>
       <Box className="relative h-[32rem] shadow-xl" bgcolor="info.main">
         <Typography className="pl-4 pt-2">Filters</Typography>
-        <Container className="mt-4 object-center">
-          <TextField size="small"></TextField>
+        <Container className="mt-2 object-center">
           <Slider defaultValue={50} aria-label="Default" valueLabelDisplay="auto" />
         </Container>
-        <Container className="mt-4 object-center">
-          <TextField size="small"></TextField>
-          <Slider defaultValue={50} aria-label="Default" valueLabelDisplay="auto" />
+        <Container className="mt-2 object-center">
+          <Slider aria-label="Default" valueLabelDisplay="auto" />
         </Container>
-        <Container className="w-2/3 object-center">
-          <FormGroup>
-            <FormControlLabel control={<Checkbox />} label={<Rating name="5stars" value={5} readOnly />} />
-            <FormControlLabel control={<Checkbox />} label={<Rating name="4stars" value={4} readOnly />} />
-            <FormControlLabel control={<Checkbox />} label={<Rating name="3stars" value={3} readOnly />} />
-            <FormControlLabel control={<Checkbox />} label={<Rating name="2stars" value={2} readOnly />} />
-            <FormControlLabel control={<Checkbox />} label={<Rating name="1stars" value={1} readOnly />} />
-          </FormGroup>
-        </Container>
+        <Typography className="pl-4 font-bold text-xs">HOTEL STAR RATING</Typography>
+        <FormGroup className="pl-6">
+          <FormControlLabel control={<Checkbox size="small"/>} label={<Rating name="5stars" value={5} readOnly />} />
+          <FormControlLabel control={<Checkbox size="small"/>} label={<Rating name="4stars" value={4} readOnly />} />
+          <FormControlLabel control={<Checkbox size="small"/>} label={<Rating name="3stars" value={3} readOnly />} />
+          <FormControlLabel control={<Checkbox size="small"/>} label={<Rating name="2stars" value={2} readOnly />} />
+          <FormControlLabel control={<Checkbox size="small"/>} label={<Rating name="1stars" value={1} readOnly />} />
+        </FormGroup>
+        <Typography className="pl-4 mt-1 font-bold text-xs">HOTELS POPULAR FOR</Typography>
+        <FormGroup className="pl-6">
+          <FormControlLabel control={<Checkbox size="small"/>} label="Business Travellers"/>
+          <FormControlLabel control={<Checkbox size="small"/>} label="Families"/>
+          <FormControlLabel control={<Checkbox size="small"/>} label="Couples"/>
+          <FormControlLabel control={<Checkbox size="small"/>} label="Singles"/>
+        </FormGroup>
       </Box>
     </Stack>
   );
@@ -34,22 +38,17 @@ function ResultList() {
   const numberOfTestResults = 6;
   const results = [];
   for (let i = 0; i < numberOfTestResults; i++) {
-    results.push(<Box className="h-56" bgcolor="green">
-      
-    </Box>);
+    results.push(<Card className="h-56 w-auto flex border-gray-500 hover:bg-gray-100">
+      <Box className="w-1/3 h-auto" bgcolor="green">Image</Box>
+      <Typography>Some Details</Typography>
+    </Card>);
   }
   return(
     <Stack className="pt-4 w-full object-right" spacing={2}>
-      <Container className="h-56 border-solid border-black hover:bg-gray-200">
-        <Grid container spacing={1} columns={9}>
-          <Grid item xs={3}>
-            <Box className="w-full h-56" bgcolor="green"></Box>
-          </Grid>
-          <Grid item xs={6}>
-            
-          </Grid>
-        </Grid>
-      </Container>
+      <Card className="h-56 w-auto flex border-gray-500 hover:bg-gray-100">
+        <Box className="w-1/3 h-auto" bgcolor="green">Image</Box>
+        <Typography>Some Details</Typography>
+      </Card>
       {results}
     </Stack>
   );
