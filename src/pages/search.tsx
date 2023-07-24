@@ -41,7 +41,7 @@ function ResultList() {
   return(
     <Stack className="pt-8 w-full object-right" spacing={2}>
       <Card className="h-56 w-auto flex border-gray-500 hover:bg-gray-100">
-      <CardActionArea className="w-full h-auto flex flex-initial">
+      <CardActionArea className="w-full h-auto flex flex-initial" href="/details">
           <Box className="w-1/3 h-full" bgcolor="green">Image</Box>
           <Box className=" w-6/12 h-full bg-amber-100">
             <Container className="pt-2 pl-2 flex flex-col flex-auto">
