@@ -28,7 +28,7 @@ export default function Register() {
     await signIn('credentials', { 
       email: data.user.email, 
       password: form.get('password'), 
-      callbackUrl: '/homeTemp',
+      callbackUrl: '/',
     });
   }
 

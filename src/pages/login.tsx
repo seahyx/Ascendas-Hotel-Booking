@@ -13,7 +13,7 @@ export default function Login() {
     await signIn('credentials', { 
       email: form.get('email'), 
       password: form.get('password'), 
-      callbackUrl: '/homeTemp',
+      callbackUrl: '/',
     });
   }
 
