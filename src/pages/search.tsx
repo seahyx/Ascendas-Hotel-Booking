@@ -1,6 +1,7 @@
-import { Checkbox, Box, Card, Slider, Container, Grid, Rating, Stack, Typography, FormGroup, FormControlLabel, Slide } from "@mui/material";
+import { Checkbox, Box, Card, Slider, Container, Grid, Rating, Stack, Typography, FormGroup, FormControlLabel, CardContent, CardActions, CardActionArea } from "@mui/material";
 import Head from "next/head";
 import TopBarWithSearch from "~/components/TopBarWithSearch";
+import RatingFilter from "~/components/RatingFilter";
 
 function Sidebar() {
   return (
@@ -14,14 +15,7 @@ function Sidebar() {
         <Container className="mt-2 object-center">
           <Slider aria-label="Default" valueLabelDisplay="auto" />
         </Container>
-        <Typography className="pl-4 font-bold text-xs">HOTEL STAR RATING</Typography>
-        <FormGroup className="pl-6">
-          <FormControlLabel control={<Checkbox size="small"/>} label={<Rating name="5stars" value={5} readOnly />} />
-          <FormControlLabel control={<Checkbox size="small"/>} label={<Rating name="4stars" value={4} readOnly />} />
-          <FormControlLabel control={<Checkbox size="small"/>} label={<Rating name="3stars" value={3} readOnly />} />
-          <FormControlLabel control={<Checkbox size="small"/>} label={<Rating name="2stars" value={2} readOnly />} />
-          <FormControlLabel control={<Checkbox size="small"/>} label={<Rating name="1stars" value={1} readOnly />} />
-        </FormGroup>
+        <RatingFilter/>
         <Typography className="pl-4 mt-1 font-bold text-xs">HOTELS POPULAR FOR</Typography>
         <FormGroup className="pl-6">
           <FormControlLabel control={<Checkbox size="small"/>} label="Business Travellers"/>
@@ -35,8 +29,9 @@ function Sidebar() {
 }
 
 function ResultList() {
-  const numberOfTestResults = 6;
+  const numberOfTestResults = 4;
   const results = [];
+  const testPrice = "SGD 10.00"
   for (let i = 0; i < numberOfTestResults; i++) {
     results.push(<Card className="h-56 w-auto flex border-gray-500 hover:bg-gray-100">
       <Box className="w-1/3 h-auto" bgcolor="green">Image</Box>
@@ -44,10 +39,35 @@ function ResultList() {
     </Card>);
   }
   return(
-    <Stack className="pt-4 w-full object-right" spacing={2}>
+    <Stack className="pt-8 w-full object-right" spacing={2}>
+      <Card className="h-56 w-auto flex border-gray-500 hover:bg-gray-100">
+      <CardActionArea className="w-full h-auto flex flex-initial">
+          <Box className="w-1/3 h-full" bgcolor="green">Image</Box>
+          <Box className=" w-6/12 h-full bg-amber-100">
+            <Container className="pt-2 pl-2 flex flex-col flex-auto">
+              <Typography >Some Details, More Details, Even More Details, How Bout More Details</Typography>
+            </Container>
+          </Box>
+          <Box className=" w-auto h-full flex flex-col flex-auto">
+            <CardContent>
+              <Rating className="pt-2 pb-8" value={1} readOnly/>
+              <Typography className="pt-10">{testPrice}</Typography>
+            </CardContent>
+          </Box>
+        </CardActionArea>
+      </Card>
+      
       <Card className="h-56 w-auto flex border-gray-500 hover:bg-gray-100">
         <Box className="w-1/3 h-auto" bgcolor="green">Image</Box>
-        <Typography>Some Details</Typography>
+        <Box className="w-6/12 h-auto pt-2 pl-2 flex flex-col">
+          <Typography>Some Details</Typography>
+        </Box>
+        <Box className="w-2/9 h-auto pl-2 flex flex-col">
+          <CardContent>
+            <Rating className="pt-2 pb-8" value={1} readOnly/>
+            <Typography className="pt-10">{testPrice}</Typography>
+          </CardContent>
+        </Box>
       </Card>
       {results}
     </Stack>
