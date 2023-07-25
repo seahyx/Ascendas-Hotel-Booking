@@ -19,7 +19,7 @@ export default function Header() {
           variant="contained"
           startIcon={<AccountCircleOutlinedIcon fontSize="large" />}
           href="login"
-        > {status === 'authenticated' ? <>{data.user.email}</> : 'Login/register'}
+        > {status === 'authenticated' ? <>{data.user.name}</> : 'Login/register'}
         
       
         </Button>

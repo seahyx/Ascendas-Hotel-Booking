@@ -5,6 +5,8 @@ import bcrypt from 'bcryptjs'
 
 const registerUserSchema = z.object({
 
+  name: z.string().regex(/^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$/g, 'Please enter alphabets only!'),
+
   email: z.string().regex( /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/g, 'Invalid email'),
 
   password: z.string().min(4, 'Password should have at least a minimum of 5 character')
@@ -19,11 +21,12 @@ export default async function registerUser(
   
   res: NextApiResponse ) {
 
-    const { email, password } = registerUserSchema.parse(req.body)
+    const { name, email, password } = registerUserSchema.parse(req.body)
 
     const user = await prisma.user.findUnique({
 
       where: {email},
+
     });
     
     if (user !== null) {
@@ -35,6 +38,7 @@ export default async function registerUser(
 
     const newUser = await prisma.user.create({
       data: {
+        name,
         email,
         // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
         password: hashedPass,

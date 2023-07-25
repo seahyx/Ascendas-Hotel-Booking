@@ -18,6 +18,7 @@ export default function Register() {
       },
 
       body: JSON.stringify({
+        name: form.get('name'),
         email: form.get('email'),
         password: form.get('password'),
       }),
@@ -25,7 +26,7 @@ export default function Register() {
 
     const data = await res.json();
     if (!data.user) return null;
-    await signIn('credentials', { 
+    await signIn('credentials', {
       email: data.user.email, 
       password: form.get('password'), 
       callbackUrl: '/',
@@ -36,6 +37,10 @@ export default function Register() {
     <div className='container'>
       <form onSubmit={handleSubmit}>
         <h2>Register</h2>
+        <label htmlFor='name'>Full Name:</label>
+
+        <input type='text' id='name' name='name' required />
+        
         <label htmlFor='email'>email:</label>
 
         <input type='text' id='email' name='email' required />
