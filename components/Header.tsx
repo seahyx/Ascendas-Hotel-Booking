@@ -23,7 +23,8 @@ export default function Header() {
         
       
         </Button>
-        <Button 
+        { status === 'authenticated' &&
+          <Button 
           variant="contained"
           startIcon={<AccountCircleOutlinedIcon fontSize="large" />}
           onClick={(e) => {
@@ -32,7 +33,7 @@ export default function Header() {
           }}
           >
           Sign Out
-        </Button>
+        </Button> }
       </Container>
     </Box>
   );
