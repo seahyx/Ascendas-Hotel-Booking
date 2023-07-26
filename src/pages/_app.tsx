@@ -10,6 +10,7 @@ import { type AppType } from "next/app";
 import React from "react";
 import Layout from "~/components/Layout";
 import "~/styles/globals.css";
+import "../styles/auth.css";
 import { getTheme } from "~/styles/theme";
 import { api } from "~/utils/api";
 
@@ -56,5 +57,6 @@ const MyApp: AppType<{ session: Session | null }> = ({
     </SessionProvider>
   );
 };
+
 
 export default api.withTRPC(MyApp);
