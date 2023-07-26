@@ -1,11 +1,8 @@
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
 import { Box, Button, Container } from "@mui/material";
 import Image from "next/image";
-import { signOut, useSession } from "next-auth/react";
 
 export default function Header() {
-  const { data, status } = useSession();
-
   return (
     <Box
       component="header"
@@ -18,22 +15,10 @@ export default function Header() {
         <Button
           variant="contained"
           startIcon={<AccountCircleOutlinedIcon fontSize="large" />}
-          href="login"
-        > {status === 'authenticated' ? <>{data.user.name}</> : 'Login/register'}
-        
-      
+          href="/"
+        >
+          Login/Register
         </Button>
-        { status === 'authenticated' &&
-          <Button 
-          variant="contained"
-          startIcon={<AccountCircleOutlinedIcon fontSize="large" />}
-          onClick={(e) => {
-            e.preventDefault()
-            signOut()
-          }}
-          >
-          Sign Out
-        </Button> }
       </Container>
     </Box>
   );
