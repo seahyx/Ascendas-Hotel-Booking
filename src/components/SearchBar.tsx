@@ -16,6 +16,7 @@ import { Destination } from "~/utils/destinations";
 import DateSelectorCard from "./DateSelectorCard";
 import DestinationAutocomplete from "./DestinationAutocomplete";
 import GuestSelectorCard from "./GuestSelectorCard";
+import { Convert, Hotels } from "~/server/api/destinationHotel";
 
 interface SearchParams {
   dest: Destination | null;
@@ -112,19 +113,46 @@ export default function SearchBar({
   }, [numAdults, numChild, numRooms]);
 
   // Search button
-  const handleSearchClick = () => {
-    onSearchParams &&
-      onSearchParams({
-        dest,
-        checkInDate,
-        checkOutDate,
-        guests: {
-          adults: numAdults,
-          child: numChild,
-          rooms: numRooms,
-        },
-      });
+  const handleSearchClick = async () => {
+    if (onSearchParams) {
+      // Assuming that onSearchParams takes the search parameters and returns a Promise
+      try {
+        const searchParamsResult = await onSearchParams({
+          dest,
+          checkInDate,
+          checkOutDate,
+          guests: {
+            adults: numAdults,
+            child: numChild,
+            rooms: numRooms,
+          },
+        });
+  
+        // Handle the result of onSearchParams, if needed
+        console.log('onSearchParams result:', searchParamsResult);
+      } catch (error) {
+        console.error('Error occurred in onSearchParams:', error);
+      }
+    }
+  
+    const apiUrl = `https://hotelapi.loyalty.dev/api/hotels/prices?destination_id=${dest?.uid}&checkin=${checkInDate.toISOString()}&checkout=${checkOutDate.toISOString()}&lang=en_US&currency=SGD&landing_page=&partner_id=16&country_code=SG&guests=2`;
+  
+    try {
+      const response = await fetch(apiUrl);
+  
+      if (!response.ok) {
+        throw new Error('Network response was not ok.');
+      }
+  
+      const data = await response.json();
+      console.log(data);
+    } catch (error) {
+      console.error('Error occurred during API request:', error);
+    } finally {
+      console.log('Finally block executed.');
+    }
   };
+  
 
   return (
     <Card ref={searchBarRef} className="h-12 w-full rounded-xl">
