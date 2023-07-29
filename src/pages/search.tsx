@@ -1,4 +1,4 @@
-import { Checkbox, Box, Card, Slider, Container, Grid, Rating, Stack, Typography, FormGroup, FormControlLabel, CardContent, CardActions, CardActionArea } from "@mui/material";
+import { Checkbox, Box, Card, Slider, Container, Grid, Rating, Stack, Typography, FormGroup, FormControlLabel, CardContent, CardActionArea } from "@mui/material";
 import Head from "next/head";
 import TopBarWithSearch from "~/components/TopBarWithSearch";
 import RatingFilter from "~/components/RatingFilter";
@@ -9,11 +9,11 @@ function Sidebar() {
       <Box className="h-64" bgcolor="secondary.light"></Box>
       <Box className="relative h-[32rem] shadow-xl" bgcolor="info.main">
         <Typography className="pl-4 pt-2">Filters</Typography>
-        <Container className="mt-2 object-center">
-          <Slider defaultValue={50} aria-label="Default" valueLabelDisplay="auto" />
+        <Container className="mt-1 object-center h-6">
+          <Slider defaultValue={50} aria-label="Default" valueLabelDisplay="auto" size="small"/>
         </Container>
-        <Container className="mt-2 object-center">
-          <Slider aria-label="Default" valueLabelDisplay="auto" />
+        <Container className="mt-2 object-center h-6">
+          <Slider aria-label="Default" valueLabelDisplay="auto" size="small"/>
         </Container>
         <RatingFilter/>
         <Typography className="pl-4 mt-1 font-bold text-xs">HOTELS POPULAR FOR</Typography>
