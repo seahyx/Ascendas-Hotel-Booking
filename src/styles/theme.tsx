@@ -6,6 +6,7 @@ import { forwardRef } from "react";
 const LinkBehaviour = forwardRef(function LinkBehaviour(props, ref) {
   return <NextLink ref={ref} {...props} />;
 });
+const rootElement = () => document.getElementById("__next");
 
 export const getTheme = (mode: PaletteMode) =>
   createTheme({
@@ -21,6 +22,10 @@ export const getTheme = (mode: PaletteMode) =>
               main: "#240900",
               contrastText: "#ffffff66",
             },
+            warning: {
+              main:"#ed6c02",
+              contrastText: "#ffffff66",
+            }
           }
         : {
             // Palette values for dark mode
@@ -31,6 +36,10 @@ export const getTheme = (mode: PaletteMode) =>
               main: "#240900",
               contrastText: "#ffffff66",
             },
+            warning: {
+              main:"#e65100",
+              contrastText: "#ffffff66",
+            }
           }),
     },
     shape: {
@@ -53,12 +62,32 @@ export const getTheme = (mode: PaletteMode) =>
     components: {
       MuiLink: {
         defaultProps: {
-          component: LinkBehaviour, // @ts-ignore
+          component: LinkBehaviour,
         },
       },
       MuiButtonBase: {
         defaultProps: {
           LinkComponent: LinkBehaviour,
+        },
+      },
+      MuiPopover: {
+        defaultProps: {
+          container: rootElement,
+        },
+      },
+      MuiPopper: {
+        defaultProps: {
+          container: rootElement,
+        },
+      },
+      MuiDialog: {
+        defaultProps: {
+          container: rootElement,
+        },
+      },
+      MuiModal: {
+        defaultProps: {
+          container: rootElement,
         },
       },
     },
