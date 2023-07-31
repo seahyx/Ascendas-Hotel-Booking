@@ -1,5 +1,5 @@
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
-import { Box, Button, Container } from "@mui/material";
+import { Box, Button, Container, Link } from "@mui/material";
 import Image from "next/image";
 
 export default function Header() {
@@ -10,7 +10,9 @@ export default function Header() {
     >
       <Container maxWidth="md" className="flex w-full items-start">
         <Box className="grow">
-          <Image src="/logo.png" width={60} height={60} alt="Site Logo" />
+          <Link href="/">
+            <Image src="/logo.png" width={60} height={60} alt="Site Logo" />
+          </Link>
         </Box>
         <Button
           variant="contained"
