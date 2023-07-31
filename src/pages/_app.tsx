@@ -7,6 +7,7 @@ import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { type Session } from "next-auth";
 import { SessionProvider } from "next-auth/react";
 import { type AppType } from "next/app";
+import Head from "next/head";
 import React from "react";
 import Layout from "~/components/Layout";
 import "~/styles/globals.css";
@@ -40,20 +41,29 @@ const MyApp: AppType<{ session: Session | null }> = ({
   // const theme = createTheme(getDesignTokens("light"));
 
   return (
-    <SessionProvider session={session}>
-      <LocalizationProvider dateAdapter={AdapterDateFns}>
-        <StyledEngineProvider injectFirst>
-          <ThemeProvider theme={theme}>
-            <CssBaseline />
-            <CacheProvider value={cache}>
-              <Layout>
-                <Component {...pageProps} />
-              </Layout>
-            </CacheProvider>
-          </ThemeProvider>
-        </StyledEngineProvider>
-      </LocalizationProvider>
-    </SessionProvider>
+    <>
+      <Head>
+        <title>SUTDHotelBooking - Book Your Next Destination Today!</title>
+        <meta
+          name="description"
+          content="Book your next destination today with A Hotel Booking - with over 50,000 hotels in over 80 destinations around the world."
+        />
+      </Head>
+      <SessionProvider session={session}>
+        <LocalizationProvider dateAdapter={AdapterDateFns}>
+          <StyledEngineProvider injectFirst>
+            <ThemeProvider theme={theme}>
+              <CssBaseline />
+              <CacheProvider value={cache}>
+                <Layout>
+                  <Component {...pageProps} />
+                </Layout>
+              </CacheProvider>
+            </ThemeProvider>
+          </StyledEngineProvider>
+        </LocalizationProvider>
+      </SessionProvider>
+    </>
   );
 };
 

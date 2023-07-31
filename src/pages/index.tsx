@@ -12,13 +12,6 @@ export default function Home(props) {
   const [destOption, setDestOption] = useState<Destination | null>(null);
   return (
     <>
-      <Head>
-        <title>A Hotel Booking - Book Your Next Destination Today!</title>
-        <meta
-          name="description"
-          content="Book your next destination today with A Hotel Booking - with over 50,000 hotels in over 80 destinations around the world."
-        />
-      </Head>
       <ThemeProvider theme={getTheme("dark")}>
         <Box className="relative mb-6 h-[20rem] w-full">
           <Container

@@ -15,7 +15,7 @@ export default function Header() {
         <Button
           variant="contained"
           startIcon={<AccountCircleOutlinedIcon fontSize="large" />}
-          href="/"
+          href="/login"
         >
           Login/Register
         </Button>
