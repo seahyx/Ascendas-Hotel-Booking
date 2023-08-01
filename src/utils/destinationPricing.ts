@@ -8,7 +8,7 @@ import { format } from "date-fns";
 // These functions will throw an error if the JSON doesn't
 // match the expected interface, even if the JSON is valid.
 
-const HotelsPricesBaseURL = "https://hotelapi.loyalty.dev/api/hotels/prices";
+const HotelsPricesAPI = "/hotelapi/hotels/prices";
 
 export type PricingSearchQueryParams = {
   destination_id: string;
@@ -85,25 +85,19 @@ export class Convert {
       return guestRoomString;
     };
 
-    const url = new URL(HotelsPricesBaseURL);
-    url.searchParams.append("destination_id", searchParams.destination_id);
-    url.searchParams.append(
-      "checkin",
-      format(searchParams.checkin, "yyyy-MM-dd")
-    );
-    url.searchParams.append(
-      "checkout",
-      format(searchParams.checkout, "yyyy-MM-dd")
-    );
-    url.searchParams.append("lang", searchParams.lang);
-    url.searchParams.append("currency", searchParams.currency);
-    url.searchParams.append(
+    let urlParams = new URLSearchParams();
+    urlParams.append("destination_id", searchParams.destination_id);
+    urlParams.append("checkin", format(searchParams.checkin, "yyyy-MM-dd"));
+    urlParams.append("checkout", format(searchParams.checkout, "yyyy-MM-dd"));
+    urlParams.append("lang", searchParams.lang);
+    urlParams.append("currency", searchParams.currency);
+    urlParams.append(
       "guests",
       guestRoomStringBuilder(searchParams.rooms, searchParams.guests)
     );
-    url.searchParams.append("partner_id", searchParams.partner_id ?? "1");
+    urlParams.append("partner_id", searchParams.partner_id ?? "1");
 
-    return url.href;
+    return `${HotelsPricesAPI}?${urlParams}`;
   }
 }
 

@@ -1,27 +1,40 @@
 import { Box, Typography } from "@mui/material";
-import { GetServerSideProps, InferGetServerSidePropsType } from "next";
-import TopBarWithSearch from "~/components/TopBarWithSearch";
+import { useState } from "react";
+import useSWR from "swr";
+import { SearchParams } from "~/components/search-bar/SearchBar";
+import TopBarWithSearch from "~/components/search-bar/TopBarWithSearch";
+import { Convert, PricingSearchQueryParams } from "~/utils/destinationPricing";
 
-export const getServerSideProps: GetServerSideProps<{
-  data: any;
-}> = async () => {
-  const res = await fetch(
-    "https://hotelapi.loyalty.dev/api/hotels/prices?destination_id=WD0M&checkin=2023-10-01&checkout=2023-10-07&lang=en_US&currency=SGD&country_code=SG&guests=2&partner_id=1"
-  );
-  const data = await res.json();
-  return { props: { data } };
-};
+export default function DebugAPIPage(props) {
+  const fetcher = (url: string) => fetch(url).then((r) => r.json());
 
-export default function DebugAPIPage({
-      data,
-    }: InferGetServerSidePropsType<typeof getServerSideProps>) {
+  const [searchParams, _setSearchParams] = useState<SearchParams | null>(null);
+  const [url, setUrl] = useState<string | null>(null);
+  const { data, error } = useSWR(url, fetcher, { refreshInterval: 1000 });
+
+  const setSearchParams = (searchParams: SearchParams) => {
+    _setSearchParams(searchParams);
+    const pricingSearchParams: PricingSearchQueryParams = {
+      destination_id: searchParams.dest?.uid ?? "",
+      checkin: searchParams.checkInDate ?? new Date(),
+      checkout: searchParams.checkOutDate ?? new Date(),
+      lang: "en_US",
+      currency: "SGD",
+      country_code: "SG",
+      rooms: searchParams.guests.rooms,
+      guests: searchParams.guests.adults + searchParams.guests.child,
+    };
+    console.log(pricingSearchParams);
+    const url = Convert.buildDestinationPricingQueryURL(pricingSearchParams);
+    console.log(url);
+    setUrl(url);
+  };
+
   return (
     <>
-      <TopBarWithSearch />
+      <TopBarWithSearch onSearchParams={setSearchParams} />
       <Box className="w-full">
-        <Typography className="overflow-scroll">
-          {JSON.stringify(data)}
-        </Typography>
+        <Typography variant="body2">{JSON.stringify(data)}</Typography>
       </Box>
     </>
   );

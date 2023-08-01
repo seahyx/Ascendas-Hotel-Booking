@@ -18,6 +18,14 @@ const config = {
     locales: ["en"],
     defaultLocale: "en",
   },
+  async rewrites() {
+    return [
+      {
+        source: "/hotelapi/:path*",
+        destination: "https://hotelapi.loyalty.dev/api/:path*",
+      },
+    ];
+  },
 };
 
 export default config;
