@@ -1,5 +1,6 @@
 import { Box, Typography } from "@mui/material";
 import { GetServerSideProps, InferGetServerSidePropsType } from "next";
+import TopBarWithSearch from "~/components/TopBarWithSearch";
 
 export const getServerSideProps: GetServerSideProps<{
   data: any;
@@ -16,7 +17,7 @@ export default function DebugAPIPage({
     }: InferGetServerSidePropsType<typeof getServerSideProps>) {
   return (
     <>
-      <Box className="h-32 w-full" bgcolor="secondary.main"></Box>
+      <TopBarWithSearch />
       <Box className="w-full">
         <Typography className="overflow-scroll">
           {JSON.stringify(data)}
