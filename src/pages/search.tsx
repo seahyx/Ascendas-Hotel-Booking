@@ -1,6 +1,6 @@
 import { Checkbox, Box, Card, Slider, Container, Grid, Rating, Stack, Typography, FormGroup, FormControlLabel, CardContent, CardActionArea } from "@mui/material";
 import Head from "next/head";
-import TopBarWithSearch from "~/components/TopBarWithSearch";
+import TopBarWithSearch from "~/components/search-bar/TopBarWithSearch";
 import RatingFilter from "~/components/RatingFilter";
 
 function Sidebar() {

@@ -1,7 +1,7 @@
 import { Box, Button, Container, Rating, Typography, Stack } from "@mui/material";
 import Head from "next/head";
 import { useRef } from "react";
-import TopBarWithSearch from "~/components/TopBarWithSearch";
+import TopBarWithSearch from "~/components/search-bar/TopBarWithSearch";
 import RoomOption from "../components/RoomOption";
 
 function OverviewBox() {
