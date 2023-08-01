@@ -1,11 +1,26 @@
 // To parse this data:
 //
 //   import { Convert, DestinationPricing } from "./file";
+import { format } from "date-fns";
 //
 //   const destinationPricing = Convert.toDestinationPricing(json);
 //
 // These functions will throw an error if the JSON doesn't
 // match the expected interface, even if the JSON is valid.
+
+const HotelsPricesBaseURL = "https://hotelapi.loyalty.dev/api/hotels/prices";
+
+export type PricingSearchQueryParams = {
+  destination_id: string;
+  checkin: Date;
+  checkout: Date;
+  lang: string;
+  currency: string;
+  country_code: string;
+  rooms: number;
+  guests: number;
+  partner_id?: string;
+};
 
 export type DestinationPricing = {
   searchCompleted: null;
@@ -54,6 +69,41 @@ export class Convert {
 
   public static destinationPricingToJson(value: DestinationPricing): string {
     return JSON.stringify(uncast(value, r("DestinationPricing")), null, 2);
+  }
+
+  public static buildDestinationPricingQueryURL(
+    searchParams: PricingSearchQueryParams
+  ): string {
+    const guestRoomStringBuilder = (rooms: number, guests: number) => {
+      if (rooms == 0) return "0";
+      let guestRoomString = `${Math.ceil(guests / rooms)}`;
+      rooms--;
+      for (let roomsLeft = rooms; roomsLeft > 0; roomsLeft--) {
+        guests -= Math.ceil(guests / rooms);
+        guestRoomString += `|${Math.ceil(guests / roomsLeft)}`;
+      }
+      return guestRoomString;
+    };
+
+    const url = new URL(HotelsPricesBaseURL);
+    url.searchParams.append("destination_id", searchParams.destination_id);
+    url.searchParams.append(
+      "checkin",
+      format(searchParams.checkin, "yyyy-MM-dd")
+    );
+    url.searchParams.append(
+      "checkout",
+      format(searchParams.checkout, "yyyy-MM-dd")
+    );
+    url.searchParams.append("lang", searchParams.lang);
+    url.searchParams.append("currency", searchParams.currency);
+    url.searchParams.append(
+      "guests",
+      guestRoomStringBuilder(searchParams.rooms, searchParams.guests)
+    );
+    url.searchParams.append("partner_id", searchParams.partner_id ?? "1");
+
+    return url.href;
   }
 }
 
