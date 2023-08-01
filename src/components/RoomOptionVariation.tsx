@@ -6,77 +6,51 @@ import Head from "next/head";
 import Image from "next/image";
 import { getTheme } from "~/styles/theme";
 
-export default function RoomOptionVariation(){
+
+export default function RoomOptionVariation() {
   return (
-    
-    <Box style={{ flex: 1, display: 'flex' }}>
-      <Container maxWidth="md" className="flex flex-row w-full items-start" style={{ border: '2px solid #d8d8d8',padding: '10px',alignItems: 'center' }}>
-      <Container maxWidth="md" className="flex flex-col w-full items-start" style={{ flex: 10  ,justifyContent: 'flex-start'}}>
-      <Typography
-             
-             variant="h4"
-             color="text.primary"
-             
-           >
-             Room Only
-      </Typography>
-      <Typography
-             
-             variant="h6"
-             color="text.warning"
-            
-           >
-             Free cancellation (except for service fee)
-      </Typography>
-      <Typography
-             
-             variant="h6"
-             color="text.primary"
-             
-           >
-             Before Wed, 26 Jul
-      </Typography>
-
-      </Container>
-
-      <Container maxWidth="md" className="flex flex-col w-full items-start" style={{ flex: 5 ,justifyContent: 'flex-start'}}>
-        <Container maxWidth="md" className="flex flex-row w-full items-start">
-        <Typography
-             
-             variant="h5"
-             color="text.primary"
-             fontWeight= "750"
-            
-           >
-             SGD
+    <Box style={{ display: "flex", flexDirection: "row" ,border: "2px solid #d8d8d8", padding: "10px" }}>
+      <Box
+        className="flex flex-row h-auto w-full items-start"
+        style={{ flex: 4,display: "flex", flexDirection: "column"}}
+      >
+        <Typography variant="h4" color="text.primary">
+          Room Only
         </Typography>
-        <Typography
-            
-            variant="h5"
-            color="text.primary"
-            fontWeight= "750"
-            
-           
-          >
-            270
-        </Typography>    
-        </Container>
-            
-           <Typography
-             
-              variant="h6"
-              color="text.secondary"
-              
-            >
-              per room per night
-           </Typography>
+        
+          <Typography variant="h6" color="text.warning">
+            Free cancellation (except for service fee)
+          </Typography>
+          <Typography variant="h6" color="text.primary">
+            Before Wed, 26 Jul
+          </Typography>
+        
+      </Box>
 
-      </Container>
-      <Container maxWidth="md" className="flex w-full items-start" style={{ flex: 1 ,justifyContent: 'flex-start'}}>
-        <SelectBtn/>
-      </Container>
-      </Container>
-   
-   </Box>
+      <Box
+        className="flex flex-row w-full items-start"
+        style={{flex: 2, padding: "10px",display: "flex", flexDirection: "column"  }}
+      >
+        <Box style={{  padding: "10px", display: "flex", flexDirection: "row"  }}>
+          <Typography variant="h5" color="text.primary" fontWeight="750">
+            SGD
+          </Typography>
+          <Typography variant="h5" color="text.primary" fontWeight="750">
+            270
+          </Typography>
+        </Box>
+        <Box style={{ flex: 1 }}>
+          <Typography variant="h6" color="text.secondary">
+            per room per night
+          </Typography>
+        </Box>
+        
+      </Box>
+      <Box style={{ flex: 1 ,justifyContent: "center", alignItems: "center",display: "flex", flexDirection: "column" }}>
+          {/* Assuming the SelectBtn component is properly implemented */}
+          {/* If the SelectBtn component has an orange background, you'll need to update its styling as well */}
+          <SelectBtn />
+      </Box>
+    </Box>
   );
 }
