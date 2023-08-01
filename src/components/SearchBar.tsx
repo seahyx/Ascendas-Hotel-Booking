@@ -17,7 +17,7 @@ import DateSelectorCard from "./DateSelectorCard";
 import DestinationAutocomplete from "./DestinationAutocomplete";
 import GuestSelectorCard from "./GuestSelectorCard";
 
-interface SearchParams {
+export interface SearchParams {
   dest: Destination | null;
   checkInDate: Date | null;
   checkOutDate: Date | null;
