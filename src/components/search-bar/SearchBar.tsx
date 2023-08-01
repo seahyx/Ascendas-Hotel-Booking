@@ -106,9 +106,9 @@ export default function SearchBar({
   };
   const handleGuestSelectorClickAway = () => setGuestPopperAnchor(null);
 
-  const [numAdults, setNumAdults] = useState(0);
+  const [numAdults, setNumAdults] = useState(1);
   const [numChild, setNumChild] = useState(0);
-  const [numRooms, setNumRooms] = useState(0);
+  const [numRooms, setNumRooms] = useState(1);
 
   useEffect(() => {
     setGuestText(
