@@ -3,7 +3,7 @@ import { Box, Container, Typography, useTheme } from "@mui/material";
 import Head from "next/head";
 import Image from "next/image";
 import { useState } from "react";
-import SearchBar from "~/components/SearchBar";
+import SearchBar from "~/components/search-bar/SearchBar";
 import { getTheme } from "~/styles/theme";
 import { Destination } from "~/utils/destinations";
 

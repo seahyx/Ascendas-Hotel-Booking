@@ -1,27 +1,60 @@
-import { Checkbox, Box, Card, Slider, Container, Grid, Rating, Stack, Typography, FormGroup, FormControlLabel, CardContent, CardActionArea } from "@mui/material";
+import {
+  Checkbox,
+  Box,
+  Card,
+  Slider,
+  Container,
+  Grid,
+  Rating,
+  Stack,
+  Typography,
+  FormGroup,
+  FormControlLabel,
+  CardContent,
+  CardActionArea,
+} from "@mui/material";
 import Head from "next/head";
-import TopBarWithSearch from "~/components/TopBarWithSearch";
+import TopBarWithSearch from "~/components/search-bar/TopBarWithSearch";
 import RatingFilter from "~/components/RatingFilter";
 
 function Sidebar() {
   return (
-    <Stack className="pt-1 w-72" spacing={2}>
+    <Stack className="w-72 pt-1" spacing={2}>
       <Box className="h-64" bgcolor="secondary.light"></Box>
       <Box className="relative h-[32rem] shadow-xl" bgcolor="info.main">
         <Typography className="pl-4 pt-2">Filters</Typography>
-        <Container className="mt-1 object-center h-6">
-          <Slider defaultValue={50} aria-label="Default" valueLabelDisplay="auto" size="small"/>
+        <Container className="mt-1 h-6 object-center">
+          <Slider
+            defaultValue={50}
+            aria-label="Default"
+            valueLabelDisplay="auto"
+            size="small"
+          />
         </Container>
-        <Container className="mt-2 object-center h-6">
-          <Slider aria-label="Default" valueLabelDisplay="auto" size="small"/>
+        <Container className="mt-2 h-6 object-center">
+          <Slider aria-label="Default" valueLabelDisplay="auto" size="small" />
         </Container>
-        <RatingFilter/>
-        <Typography className="pl-4 mt-1 font-bold text-xs">HOTELS POPULAR FOR</Typography>
+        <RatingFilter />
+        <Typography className="mt-1 pl-4 text-xs font-bold">
+          HOTELS POPULAR FOR
+        </Typography>
         <FormGroup className="pl-6">
-          <FormControlLabel control={<Checkbox size="small"/>} label="Business Travellers"/>
-          <FormControlLabel control={<Checkbox size="small"/>} label="Families"/>
-          <FormControlLabel control={<Checkbox size="small"/>} label="Couples"/>
-          <FormControlLabel control={<Checkbox size="small"/>} label="Singles"/>
+          <FormControlLabel
+            control={<Checkbox size="small" />}
+            label="Business Travellers"
+          />
+          <FormControlLabel
+            control={<Checkbox size="small" />}
+            label="Families"
+          />
+          <FormControlLabel
+            control={<Checkbox size="small" />}
+            label="Couples"
+          />
+          <FormControlLabel
+            control={<Checkbox size="small" />}
+            label="Singles"
+          />
         </FormGroup>
       </Box>
     </Stack>
@@ -31,40 +64,54 @@ function Sidebar() {
 function ResultList() {
   const numberOfTestResults = 4;
   const results = [];
-  const testPrice = "SGD 10.00"
+  const testPrice = "SGD 10.00";
   for (let i = 0; i < numberOfTestResults; i++) {
-    results.push(<Card className="h-56 w-auto flex border-gray-500 hover:bg-gray-100">
-      <Box className="w-1/3 h-auto" bgcolor="green">Image</Box>
-      <Typography>Some Details</Typography>
-    </Card>);
+    results.push(
+      <Card className="flex h-56 w-auto border-gray-500 hover:bg-gray-100">
+        <Box className="h-auto w-1/3" bgcolor="green">
+          Image
+        </Box>
+        <Typography>Some Details</Typography>
+      </Card>
+    );
   }
-  return(
-    <Stack className="pt-8 w-full object-right" spacing={2}>
-      <Card className="h-56 w-auto flex border-gray-500 hover:bg-gray-100">
-      <CardActionArea className="w-full h-auto flex flex-initial" href="/details">
-          <Box className="w-1/3 h-full" bgcolor="green">Image</Box>
-          <Box className=" w-6/12 h-full bg-amber-100">
-            <Container className="pt-2 pl-2 flex flex-col flex-auto">
-              <Typography >Some Details, More Details, Even More Details, How Bout More Details</Typography>
+  return (
+    <Stack className="w-full object-right pt-8" spacing={2}>
+      <Card className="flex h-56 w-auto border-gray-500 hover:bg-gray-100">
+        <CardActionArea
+          className="flex h-auto w-full flex-initial"
+          href="/details"
+        >
+          <Box className="h-full w-1/3" bgcolor="green">
+            Image
+          </Box>
+          <Box className=" h-full w-6/12 bg-amber-100">
+            <Container className="flex flex-auto flex-col pl-2 pt-2">
+              <Typography>
+                Some Details, More Details, Even More Details, How Bout More
+                Details
+              </Typography>
             </Container>
           </Box>
-          <Box className=" w-auto h-full flex flex-col flex-auto">
+          <Box className=" flex h-full w-auto flex-auto flex-col">
             <CardContent>
-              <Rating className="pt-2 pb-8" value={1} readOnly/>
+              <Rating className="pb-8 pt-2" value={1} readOnly />
               <Typography className="pt-10">{testPrice}</Typography>
             </CardContent>
           </Box>
         </CardActionArea>
       </Card>
-      
-      <Card className="h-56 w-auto flex border-gray-500 hover:bg-gray-100">
-        <Box className="w-1/3 h-auto" bgcolor="green">Image</Box>
-        <Box className="w-6/12 h-auto pt-2 pl-2 flex flex-col">
+
+      <Card className="flex h-56 w-auto border-gray-500 hover:bg-gray-100">
+        <Box className="h-auto w-1/3" bgcolor="green">
+          Image
+        </Box>
+        <Box className="flex h-auto w-6/12 flex-col pl-2 pt-2">
           <Typography>Some Details</Typography>
         </Box>
-        <Box className="w-2/9 h-auto pl-2 flex flex-col">
+        <Box className="w-2/9 flex h-auto flex-col pl-2">
           <CardContent>
-            <Rating className="pt-2 pb-8" value={1} readOnly/>
+            <Rating className="pb-8 pt-2" value={1} readOnly />
             <Typography className="pt-10">{testPrice}</Typography>
           </CardContent>
         </Box>
@@ -74,7 +121,7 @@ function ResultList() {
   );
 }
 
-export default function SearchResults() {
+export default function SearchResults(props) {
   const placeholderCountry = "Singapore";
   return (
     <>
