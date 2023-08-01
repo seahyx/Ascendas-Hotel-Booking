@@ -187,14 +187,14 @@ export default function SearchBar({
 
         <Divider orientation="vertical" flexItem />
 
-        <Tooltip
-          open={checkInOutErr}
-          onOpen={() => {}}
-          onClose={() => {}}
-          title="Please select valid check in/out dates"
-          arrow
-        >
-          <ClickAwayListener onClickAway={handleCheckInOutClickAway}>
+        <ClickAwayListener onClickAway={handleCheckInOutClickAway}>
+          <Tooltip
+            open={checkInOutErr}
+            onOpen={() => {}}
+            onClose={() => {}}
+            title="Please select valid check in/out dates"
+            arrow
+          >
             <Box
               sx={
                 !checkInOutErr
@@ -238,19 +238,19 @@ export default function SearchBar({
                 )}
               </Popper>
             </Box>
-          </ClickAwayListener>
-        </Tooltip>
+          </Tooltip>
+        </ClickAwayListener>
 
         <Divider orientation="vertical" flexItem />
 
-        <Tooltip
-          open={guestErr}
-          onOpen={() => {}}
-          onClose={() => {}}
-          title="Please select valid number of guests/rooms"
-          arrow
-        >
-          <ClickAwayListener onClickAway={handleGuestSelectorClickAway}>
+        <ClickAwayListener onClickAway={handleGuestSelectorClickAway}>
+          <Tooltip
+            open={guestErr}
+            onOpen={() => {}}
+            onClose={() => {}}
+            title="Please select a valid number of guests/rooms"
+            arrow
+          >
             <Box
               sx={
                 !guestErr
@@ -296,8 +296,8 @@ export default function SearchBar({
                 )}
               </Popper>
             </Box>
-          </ClickAwayListener>
-        </Tooltip>
+          </Tooltip>
+        </ClickAwayListener>
 
         <CardActionArea
           sx={{
