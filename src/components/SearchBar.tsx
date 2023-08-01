@@ -29,7 +29,7 @@ export interface SearchParams {
   };
 }
 
-interface SearchBarProps {
+export interface SearchBarProps {
   onDestChange?: (value: Destination | null) => void;
   onSearchParams?: (searchParams: SearchParams) => void;
 }
