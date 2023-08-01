@@ -8,10 +8,11 @@ import {
   Fade,
   Popper,
   Stack,
+  Tooltip,
   Typography,
 } from "@mui/material";
-import { format } from "date-fns";
-import React, { useEffect, useRef, useState } from "react";
+import { format, isBefore } from "date-fns";
+import { useEffect, useRef, useState } from "react";
 import { Destination } from "~/utils/destinations";
 import DateSelectorCard from "./DateSelectorCard";
 import DestinationAutocomplete from "./DestinationAutocomplete";
@@ -27,6 +28,7 @@ export interface SearchParams {
     rooms: number;
   };
 }
+
 interface SearchBarProps {
   onDestChange?: (value: Destination | null) => void;
   onSearchParams?: (searchParams: SearchParams) => void;
@@ -36,6 +38,11 @@ export default function SearchBar({
   onDestChange,
   onSearchParams,
 }: SearchBarProps) {
+  // Input error display toggles
+  const [destErr, setDestErr] = useState(false);
+  const [checkInOutErr, setCheckInOutErr] = useState(false);
+  const [guestErr, setGuestErr] = useState(false);
+
   // Destination search
   const [dest, _setDest] = useState<Destination | null>(null);
   const setDest = (newDest: Destination | null) => {
@@ -66,6 +73,7 @@ export default function SearchBar({
   };
 
   const handleCheckInOutClick = () => {
+    setCheckInOutErr(false);
     setCheckInOutPopperAnchor(
       checkInOutPopperAnchor ? null : searchBarRef.current
     );
@@ -84,7 +92,7 @@ export default function SearchBar({
   }, [checkInDate, checkOutDate]);
 
   // Guest selector
-  const guestButtonRef = useRef(null);
+  const guestRef = useRef(null);
 
   const defaultGuestText = "Guests/Rooms";
   const [guestText, setGuestText] = useState(defaultGuestText);
@@ -93,7 +101,8 @@ export default function SearchBar({
   const guestSelectorOpen = Boolean(guestPopperAnchor);
 
   const handleGuestSelectorClick = () => {
-    setGuestPopperAnchor(guestPopperAnchor ? null : guestButtonRef.current);
+    setGuestErr(false);
+    setGuestPopperAnchor(guestPopperAnchor ? null : guestRef.current);
   };
   const handleGuestSelectorClickAway = () => setGuestPopperAnchor(null);
 
@@ -113,117 +122,182 @@ export default function SearchBar({
 
   // Search button
   const handleSearchClick = () => {
-    onSearchParams &&
-      onSearchParams({
-        dest,
-        checkInDate,
-        checkOutDate,
-        guests: {
-          adults: numAdults,
-          child: numChild,
-          rooms: numRooms,
-        },
-      });
+    // Check for invalid values
+    let hasInvalid = false;
+    if (!dest) {
+      setDestErr(true);
+      hasInvalid = true;
+    }
+    if (!checkOutDate || !checkInDate || isBefore(checkOutDate, checkInDate)) {
+      setCheckInOutErr(true);
+      hasInvalid = true;
+    }
+    if (numAdults <= 0 || numRooms <= 0) {
+      setGuestErr(true);
+      hasInvalid = true;
+    }
+    if (hasInvalid) return;
+    if (!onSearchParams) return;
+
+    onSearchParams({
+      dest,
+      checkInDate,
+      checkOutDate,
+      guests: {
+        adults: numAdults,
+        child: numChild,
+        rooms: numRooms,
+      },
+    });
   };
 
   return (
     <Card ref={searchBarRef} className="h-12 w-full rounded-xl">
       <Stack direction="row" className="h-full">
-        <Box
-          sx={{
-            borderTop: 1,
-            borderBottom: 1,
-            borderLeft: 1,
-            borderColor: "divider",
-          }}
-          className="peer flex grow-[3] basis-0 items-center transition-all focus-within:grow-[5] hover:grow-[5]"
+        <Tooltip
+          open={destErr}
+          onOpen={() => {}}
+          onClose={() => {}}
+          title="Please select a valid destination"
+          arrow
         >
-          <Search fontSize="medium" className="mx-3" />
-          <DestinationAutocomplete className="w-full" onChange={setDest} />
-        </Box>
-        <Divider orientation="vertical" flexItem />
-
-        <ClickAwayListener onClickAway={handleCheckInOutClickAway}>
           <Box
-            sx={{
-              borderTop: 1,
-              borderBottom: 1,
-              borderColor: "divider",
+            sx={
+              !destErr
+                ? {
+                    borderTop: 1,
+                    borderBottom: 1,
+                    borderLeft: 1,
+                    borderColor: "divider",
+                  }
+                : {
+                    border: 2,
+                    borderColor: "error.main",
+                  }
+            }
+            onClick={() => {
+              setDestErr(false);
             }}
-            className="min-w-0 grow-[3] basis-0 transition-all focus-within:grow-[4] hover:grow-[4]"
+            className="peer flex grow-[3] basis-0 items-center rounded-s-xl transition-all focus-within:grow-[5] hover:grow-[5]"
           >
-            <CardActionArea
-              className="flex h-full"
-              onClick={handleCheckInOutClick}
-            >
-              <DateRangeOutlined fontSize="medium" className="ms-3" />
-              <Typography className="w-full truncate px-3 text-center">
-                {checkInOutText}
-              </Typography>
-            </CardActionArea>
-            <Popper
-              open={datePickerOpen}
-              anchorEl={checkInOutPopperAnchor}
-              keepMounted
-              disablePortal
-              transition
-            >
-              {({ TransitionProps }) => (
-                <Fade {...TransitionProps} timeout={200}>
-                  <Box className="mt-2">
-                    <DateSelectorCard
-                      onStartDateChange={onStartDateChanged}
-                      onEndDateChange={onEndDateChanged}
-                    />
-                  </Box>
-                </Fade>
-              )}
-            </Popper>
+            <Search fontSize="medium" className="mx-3" />
+            <DestinationAutocomplete className="w-full" onChange={setDest} />
           </Box>
-        </ClickAwayListener>
+        </Tooltip>
 
         <Divider orientation="vertical" flexItem />
 
-        <ClickAwayListener onClickAway={handleGuestSelectorClickAway}>
-          <Box
-            sx={{
-              borderTop: 1,
-              borderBottom: 1,
-              borderColor: "divider",
-            }}
-            className="min-w-0 grow-[3] basis-0 transition-all focus-within:grow-[4] hover:grow-[4]"
-          >
-            <CardActionArea
-              ref={guestButtonRef}
-              className="flex h-full"
-              onClick={handleGuestSelectorClick}
+        <Tooltip
+          open={checkInOutErr}
+          onOpen={() => {}}
+          onClose={() => {}}
+          title="Please select valid check in/out dates"
+          arrow
+        >
+          <ClickAwayListener onClickAway={handleCheckInOutClickAway}>
+            <Box
+              sx={
+                !checkInOutErr
+                  ? {
+                      borderTop: 1,
+                      borderBottom: 1,
+                      borderColor: "divider",
+                    }
+                  : {
+                      border: 2,
+                      borderColor: "error.main",
+                    }
+              }
+              className="min-w-0 grow-[3] basis-0 transition-all focus-within:grow-[4] hover:grow-[4]"
             >
-              <HotelOutlined fontSize="medium" className="ms-3" />
-              <Typography className="w-full truncate px-3 text-center">
-                {guestText}
-              </Typography>
-            </CardActionArea>
-            <Popper
-              open={guestSelectorOpen}
-              anchorEl={guestPopperAnchor}
-              keepMounted
-              disablePortal
-              transition
+              <CardActionArea
+                className="flex h-full"
+                onClick={handleCheckInOutClick}
+              >
+                <DateRangeOutlined fontSize="medium" className="ms-3" />
+                <Typography className="w-full truncate px-3 text-center">
+                  {checkInOutText}
+                </Typography>
+              </CardActionArea>
+              <Popper
+                open={datePickerOpen}
+                anchorEl={checkInOutPopperAnchor}
+                keepMounted
+                disablePortal
+                transition
+              >
+                {({ TransitionProps }) => (
+                  <Fade {...TransitionProps} timeout={200}>
+                    <Box className="mt-2">
+                      <DateSelectorCard
+                        onStartDateChange={onStartDateChanged}
+                        onEndDateChange={onEndDateChanged}
+                      />
+                    </Box>
+                  </Fade>
+                )}
+              </Popper>
+            </Box>
+          </ClickAwayListener>
+        </Tooltip>
+
+        <Divider orientation="vertical" flexItem />
+
+        <Tooltip
+          open={guestErr}
+          onOpen={() => {}}
+          onClose={() => {}}
+          title="Please select valid number of guests/rooms"
+          arrow
+        >
+          <ClickAwayListener onClickAway={handleGuestSelectorClickAway}>
+            <Box
+              sx={
+                !guestErr
+                  ? {
+                      borderTop: 1,
+                      borderBottom: 1,
+                      borderColor: "divider",
+                    }
+                  : {
+                      border: 2,
+                      borderColor: "error.main",
+                    }
+              }
+              className="min-w-0 grow-[3] basis-0 transition-all focus-within:grow-[4] hover:grow-[4]"
             >
-              {({ TransitionProps }) => (
-                <Fade {...TransitionProps} timeout={250}>
-                  <Box className="mt-2">
-                    <GuestSelectorCard
-                      onSetAdults={setNumAdults}
-                      onSetChild={setNumChild}
-                      onSetRooms={setNumRooms}
-                    />
-                  </Box>
-                </Fade>
-              )}
-            </Popper>
-          </Box>
-        </ClickAwayListener>
+              <CardActionArea
+                ref={guestRef}
+                className="flex h-full"
+                onClick={handleGuestSelectorClick}
+              >
+                <HotelOutlined fontSize="medium" className="ms-3" />
+                <Typography className="w-full truncate px-3 text-center">
+                  {guestText}
+                </Typography>
+              </CardActionArea>
+              <Popper
+                open={guestSelectorOpen}
+                anchorEl={guestPopperAnchor}
+                keepMounted
+                disablePortal
+                transition
+              >
+                {({ TransitionProps }) => (
+                  <Fade {...TransitionProps} timeout={250}>
+                    <Box className="mt-2">
+                      <GuestSelectorCard
+                        onSetAdults={setNumAdults}
+                        onSetChild={setNumChild}
+                        onSetRooms={setNumRooms}
+                      />
+                    </Box>
+                  </Fade>
+                )}
+              </Popper>
+            </Box>
+          </ClickAwayListener>
+        </Tooltip>
 
         <CardActionArea
           sx={{
