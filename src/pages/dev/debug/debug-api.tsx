@@ -1,4 +1,4 @@
-import { Box } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import { GetServerSideProps, InferGetServerSidePropsType } from "next";
 
 export const getServerSideProps: GetServerSideProps<{
@@ -17,7 +17,11 @@ export default function DebugAPIPage({
   return (
     <>
       <Box className="h-32 w-full" bgcolor="secondary.main"></Box>
-      <Box>{JSON.stringify(data)}</Box>
+      <Box className="w-full">
+        <Typography className="overflow-scroll">
+          {JSON.stringify(data)}
+        </Typography>
+      </Box>
     </>
   );
 }
