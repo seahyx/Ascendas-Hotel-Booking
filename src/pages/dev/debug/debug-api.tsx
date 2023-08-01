@@ -3,14 +3,25 @@ import { useState } from "react";
 import useSWR from "swr";
 import { SearchParams } from "~/components/search-bar/SearchBar";
 import TopBarWithSearch from "~/components/search-bar/TopBarWithSearch";
-import { Convert, PricingSearchQueryParams } from "~/utils/destinationPricing";
+import {
+  Convert,
+  DestinationPricing,
+  PricingSearchQueryParams,
+} from "~/utils/destinationPricing";
 
 export default function DebugAPIPage(props) {
   const fetcher = (url: string) => fetch(url).then((r) => r.json());
+  const checkSearchComplete = (data: DestinationPricing) => {
+    console.log(data);
+    if (data && data.completed) return 0;
+    return 1000;
+  };
 
   const [searchParams, _setSearchParams] = useState<SearchParams | null>(null);
   const [url, setUrl] = useState<string | null>(null);
-  const { data, error } = useSWR(url, fetcher, { refreshInterval: 1000 });
+  const { data }: { data: DestinationPricing } = useSWR(url, fetcher, {
+    refreshInterval: checkSearchComplete,
+  });
 
   const setSearchParams = (searchParams: SearchParams) => {
     _setSearchParams(searchParams);
