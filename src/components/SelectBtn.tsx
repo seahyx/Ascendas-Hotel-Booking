@@ -3,7 +3,7 @@ export default function SelectBtn(){
   return (
     <Button variant="contained" 
     href="#contained-buttons" 
-    color= "secondary" 
+    style={{ backgroundColor: "#ffa500", color: "#fff" }}
     onClick={()=>{alert('clicked')}}>
       Select
     </Button>

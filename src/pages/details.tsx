@@ -2,12 +2,14 @@ import { Box, Button, Container, Rating, Typography, Stack } from "@mui/material
 import Head from "next/head";
 import { useRef } from "react";
 import TopBarWithSearch from "~/components/TopBarWithSearch";
+import RoomOption from "~/components/RoomOption";
+import RoomOptionVariation from "~/components/RoomOptionVariation";
 
 function OverviewBox() {
   return (
     <Box className="my-10 w-10/12 h-64 flex bg-orange-100">
       <Container className="w-2/3 p-2">
-        <Typography >Hotal Overview</Typography>
+        <Typography >Hotel Overview</Typography>
       </Container>
       <Container>
 
@@ -26,10 +28,16 @@ function InformationBox() {
 
 function RoomOptions() {
   return (
-    <Stack className="my-10 w-10/12" spacing={6}>
-      <Box className="h-48 w-96 bg-red-200"></Box>
-      <Box className="h-48 w-96 bg-red-200"></Box>
-    </Stack>
+    <>
+      <Typography className="font-bold text-lg">Room Options</Typography>
+      <Box className="my-10">
+      <Stack className="my-10 w-auto" spacing={2}>
+        <RoomOption/>
+        <RoomOption/>
+      </Stack>
+        
+      </Box>
+    </>
   );
 }
 
