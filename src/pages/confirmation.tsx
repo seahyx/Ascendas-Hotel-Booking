@@ -71,13 +71,34 @@ export default function Confirmation() {
               component="h3"
               variant="h5"
             >
+              Additional Information
+            </Typography>
+            <Typography className="ml-3 mt-2 text-lg underline">
               Cancellation Policy
             </Typography>
-            <Typography className="ml-3 text-base/loose">
-              This booking is non-refundable from 22/4/2023 16:00 onwards.
-              <br />
+            <Typography className="ml-3 text-sm">
+              This booking is non-refundable from 22/4/2023, 16:00 onwards.
               Cancellation before 22/4/2023 16:00 will incur a 50% cancellation
-              fee.
+              fee. All times indicated are in the GTC +8 timezone. Regardless of
+              the cancellation policy, a 10% cancellation fee of the total
+              refundable amount of the booking will be charged.
+            </Typography>
+            <Typography className="ml-3 mt-2 text-lg underline">
+              Amendment Policy
+            </Typography>
+            <Typography className="ml-3 text-sm">
+              To amend your booking in any way, you will have to cancel your
+              current reservation booking subject to the current cancellation
+              policy before making a new booking based on the prevailing rates
+              and availability.
+            </Typography>
+            <Typography className="ml-3 mt-2 text-lg underline">
+              Further Information
+            </Typography>
+            <Typography className="ml-3 text-sm">
+              Club benefits are not included in this booking. If you would like
+              to add on any club benefits, please contact the hotel directly at
+              hotel@hotel.com.
             </Typography>
           </Card>
         </Stack>
