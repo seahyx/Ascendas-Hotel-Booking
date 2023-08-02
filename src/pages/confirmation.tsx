@@ -3,6 +3,7 @@ import {
   Button,
   Card,
   Container,
+  Grid,
   Link,
   Paper,
   Stack,
@@ -11,8 +12,23 @@ import {
 } from "@mui/material";
 import Head from "next/head";
 import Image from "next/image";
+import BookingSummary from "~/components/bookingSummary";
 
 export default function Confirmation() {
+  const bookingData = {
+    hotelName: "Sample Hotel",
+    roomType: "Deluxe Room",
+    checkInDate: "2023-08-02",
+    checkOutDate: "2023-08-10",
+    numberOfNights: 2,
+    currency: "SGD",
+    roomCount: 2,
+    adultCount: 2,
+    roomPrice: 200, // Example room price
+    roomRate: 400,
+    taxAndRecoveryCharges: 50, // Example tax and charges
+    grandTotal: 500, // Example total
+  };
   return (
     <>
       <Head>
@@ -41,8 +57,18 @@ export default function Confirmation() {
           We are pleased to inform you that your booking is complete and your
           reservation has been confirmed.
         </Typography>
-        <Stack className="mb-10 mt-10" direction="row" spacing={2}>
-          <Card className="mt-6 w-8/12 border-gray-300" variant="outlined">
+
+        <Stack
+          className="mb-10 mt-10"
+          direction="row"
+          spacing={2}
+          width="w-full"
+        >
+          <Box style={{ flex: 1 }}>
+            <BookingSummary {...bookingData} />
+          </Box>
+
+          {/*<Card className="mt-6 w-8/12 border-gray-300" variant="outlined">
             <Typography
               className="ml-3 mt-1 font-semibold underline"
               component="h3"
@@ -64,43 +90,46 @@ export default function Confirmation() {
             <Typography className="ml-3 mt-5 text-xl font-semibold">
               Total Price: $200
             </Typography>
-          </Card>
-          <Card className="mt-6 w-4/12 border-gray-300" variant="outlined">
-            <Typography
-              className="ml-3 mt-1 font-semibold underline"
-              component="h3"
-              variant="h5"
-            >
-              Additional Information
-            </Typography>
-            <Typography className="ml-3 mt-2 text-lg underline">
-              Cancellation Policy
-            </Typography>
-            <Typography className="ml-3 text-sm">
-              This booking is non-refundable from 22/4/2023, 16:00 onwards.
-              Cancellation before 22/4/2023 16:00 will incur a 50% cancellation
-              fee. All times indicated are in the GTC +8 timezone. Regardless of
-              the cancellation policy, a 10% cancellation fee of the total
-              refundable amount of the booking will be charged.
-            </Typography>
-            <Typography className="ml-3 mt-2 text-lg underline">
-              Amendment Policy
-            </Typography>
-            <Typography className="ml-3 text-sm">
-              To amend your booking in any way, you will have to cancel your
-              current reservation booking subject to the current cancellation
-              policy before making a new booking based on the prevailing rates
-              and availability.
-            </Typography>
-            <Typography className="ml-3 mt-2 text-lg underline">
-              Further Information
-            </Typography>
-            <Typography className="ml-3 text-sm">
-              Club benefits are not included in this booking. If you would like
-              to add on any club benefits, please contact the hotel directly at
-              hotel@hotel.com.
-            </Typography>
-          </Card>
+  </Card>*/}
+          <Box style={{ flex: 1 }}>
+            <Card className="mt-6 w-full border-gray-300">
+              <Typography
+                className="ml-3 mt-1 font-semibold underline"
+                component="h3"
+                variant="h5"
+              >
+                Additional Information
+              </Typography>
+              <Typography className="ml-3 mt-2 text-lg underline">
+                Cancellation Policy
+              </Typography>
+              <Typography className="ml-3 text-sm">
+                This booking is non-refundable from 22/4/2023, 16:00 onwards.
+                Cancellation before 22/4/2023 16:00 will incur a 50%
+                cancellation fee. All times indicated are in the GTC +8
+                timezone. Regardless of the cancellation policy, a 10%
+                cancellation fee of the total refundable amount of the booking
+                will be charged.
+              </Typography>
+              <Typography className="ml-3 mt-2 text-lg underline">
+                Amendment Policy
+              </Typography>
+              <Typography className="ml-3 text-sm">
+                To amend your booking in any way, you will have to cancel your
+                current reservation booking subject to the current cancellation
+                policy before making a new booking based on the prevailing rates
+                and availability.
+              </Typography>
+              <Typography className="ml-3 mt-2 text-lg underline">
+                Further Information
+              </Typography>
+              <Typography className="ml-3 text-sm">
+                Club benefits are not included in this booking. If you would
+                like to add on any club benefits, please contact the hotel
+                directly at hotel@hotel.com.
+              </Typography>
+            </Card>
+          </Box>
         </Stack>
       </Container>
     </>
