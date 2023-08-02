@@ -13,8 +13,8 @@ import TopBarWithSearch from "~/components/TopBarWithSearch";
 import RoomOption from "~/components/RoomOption";
 import RoomOptionVariation from "~/components/RoomOptionVariation";
 import DropdownTitle from "~/components/DropdownTitle";
-import CountryCodePicker from "~/components/CountryCodePicker";
-import PhoneNumberTextField from "~/components/PhoneNumberTextField";
+import CountrySelect from "~/components/CountrySelect";
+import PhoneNumber from "~/components/PhoneNumber";
 
 function PrimaryGuestBox() {
   //Title Dropdown
@@ -22,15 +22,14 @@ function PrimaryGuestBox() {
 
   const handleTitleChange = (value: string) => {
     setTitle(value);
-    setPhoneNumber("");
   };
 
   //Phone Number Text Field
-  const [phoneNumber, setPhoneNumber] = useState("");
-  const handlePhoneNumberChange = (number: string) => {
-    setPhoneNumber(number);
-  };
+  const [phoneNumber, setPhoneNumber] = useState<string>("");
 
+  const handlePhoneNumberChange = (value: string) => {
+    setPhoneNumber(value);
+  };
   return (
     <Box
       className="my-10 flex h-auto w-10/12 bg-green-100"
@@ -92,22 +91,40 @@ function PrimaryGuestBox() {
           <TextField id="last-name" variant="outlined" />
         </Box>
       </Box>
-
       <Box
         style={{ display: "flex", flexDirection: "column", padding: "10px" }}
       >
         <Box style={{ display: "flex", flexDirection: "row", padding: "10px" }}>
-          Special Requests
+          Phone Number
         </Box>
         <Box style={{ display: "flex", flexDirection: "row", padding: "10px" }}>
-          <TextField
-            id="special-requests"
-            placeholder="We will pass on the requests to the hotel."
-            multiline
-            rows={4}
-            defaultValue=""
-            style={{ width: 1000 }}
+          <PhoneNumber
+            label="Phone Number"
+            value={phoneNumber}
+            onChange={handlePhoneNumberChange}
           />
+        </Box>
+        <Box />
+        <Box
+          style={{ display: "flex", flexDirection: "column", padding: "10px" }}
+        >
+          <Box
+            style={{ display: "flex", flexDirection: "row", padding: "10px" }}
+          >
+            Special Requests
+          </Box>
+          <Box
+            style={{ display: "flex", flexDirection: "row", padding: "10px" }}
+          >
+            <TextField
+              id="special-requests"
+              placeholder="We will pass on the requests to the hotel."
+              multiline
+              rows={4}
+              defaultValue=""
+              style={{ width: 1000 }}
+            />
+          </Box>
         </Box>
       </Box>
     </Box>
@@ -123,22 +140,45 @@ function PaymentInformationBillingAddress() {
       <Box style={{ display: "flex", flexDirection: "row", padding: "10px" }}>
         <Typography>Payment Information</Typography>
       </Box>
-      <Box style={{ display: "flex", flexDirection: "row", padding: "10px" }}>
+      <Box
+        style={{
+          display: "flex",
+          flexDirection: "row",
+          padding: "10px",
+        }}
+      >
         <Box
-          style={{ display: "flex", flexDirection: "column", padding: "10px" }}
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            padding: "10px",
+            width: "w-full",
+            flex: 1, // Set flex property to 1 to make it take equal space within the row
+          }}
         >
           <Box
-            style={{ display: "flex", flexDirection: "row", padding: "10px" }}
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              padding: "10px",
+              width: "w-full",
+            }}
           >
             Card Number
           </Box>
           <Box
-            style={{ display: "flex", flexDirection: "row", padding: "10px" }}
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              padding: "10px",
+              width: "w-full",
+            }}
           >
             <TextField
               id="card-number"
               variant="outlined"
               placeholder="1234 1234 1234 1234"
+              style={{ width: "w-full" }}
               inputProps={{
                 maxLength: 19, // Set the maximum allowed length (including spaces) to 19 characters
               }}
@@ -158,7 +198,12 @@ function PaymentInformationBillingAddress() {
           </Box>
         </Box>
         <Box
-          style={{ display: "flex", flexDirection: "column", padding: "10px" }}
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            padding: "10px",
+            flex: 1,
+          }}
         >
           <Box
             style={{ display: "flex", flexDirection: "row", padding: "10px" }}
@@ -174,7 +219,12 @@ function PaymentInformationBillingAddress() {
       </Box>
       <Box style={{ display: "flex", flexDirection: "row", padding: "10px" }}>
         <Box
-          style={{ display: "flex", flexDirection: "column", padding: "10px" }}
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            padding: "10px",
+            flex: 1,
+          }}
         >
           <Box
             style={{ display: "flex", flexDirection: "row", padding: "10px" }}
@@ -206,7 +256,12 @@ function PaymentInformationBillingAddress() {
           </Box>
         </Box>
         <Box
-          style={{ display: "flex", flexDirection: "column", padding: "10px" }}
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            padding: "10px",
+            flex: 1,
+          }}
         >
           <Box
             style={{ display: "flex", flexDirection: "row", padding: "10px" }}
@@ -241,7 +296,12 @@ function PaymentInformationBillingAddress() {
       </Box>
       <Box style={{ display: "flex", flexDirection: "row", padding: "10px" }}>
         <Box
-          style={{ display: "flex", flexDirection: "column", padding: "10px" }}
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            padding: "10px",
+            flex: 1,
+          }}
         >
           <Box
             style={{ display: "flex", flexDirection: "row", padding: "10px" }}
@@ -255,7 +315,12 @@ function PaymentInformationBillingAddress() {
           </Box>
         </Box>
         <Box
-          style={{ display: "flex", flexDirection: "column", padding: "10px" }}
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            padding: "10px",
+            flex: 1,
+          }}
         >
           <Box
             style={{ display: "flex", flexDirection: "row", padding: "10px" }}
@@ -265,13 +330,18 @@ function PaymentInformationBillingAddress() {
           <Box
             style={{ display: "flex", flexDirection: "row", padding: "10px" }}
           >
-            <TextField id="address" variant="outlined" />
+            <TextField id="city" variant="outlined" />
           </Box>
         </Box>
       </Box>
       <Box style={{ display: "flex", flexDirection: "row", padding: "10px" }}>
         <Box
-          style={{ display: "flex", flexDirection: "column", padding: "10px" }}
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            padding: "10px",
+            flex: 1,
+          }}
         >
           <Box
             style={{ display: "flex", flexDirection: "row", padding: "10px" }}
@@ -282,7 +352,7 @@ function PaymentInformationBillingAddress() {
             style={{ display: "flex", flexDirection: "row", padding: "10px" }}
           >
             <TextField
-              id="zip-post-code" // Update the id to reflect CVC/CVV
+              id="zip-post-code"
               variant="outlined"
               inputProps={{
                 maxLength: 6, // Set the maximum allowed length to 4 characters (CVC/CVV is usually 3 or 4 digits)
@@ -300,12 +370,22 @@ function PaymentInformationBillingAddress() {
           </Box>
         </Box>
         <Box
-          style={{ display: "flex", flexDirection: "column", padding: "10px" }}
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            padding: "10px",
+            flex: 1,
+          }}
         >
           <Box
             style={{ display: "flex", flexDirection: "row", padding: "10px" }}
           >
             Country
+          </Box>
+          <Box
+            style={{ display: "flex", flexDirection: "row", padding: "10px" }}
+          >
+            <CountrySelect />
           </Box>
         </Box>
       </Box>
