@@ -2,21 +2,28 @@ import { Box, Button, Container, Stack, Typography } from "@mui/material";
 import Head from "next/head";
 import Link from "next/link";
 
-function BookingPreview() {
+interface SampleBooking {
+  name: string;
+  address: string;
+  type: string;
+  details: string;
+}
+
+function BookingPreview({ name, address, type, details }: SampleBooking) {
   return (
     <Box className="flex h-64 w-auto flex-row bg-orange-200">
       <Stack>
         <Box className="h-36 w-72 grow bg-green-200">Image1</Box>
         <Container className="h-auto py-1">
-          <Typography>Hotel Name</Typography>
-          <Typography>Hotel Address</Typography>
+          <Typography>{name}</Typography>
+          <Typography>{address}</Typography>
         </Container>
       </Stack>
       <Stack>
         <Box className="h-36 w-72 grow bg-green-300">Image2</Box>
         <Container className="h-auto py-1">
-          <Typography>Room Type</Typography>
-          <Typography>Brief Booking Details</Typography>
+          <Typography>{type}</Typography>
+          <Typography>{details}</Typography>
         </Container>
       </Stack>
       <Button variant="contained" className="w-24">
@@ -30,7 +37,14 @@ function BookingList() {
   const numberOfBookings = 4;
   const results = [];
   for (let i = 0; i < numberOfBookings; i++) {
-    results.push(<BookingPreview />);
+    results.push(
+      <BookingPreview
+        name="Some Hotel"
+        address="Some Place"
+        type="Double Room"
+        details="Some Information"
+      />
+    );
   }
   return <>{results}</>;
 }
@@ -44,7 +58,12 @@ export default function BookingHistory() {
       </Head>
       <Box className="absolute h-32 w-full" bgcolor="secondary.main"></Box>
       <Stack className="mb-5 mt-40" spacing={6}>
-        <BookingPreview />
+        <BookingPreview
+          name="A Hotel"
+          address="A Place"
+          type="Single Room"
+          details="Something about booking"
+        />
         <BookingList />
       </Stack>
     </>
