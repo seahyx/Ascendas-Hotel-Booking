@@ -33,7 +33,6 @@ export default function HotelDetails({
       hotelDetails,
     }: InferGetServerSidePropsType<typeof getServerSideProps>) {
   const scrollToRooms = useRef();
-  const description = "Description";
   const currency = "SGD";
 
   console.log(hotelDetails);
@@ -79,7 +78,7 @@ export default function HotelDetails({
               <Box className="grow" />
               <Stack className="mt-2" direction="row" alignItems="baseline">
                 <Typography className="me-2 grow" whiteSpace="nowrap">
-                ;;  Select a room starting from:
+                  Select a room starting from:
                 </Typography>
                 <Typography whiteSpace="nowrap" component="h3" variant="h4">
                   {currency} {123}
