@@ -6,6 +6,11 @@ import {
   Rating,
   Typography,
   Stack,
+  FormControl,
+  FormControlLabel,
+  Divider,
+  Checkbox,
+  FormGroup,
 } from "@mui/material";
 import Head from "next/head";
 import React, { useState } from "react";
@@ -15,6 +20,7 @@ import RoomOptionVariation from "~/components/RoomOptionVariation";
 import DropdownTitle from "~/components/DropdownTitle";
 import CountrySelect from "~/components/CountrySelect";
 import PhoneNumber from "~/components/PhoneNumber";
+import BookingSummary from "~/components/bookingSummary";
 
 function PrimaryGuestBox() {
   //Title Dropdown
@@ -32,7 +38,7 @@ function PrimaryGuestBox() {
   };
   return (
     <Box
-      className="my-10 flex h-auto w-10/12 bg-green-100"
+      className="my-10 flex h-auto w-auto bg-green-100"
       style={{ display: "flex", flexDirection: "column", padding: "10px" }}
     >
       <Box style={{ display: "flex", flexDirection: "row", padding: "10px" }}>
@@ -122,7 +128,7 @@ function PrimaryGuestBox() {
               multiline
               rows={4}
               defaultValue=""
-              style={{ width: 1000 }}
+              style={{ width: 700 }}
             />
           </Box>
         </Box>
@@ -134,7 +140,7 @@ function PrimaryGuestBox() {
 function PaymentInformationBillingAddress() {
   return (
     <Box
-      className="my-10 h-auto w-10/12 bg-purple-200"
+      className="my-10 h-auto w-auto bg-purple-200"
       style={{ display: "flex", flexDirection: "column", padding: "10px" }}
     >
       <Box style={{ display: "flex", flexDirection: "row", padding: "10px" }}>
@@ -393,32 +399,108 @@ function PaymentInformationBillingAddress() {
   );
 }
 
-function confirmBookingForm() {
+interface confirmBookingFormProps {
+  currency: string;
+  totalPrice: string;
+}
+
+function ConfirmBookingForm({ currency, totalPrice }: confirmBookingFormProps) {
   return (
-    <Box className="my-10 h-96 w-10/12 bg-pink-200"></Box>
-    /**<Stack className="my-10 h-96 w-10/12 bg-gray-200" spacing={6}>
-    <Box className="h-48 w-10/12" ><RoomOption/></Box>
-    
-  </Stack>*/
+    <Box
+      className="my-10 h-auto w-auto bg-pink-200"
+      display="flex"
+      justifyContent="center"
+      alignItems="center"
+    >
+      <FormGroup>
+        <FormControlLabel
+          required
+          control={<Checkbox />}
+          label="I agree to the Cancellation Policy and Kaligo's Terms of Use and Privacy policy"
+        />
+        <Divider
+          variant="middle"
+          sx={{ marginY: 2, borderColor: "transparent" }}
+        />
+
+        <FormControlLabel
+          required
+          control={<Checkbox />}
+          label="I confirm that my payment details and preferred loyalty program are correct."
+        />
+        <Divider
+          variant="middle"
+          sx={{ marginY: 2, borderColor: "transparent" }}
+        />
+
+        <Button variant="contained">Confirm Booking</Button>
+
+        <Divider
+          variant="middle"
+          sx={{ marginY: 2, borderColor: "transparent" }}
+        />
+
+        <Typography display="flex" justifyContent="center" alignItems="center">
+          {currency} {totalPrice} will be charged to your card immediately
+        </Typography>
+        <Divider
+          variant="middle"
+          sx={{ marginY: 2, borderColor: "transparent" }}
+        />
+      </FormGroup>
+    </Box>
   );
 }
 
-function bookingSummaryBox() {
-  return <Box className="my-10 h-48 w-10/12 bg-yellow-200"></Box>;
-}
-
-function cancellationPolicyBox() {}
-
 export default function Book() {
+  const bookingData = {
+    hotelName: "Sample Hotel",
+    roomType: "Deluxe Room",
+    checkInDate: "2023-08-02",
+    checkOutDate: "2023-08-10",
+    numberOfNights: 2,
+    currency: "SGD",
+    roomCount: 2,
+    adultCount: 2,
+    roomPrice: 200, // Example room price
+    roomRate: 400,
+    taxAndRecoveryCharges: 50, // Example tax and charges
+    grandTotal: 500, // Example total
+  };
   return (
     <>
       <Head>
         <title>Hotel Details</title>
         <meta name="description" content="Details of chosen hotel here." />
       </Head>
-      <Box>Primary Guest Box</Box>
-      <PrimaryGuestBox />
-      <PaymentInformationBillingAddress />
+      <Box style={{ display: "flex", flexDirection: "row", padding: "10px" }}>
+        <Box
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            padding: "10px",
+            flex: 5,
+          }}
+        >
+          <PrimaryGuestBox />
+          <PaymentInformationBillingAddress />
+          <ConfirmBookingForm currency="SGD" totalPrice="500" />
+        </Box>
+        <Box
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            padding: "10px",
+            flex: 5,
+          }}
+        >
+          <Divider
+            variant="middle"
+            sx={{ marginY: 5, borderColor: "transparent" }}
+          />
+          <BookingSummary {...bookingData} />
+        </Box>
+      </Box>
     </>
   );
 }
