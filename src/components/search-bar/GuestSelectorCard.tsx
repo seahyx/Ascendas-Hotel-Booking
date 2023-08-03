@@ -52,9 +52,9 @@ export default function GuestSelectorCard({
   onSetRooms,
   max,
 }: GuestSelectorCardProps) {
-  const [numAdults, _setNumAdults] = useState(0);
+  const [numAdults, _setNumAdults] = useState(1);
   const [numChild, _setNumChild] = useState(0);
-  const [numRooms, _setNumRooms] = useState(0);
+  const [numRooms, _setNumRooms] = useState(1);
   const setNumAdults = (value: number) => {
     _setNumAdults(value);
     onSetAdults && onSetAdults(value);

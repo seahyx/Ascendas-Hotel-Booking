@@ -31,12 +31,12 @@ export interface SearchParams {
 
 export interface SearchBarProps {
   onDestChange?: (value: Destination | null) => void;
-  onSearchParams?: (searchParams: SearchParams) => void;
+  onSearchButtonClick?: (searchParams: SearchParams) => void;
 }
 
 export default function SearchBar({
   onDestChange,
-  onSearchParams,
+  onSearchButtonClick: onSearchParams,
 }: SearchBarProps) {
   // Input error display toggles
   const [destErr, setDestErr] = useState(false);

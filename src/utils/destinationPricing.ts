@@ -2,6 +2,8 @@
 //
 //   import { Convert, DestinationPricing } from "./file";
 import { format } from "date-fns";
+import { ParsedUrlQuery } from "querystring";
+import { SearchParams } from "~/components/search-bar/SearchBar";
 //
 //   const destinationPricing = Convert.toDestinationPricing(json);
 //
@@ -9,6 +11,7 @@ import { format } from "date-fns";
 // match the expected interface, even if the JSON is valid.
 
 const HotelsPricesAPI = "/hotelapi/hotels/prices";
+const LocalSearchAPI = "/search";
 
 export type PricingSearchQueryParams = {
   destination_id: string;
@@ -71,7 +74,7 @@ export class Convert {
     return JSON.stringify(uncast(value, r("DestinationPricing")), null, 2);
   }
 
-  public static buildDestinationPricingQueryURL(
+  public static buildDestinationPricingQueryUrl(
     searchParams: PricingSearchQueryParams
   ): string {
     const guestRoomStringBuilder = (rooms: number, guests: number) => {

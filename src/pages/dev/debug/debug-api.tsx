@@ -36,14 +36,14 @@ export default function DebugAPIPage(props) {
       guests: searchParams.guests.adults + searchParams.guests.child,
     };
     console.log(pricingSearchParams);
-    const url = Convert.buildDestinationPricingQueryURL(pricingSearchParams);
+    const url = Convert.buildDestinationPricingQueryUrl(pricingSearchParams);
     console.log(url);
     setUrl(url);
   };
 
   return (
     <>
-      <TopBarWithSearch onSearchParams={setSearchParams} />
+      <TopBarWithSearch onSearchButtonClick={setSearchParams} />
       <Box className="w-full">
         <Typography variant="body2">{JSON.stringify(data)}</Typography>
       </Box>
