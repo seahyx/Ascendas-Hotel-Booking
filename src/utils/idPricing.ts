@@ -4,7 +4,7 @@
 //
 //   const hotels = Convert.toHotels(json);
 
-export type Hotels = {
+export type idPricing = {
   searchCompleted?: null;
   completed?: boolean;
   status?: null;
