@@ -1,100 +1,236 @@
-import { Checkbox, Box, Card, Slider, Container, Grid, Rating, Stack, Typography, FormGroup, FormControlLabel, CardContent, CardActionArea } from "@mui/material";
+import {
+  Checkbox,
+  Box,
+  Slider,
+  Container,
+  Rating,
+  Stack,
+  Typography,
+  FormGroup,
+  FormControlLabel,
+  Paper,
+  Pagination,
+  Button,
+} from "@mui/material";
 import Head from "next/head";
-import TopBarWithSearch from "~/components/TopBarWithSearch";
-import RatingFilter from "~/components/RatingFilter";
+import TopBarWithSearch from "~/components/search-bar/TopBarWithSearch";
+import { useEffect, useState } from "react";
+import GoogleMapReact from "google-map-react";
+import { useRouter } from "next/router";
+import {
+  Convert,
+  DestinationPricing,
+  PricingSearchQueryParams,
+} from "~/utils/destinationPricing";
+import { SearchParams } from "../components/search-bar/SearchBar";
+import { parseJSON } from "date-fns";
+import useSWR from "swr";
+import HotelSearchResultList from "~/components/search-page/HotelSearchResultList";
 
 function Sidebar() {
+  const [ratingRange, setRatingRange] = useState<number[]>([2.5, 5.0]);
+  const ratingMarks = [
+    {
+      value: 1.0,
+      label: "1.0",
+    },
+    {
+      value: 5.0,
+      label: "5.0",
+    },
+  ];
+  const maxRating = 5;
+
+  const [priceRange, setPriceRange] = useState<number[]>([50, 300]);
+  const priceMarks = [
+    {
+      value: 50,
+      label: "$50",
+    },
+    {
+      value: 300,
+      label: "$300",
+    },
+  ];
+  const hotelPopular: { label: string; key: string }[] = [
+    {
+      label: "Business Travellers",
+      key: "Business",
+    },
+    {
+      label: "Families",
+      key: "Family",
+    },
+    {
+      label: "Couples",
+      key: "Couple",
+    },
+    {
+      label: "Singles",
+      key: "Single",
+    },
+  ];
+  const defaultMapProps = {
+    center: {
+      lat: 10.99835602,
+      lng: 77.01502627,
+    },
+    zoom: 11,
+  };
+
   return (
-    <Stack className="pt-1 w-72" spacing={2}>
-      <Box className="h-64" bgcolor="secondary.light"></Box>
-      <Box className="relative h-[32rem] shadow-xl" bgcolor="info.main">
-        <Typography className="pl-4 pt-2">Filters</Typography>
-        <Container className="mt-1 object-center h-6">
-          <Slider defaultValue={50} aria-label="Default" valueLabelDisplay="auto" size="small"/>
-        </Container>
-        <Container className="mt-2 object-center h-6">
-          <Slider aria-label="Default" valueLabelDisplay="auto" size="small"/>
-        </Container>
-        <RatingFilter/>
-        <Typography className="pl-4 mt-1 font-bold text-xs">HOTELS POPULAR FOR</Typography>
-        <FormGroup className="pl-6">
-          <FormControlLabel control={<Checkbox size="small"/>} label="Business Travellers"/>
-          <FormControlLabel control={<Checkbox size="small"/>} label="Families"/>
-          <FormControlLabel control={<Checkbox size="small"/>} label="Couples"/>
-          <FormControlLabel control={<Checkbox size="small"/>} label="Singles"/>
+    <Stack className="w-64 shrink-0 self-start" spacing={2}>
+      <Paper className="h-52 overflow-hidden">
+        <GoogleMapReact
+          bootstrapURLKeys={{ key: "" }}
+          defaultCenter={defaultMapProps.center}
+          defaultZoom={defaultMapProps.zoom}
+        ></GoogleMapReact>
+      </Paper>
+      <Paper className="px-6 py-4">
+        <Button className="mb-4 w-full" size="large" variant="outlined">
+          Apply Filters
+        </Button>
+        <Typography variant="subtitle2">REVIEWS SCORE</Typography>
+        <Box className="mx-2">
+          <Slider
+            defaultValue={ratingRange}
+            min={1.0}
+            max={5.0}
+            step={0.5}
+            size="small"
+            marks={ratingMarks}
+            valueLabelDisplay="auto"
+            disableSwap
+          />
+        </Box>
+        <Typography variant="subtitle2" className="mt-6">
+          PRICE RANGE (SGD)
+        </Typography>
+        <Box className="mx-2">
+          <Slider
+            defaultValue={priceRange}
+            min={50}
+            max={300}
+            step={1}
+            size="small"
+            marks={priceMarks}
+            valueLabelDisplay="auto"
+            getAriaValueText={(value) => `$${value}`}
+            disableSwap
+          />
+        </Box>
+        <Typography variant="subtitle2" className="mt-6">
+          HOTEL STAR RATING
+        </Typography>
+        <FormGroup>
+          {[...Array(maxRating).keys()].map((i) => {
+            i = maxRating - i;
+            return (
+              <FormControlLabel
+                label={<Rating value={i} readOnly />}
+                control={<Checkbox size="small" value={i} defaultChecked />}
+                key={`Rating ${i}`}
+                disableTypography
+              />
+            );
+          })}
         </FormGroup>
-      </Box>
+        <Typography variant="subtitle2" className="mt-6">
+          HOTELS POPULAR FOR
+        </Typography>
+        <FormGroup>
+          {hotelPopular.map(({ label, key }) => (
+            <FormControlLabel
+              label={label}
+              control={<Checkbox size="small" defaultChecked />}
+              key={key}
+            />
+          ))}
+        </FormGroup>
+      </Paper>
     </Stack>
   );
 }
 
-function ResultList() {
-  const numberOfTestResults = 4;
-  const results = [];
-  const testPrice = "SGD 10.00"
-  for (let i = 0; i < numberOfTestResults; i++) {
-    results.push(<Card className="h-56 w-auto flex border-gray-500 hover:bg-gray-100">
-      <Box className="w-1/3 h-auto" bgcolor="green">Image</Box>
-      <Typography>Some Details</Typography>
-    </Card>);
-  }
-  return(
-    <Stack className="pt-8 w-full object-right" spacing={2}>
-      <Card className="h-56 w-auto flex border-gray-500 hover:bg-gray-100">
-      <CardActionArea className="w-full h-auto flex flex-initial" href="/details">
-          <Box className="w-1/3 h-full" bgcolor="green">Image</Box>
-          <Box className=" w-6/12 h-full bg-amber-100">
-            <Container className="pt-2 pl-2 flex flex-col flex-auto">
-              <Typography >Some Details, More Details, Even More Details, How Bout More Details</Typography>
-            </Container>
-          </Box>
-          <Box className=" w-auto h-full flex flex-col flex-auto">
-            <CardContent>
-              <Rating className="pt-2 pb-8" value={1} readOnly/>
-              <Typography className="pt-10">{testPrice}</Typography>
-            </CardContent>
-          </Box>
-        </CardActionArea>
-      </Card>
-      
-      <Card className="h-56 w-auto flex border-gray-500 hover:bg-gray-100">
-        <Box className="w-1/3 h-auto" bgcolor="green">Image</Box>
-        <Box className="w-6/12 h-auto pt-2 pl-2 flex flex-col">
-          <Typography>Some Details</Typography>
-        </Box>
-        <Box className="w-2/9 h-auto pl-2 flex flex-col">
-          <CardContent>
-            <Rating className="pt-2 pb-8" value={1} readOnly/>
-            <Typography className="pt-10">{testPrice}</Typography>
-          </CardContent>
-        </Box>
-      </Card>
-      {results}
-    </Stack>
-  );
-}
+export default function SearchResults(props) {
+  const maxItemsPerPage = 10;
 
-export default function SearchResults() {
-  const placeholderCountry = "Singapore";
+  // Search result update
+  const router = useRouter();
+
+  const fetcher = (url: string) => fetch(url).then((r) => r.json());
+  const checkSearchComplete = (data: DestinationPricing) => {
+    // console.log(data);
+    if (!data || data.completed) return 0;
+    return 500;
+  };
+  const [url, setUrl] = useState<string | null>(null);
+  const { data }: { data: DestinationPricing } = useSWR(url, fetcher, {
+    refreshInterval: checkSearchComplete,
+  });
+
+  // Attempt to extract search params
+  const { search } = router.query;
+
+  useEffect(() => {
+    if (search) {
+      const searchParams: SearchParams = JSON.parse(search as string);
+      searchParams.checkInDate = searchParams.checkInDate
+        ? parseJSON(searchParams.checkInDate)
+        : new Date();
+      searchParams.checkOutDate = searchParams.checkOutDate
+        ? parseJSON(searchParams.checkOutDate)
+        : new Date();
+      // console.log(searchParams);
+      const pricingSearchParams: PricingSearchQueryParams = {
+        destination_id: searchParams.dest?.uid ?? "",
+        checkin: searchParams.checkInDate ?? new Date(),
+        checkout: searchParams.checkOutDate ?? new Date(),
+        lang: "en_US",
+        currency: "SGD",
+        country_code: "SG",
+        rooms: searchParams.guests.rooms,
+        guests: searchParams.guests.adults + searchParams.guests.child,
+      };
+      // console.log(pricingSearchParams);
+      const url = Convert.buildDestinationPricingQueryUrl(pricingSearchParams);
+      console.log(url);
+      setUrl(url);
+    }
+  }, [search]);
+
   return (
     <>
       <Head>
-        <title>Search Hotels in {placeholderCountry}!</title>
-        <meta name="description" content="Search results details here." />
+        <title>Search results for Singapore</title>
+        <meta name="description" content="Search results for Singapore." />
       </Head>
       <TopBarWithSearch />
-      <Grid container spacing={1} columns={12} lg>
-        <Grid item xs={3}>
-          <Container maxWidth="lg" className="sticky top-0">
-            <Sidebar />
-          </Container>
-        </Grid>
-        <Grid item xs={9}>
-          <Container maxWidth="lg" className="">
-            <ResultList />
-          </Container>
-        </Grid>
-      </Grid>
+      {data && data.hotels && (
+        <Container
+          maxWidth="md"
+          className="mt-3 flex w-full flex-row place-content-between items-baseline"
+        >
+          <Typography variant="body1">
+            <span className="text-2xl font-semibold">{data.hotels.length}</span>{" "}
+            hotels found matching your search results.
+          </Typography>
+          <Typography variant="body2">
+            All prices are including taxes and fees.
+          </Typography>
+        </Container>
+      )}
+      <Container maxWidth="lg" className="pb-6 pt-3">
+        <Stack direction="row" spacing={2}>
+          <Sidebar />
+          <HotelSearchResultList
+            hotelsPricing={data?.hotels}
+            currency="SGD"
+            maxItemsPerPage={maxItemsPerPage}
+          />
+        </Stack>
+      </Container>
     </>
   );
 }
