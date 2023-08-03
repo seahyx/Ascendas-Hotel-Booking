@@ -38,7 +38,9 @@ export default function Profile() {
           </Paper>
         </Grid>
         <Grid item>
-          <Button variant="contained">View Bookings</Button>
+          <Button variant="contained" href="/history">
+            View Bookings
+          </Button>
         </Grid>
       </Grid>
     </>
