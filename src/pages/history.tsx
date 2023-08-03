@@ -11,16 +11,16 @@ interface SampleBooking {
 
 function BookingPreview({ name, address, type, details }: SampleBooking) {
   return (
-    <Box className="flex h-64 w-auto flex-row bg-orange-200">
-      <Stack>
-        <Box className="h-36 w-72 grow bg-green-200">Image1</Box>
+    <Box className="flex min-h-fit w-auto flex-row bg-orange-200">
+      <Stack className="max-w-xs">
+        <Box className=" h-44 w-80 grow bg-green-200">Image1</Box>
         <Container className="h-auto py-1">
           <Typography>{name}</Typography>
           <Typography>{address}</Typography>
         </Container>
       </Stack>
-      <Stack>
-        <Box className="h-36 w-72 grow bg-green-300">Image2</Box>
+      <Stack className="max-w-xs">
+        <Box className="h-36 w-80 grow bg-green-300">Image2</Box>
         <Container className="h-auto py-1">
           <Typography>{type}</Typography>
           <Typography>{details}</Typography>
