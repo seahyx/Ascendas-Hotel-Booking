@@ -12,7 +12,7 @@ import {
   Button,
 } from "@mui/material";
 import Head from "next/head";
-import TopBarWithSearch from "~/components/search-bar/TopBarWithSearch";
+import TopBarWithSearch from "src/components/search-bar/TopBarWithSearch";
 import { useEffect, useState } from "react";
 import GoogleMapReact from "google-map-react";
 import { useRouter } from "next/router";
@@ -20,11 +20,11 @@ import {
   Convert,
   DestinationPricing,
   PricingSearchQueryParams,
-} from "~/utils/destinationPricing";
+} from "src/utils/destinationPricing";
 import { SearchParams } from "../components/search-bar/SearchBar";
 import { parseJSON } from "date-fns";
 import useSWR from "swr";
-import HotelSearchResultList from "~/components/search-page/HotelSearchResultList";
+import HotelSearchResultList from "src/components/search-page/HotelSearchResultList";
 
 function Sidebar() {
   const [ratingRange, setRatingRange] = useState<number[]>([2.5, 5.0]);

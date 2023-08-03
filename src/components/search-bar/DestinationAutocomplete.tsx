@@ -2,7 +2,7 @@ import { Autocomplete, CircularProgress, TextField } from "@mui/material";
 import Fuse from "fuse.js";
 import { useEffect, useState } from "react";
 import { useDebounce } from "usehooks-ts";
-import { DESTINATIONS, Destination } from "~/utils/destinations";
+import { DESTINATIONS, Destination } from "src/utils/destinations";
 
 interface DestinationAutocompleteProps {
   className?: React.HTMLProps<HTMLElement>["className"];

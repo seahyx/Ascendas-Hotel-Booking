@@ -3,7 +3,7 @@
 //   import { Convert, DestinationPricing } from "./file";
 import { format } from "date-fns";
 import { ParsedUrlQuery } from "querystring";
-import { SearchParams } from "~/components/search-bar/SearchBar";
+import { SearchParams } from "src/components/search-bar/SearchBar";
 //
 //   const destinationPricing = Convert.toDestinationPricing(json);
 //
