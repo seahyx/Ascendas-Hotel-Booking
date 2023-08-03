@@ -9,7 +9,6 @@ import {
   FormGroup,
   FormControlLabel,
   Paper,
-  Pagination,
   Button,
 } from "@mui/material";
 import Head from "next/head";
