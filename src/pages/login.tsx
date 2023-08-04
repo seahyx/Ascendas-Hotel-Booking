@@ -1,16 +1,31 @@
 import {
   Box,
   Button,
+  Card,
   Container,
-  Link,
+  Link as LinkPage,
   Paper,
   Stack,
   TextField,
   Typography,
 } from "@mui/material";
 import Head from "next/head";
+import { signIn } from 'next-auth/react';
+import Link from 'next/link';
+import { type FormEvent } from 'react';
 
-export default function Login(props) {
+export default function Login() {
+  async function handleSubmit(e: FormEvent) {
+    e.preventDefault();
+    const form = new FormData(e.target as HTMLFormElement);
+
+    await signIn('credentials', { 
+      email: form.get('email'), 
+      password: form.get('password'), 
+      callbackUrl: '/',
+    });
+  }
+
   return (
     <>
       <Head>
@@ -32,24 +47,31 @@ export default function Login(props) {
             >
               Sign In
             </Typography>
+            <form onSubmit={handleSubmit}>
             <TextField
-              id="login-email"
-              label="Email"
+              id="email"
+              name = 'email'
+              label="email"
               type="email"
               margin="dense"
-              autoComplete="username"
+              autoComplete="email"
               autoFocus
               required
+              fullWidth
             />
             <TextField
-              id="login-password"
-              label="Password"
+              id="password"
+              name = 'password'
+              label="password"
               type="password"
               margin="dense"
               autoComplete="current-password"
               required
+              fullWidth
             />
             <Button
+              type= 'submit'
+              fullWidth
               variant="contained"
               className="mt-3"
               disableElevation
@@ -57,12 +79,13 @@ export default function Login(props) {
             >
               Submit
             </Button>
+            </form>
           </Stack>
         </Paper>
         <Typography className="mt-3 font-semibold">
-          <Link href="/register" underline="hover">
+          <LinkPage href="/register" underline="hover">
             Not registered yet? Register here.
-          </Link>
+          </LinkPage>
         </Typography>
       </Container>
     </>
