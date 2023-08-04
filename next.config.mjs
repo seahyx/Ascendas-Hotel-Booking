@@ -18,6 +18,24 @@ const config = {
     locales: ["en"],
     defaultLocale: "en",
   },
+  images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "**",
+        port: "",
+        pathname: "**",
+      },
+    ],
+  },
+  async rewrites() {
+    return [
+      {
+        source: "/hotelapi/:path*",
+        destination: "https://hotelapi.loyalty.dev/api/:path*",
+      },
+    ];
+  },
 };
 
 export default config;

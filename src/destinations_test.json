@@ -1,0 +1,1218 @@
+[
+  {
+    "term": "Rome, Italy",
+    "uid": "A6Dz",
+    "lat": 41.895466,
+    "lng": 12.482324,
+    "type": "city",
+    "state": "Lazio"
+  },
+  {
+    "term": "Bali, Indonesia",
+    "uid": "WP3Z",
+    "lat": -8.409518,
+    "lng": 115.187989,
+    "type": "city"
+  },
+  {
+    "term": "London, England, United Kingdom",
+    "uid": "jC3Y",
+    "lat": 51.5082616708,
+    "lng": -0.128059387207,
+    "type": "city",
+    "state": "England"
+  },
+  {
+    "term": "Paris, France",
+    "uid": "vJh2",
+    "lat": 48.856667,
+    "lng": 2.350987,
+    "type": "city",
+    "state": "Ile-de-France"
+  },
+  {
+    "term": "Stratford, United Kingdom",
+    "uid": "P4FZ",
+    "lat": 51.539992,
+    "lng": 0.005156,
+    "type": "city"
+  },
+  {
+    "term": "Barcelona, Spain",
+    "uid": "FkG9",
+    "lat": 41.387917,
+    "lng": 2.169919,
+    "type": "city",
+    "state": "Barcelona"
+  },
+  {
+    "term": "Istanbul, Turkey",
+    "uid": "EWUH",
+    "lat": 41.0157901521,
+    "lng": 28.9750442561,
+    "type": "city"
+  },
+  {
+    "term": "Rome, Italy (CIA-Ciampino)",
+    "uid": "I7E8",
+    "lat": 41.799309,
+    "lng": 12.591091,
+    "type": "airport"
+  },
+  {
+    "term": "Rome, Italy (FCO-Fiumicino - Leonardo da Vinci Intl.)",
+    "uid": "9KUU",
+    "lat": 41.795616,
+    "lng": 12.251165,
+    "type": "airport"
+  },
+  {
+    "term": "Alicante, Spain",
+    "uid": "6FXD",
+    "lat": 38.345203,
+    "lng": -0.481006,
+    "type": "city",
+    "state": "Valencian Community"
+  },
+  {
+    "term": "Bangkok, Thailand",
+    "uid": "Zauv",
+    "lat": 13.73078,
+    "lng": 100.521004,
+    "type": "city"
+  },
+  {
+    "term": "Fiumicino, Italy",
+    "uid": "C7r0",
+    "lat": 41.771526,
+    "lng": 12.230003,
+    "type": "city"
+  },
+  {
+    "term": "Milan, Italy",
+    "uid": "cm8g",
+    "lat": 45.463671,
+    "lng": 9.188126,
+    "type": "city",
+    "state": "Lombardy"
+  },
+  {
+    "term": "London, England, UK (LHR-Heathrow)",
+    "uid": "CL8I",
+    "lat": 51.470879,
+    "lng": -0.449753,
+    "type": "airport"
+  },
+  {
+    "term": "Phuket, Thailand",
+    "uid": "4XcC",
+    "lat": 7.8804479,
+    "lng": 98.3922504,
+    "type": "city",
+    "state": "Phuket"
+  },
+  {
+    "term": "Saint Denis, France",
+    "uid": "0zyy",
+    "lat": 48.936065,
+    "lng": 2.364883,
+    "type": "city"
+  },
+  {
+    "term": "Paris, France (ORY-Orly)",
+    "uid": "UHQ6",
+    "lat": 48.728527,
+    "lng": 2.368405,
+    "type": "airport"
+  },
+  {
+    "term": "Crete, AR, Greece",
+    "uid": "fCWp",
+    "lat": 35.30852,
+    "lng": 25.53199,
+    "type": "city"
+  },
+  {
+    "term": "Denpasar, Indonesia (DPS-Ngurah Rai Intl.)",
+    "uid": "5NM2",
+    "lat": -8.744444,
+    "lng": 115.163368,
+    "type": "airport"
+  },
+  {
+    "term": "Paris, France (CDG-Roissy-Charles de Gaulle)",
+    "uid": "PCFH",
+    "lat": 49.004063,
+    "lng": 2.571006,
+    "type": "airport"
+  },
+  {
+    "term": "London, England, UK (LGW-Gatwick)",
+    "uid": "S3PK",
+    "lat": 51.156025,
+    "lng": -0.16458,
+    "type": "airport"
+  },
+  {
+    "term": "London, England, UK (LCY-London City)",
+    "uid": "134B",
+    "lat": 51.503666,
+    "lng": 0.049717,
+    "type": "airport"
+  },
+  {
+    "term": "London, England, UK (LTN-Luton)",
+    "uid": "C5AK",
+    "lat": 51.878796,
+    "lng": -0.376453,
+    "type": "airport"
+  },
+  {
+    "term": "Legian, Indonesia",
+    "uid": "wHMg",
+    "lat": -8.69354193884,
+    "lng": 115.177574158,
+    "type": "city",
+    "state": "Bali"
+  },
+  {
+    "term": "Florence, Italy",
+    "uid": "SoGS",
+    "lat": 43.768732,
+    "lng": 11.256901,
+    "type": "city",
+    "state": "Florence"
+  },
+  {
+    "term": "Seminyak, Indonesia",
+    "uid": "wU1v",
+    "lat": -8.69530175274,
+    "lng": 115.165125848,
+    "type": "city",
+    "state": "Kuta Utara"
+  },
+  {
+    "term": "Venice, Italy",
+    "uid": "AqIc",
+    "lat": 45.434336,
+    "lng": 12.338784,
+    "type": "city",
+    "state": "Veneto"
+  },
+  {
+    "term": "Girona, Spain",
+    "uid": "Dvb4",
+    "lat": 41.981796,
+    "lng": 2.8237,
+    "type": "city",
+    "state": "Catalonia"
+  },
+  {
+    "term": "Lisbon, Portugal",
+    "uid": "xmXl",
+    "lat": 38.756928,
+    "lng": -9.153577,
+    "type": "city"
+  },
+  {
+    "term": "Shanghai, China",
+    "uid": "YCcf",
+    "lat": 31.222222,
+    "lng": 121.475,
+    "type": "city"
+  },
+  {
+    "term": "Marrakech, Morocco",
+    "uid": "lL9x",
+    "lat": 31.6327755261,
+    "lng": -8.00148010254,
+    "type": "city"
+  },
+  {
+    "term": "Denpasar, Indonesia",
+    "uid": "0ZF7",
+    "lat": -8.65561,
+    "lng": 115.214,
+    "type": "city",
+    "state": "Denpasar Selatan"
+  },
+  {
+    "term": "Beijing, China",
+    "uid": "p5Lz",
+    "lat": 39.905522,
+    "lng": 116.395683,
+    "type": "city"
+  },
+  {
+    "term": "Tanjung Benoa, Indonesia",
+    "uid": "lDcw",
+    "lat": -8.76874908351,
+    "lng": 115.220789909,
+    "type": "city"
+  },
+  {
+    "term": "Florence, Italy (FLR-Peretola)",
+    "uid": "N23M",
+    "lat": 43.802197,
+    "lng": 11.200967,
+    "type": "airport"
+  },
+  {
+    "term": "St Petersburg, Russian Federation",
+    "uid": "cvRb",
+    "lat": 59.942081,
+    "lng": 30.310364,
+    "type": "city",
+    "state": "Texas"
+  },
+  {
+    "term": "Rio De Janeiro, Rio de janeiro, Brazil",
+    "uid": "mX8x",
+    "lat": -22.903539,
+    "lng": -43.209587,
+    "type": "city",
+    "state": "Texas"
+  },
+  {
+    "term": "Seoul, Republic of Korea",
+    "uid": "eTo1",
+    "lat": 37.5644462624,
+    "lng": 126.976890564,
+    "type": "city"
+  },
+  {
+    "term": "Chiang Mai, Thailand",
+    "uid": "3Syx",
+    "lat": 18.7909846578,
+    "lng": 98.9835491194,
+    "type": "city",
+    "state": "Hang Dong District"
+  },
+  {
+    "term": "New Delhi, India",
+    "uid": "jv4W",
+    "lat": 28.635308,
+    "lng": 77.22496,
+    "type": "city",
+    "state": "South West Delhi"
+  },
+  {
+    "term": "Madrid, Spain",
+    "uid": "jYwQ",
+    "lat": 40.416741,
+    "lng": -3.70325,
+    "type": "city",
+    "state": "Community of Madrid"
+  },
+  {
+    "term": "Pattaya, Thailand",
+    "uid": "n2cH",
+    "lat": 12.9270212777,
+    "lng": 100.875177383,
+    "type": "city"
+  },
+  {
+    "term": "Santorini, Greece",
+    "uid": "QVAr",
+    "lat": 36.404688,
+    "lng": 25.40771,
+    "type": "city",
+    "state": "South Aegean"
+  },
+  {
+    "term": "Turin, Italy",
+    "uid": "UFv4",
+    "lat": 45.070603,
+    "lng": 7.68671,
+    "type": "city"
+  },
+  {
+    "term": "Prague, Czech Republic",
+    "uid": "m2Xo",
+    "lat": 50.087811,
+    "lng": 14.42046,
+    "type": "city"
+  },
+  {
+    "term": "Malaga, Spain",
+    "uid": "sR1F",
+    "lat": 36.719674,
+    "lng": -4.420036,
+    "type": "city",
+    "state": "Andalucia"
+  },
+  {
+    "term": "Los Angeles, CA, United States",
+    "uid": "RsLO",
+    "lat": 34.052187,
+    "lng": -118.243425,
+    "type": "city",
+    "state": "California"
+  },
+  {
+    "term": "Naples, Italy (NAP-Naples Intl.)",
+    "uid": "4FBY",
+    "lat": 40.878155,
+    "lng": 14.282634,
+    "type": "airport"
+  },
+  {
+    "term": "Antalya, Turkey",
+    "uid": "KSAd",
+    "lat": 36.8840144505,
+    "lng": 30.7056713104,
+    "type": "city"
+  },
+  {
+    "term": "Guangzhou, China",
+    "uid": "cCxV",
+    "lat": 23.1291521451,
+    "lng": 113.264708519,
+    "type": "city"
+  },
+  {
+    "term": "Barcelona, Spain (BCN-Barcelona Intl.)",
+    "uid": "U2Y0",
+    "lat": 41.302898,
+    "lng": 2.076833,
+    "type": "airport"
+  },
+  {
+    "term": "Salzburg, Austria",
+    "uid": "698L",
+    "lat": 47.800499,
+    "lng": 13.04441,
+    "type": "city",
+    "state": "Salzburg"
+  },
+  {
+    "term": "Shenzhen, China",
+    "uid": "XwkL",
+    "lat": 22.5404642212,
+    "lng": 114.053192139,
+    "type": "city"
+  },
+  {
+    "term": "Milan, Italy (MXP-Malpensa Intl.)",
+    "uid": "GUJI",
+    "lat": 45.627724,
+    "lng": 8.712811,
+    "type": "airport"
+  },
+  {
+    "term": "Nanterre, France",
+    "uid": "QoqG",
+    "lat": 48.8897779622,
+    "lng": 2.19692230225,
+    "type": "city",
+    "state": "Ile-de-France"
+  },
+  {
+    "term": "Patong, Thailand",
+    "uid": "FNB4",
+    "lat": 7.89027777778,
+    "lng": 98.3022222222,
+    "type": "city",
+    "state": "Phuket"
+  },
+  {
+    "term": "Phuket, Thailand (HKT-Phuket Intl.)",
+    "uid": "87DY",
+    "lat": 8.106647,
+    "lng": 98.304634,
+    "type": "airport"
+  },
+  {
+    "term": "Moscow, Russian Federation",
+    "uid": "jeIv",
+    "lat": 55.758959,
+    "lng": 37.616272,
+    "type": "city"
+  },
+  {
+    "term": "Goa, India",
+    "uid": "dCpi",
+    "lat": 15.49999999,
+    "lng": 73.983333,
+    "type": "city"
+  },
+  {
+    "term": "Bangkok, Thailand (BKK-Suvarnabhumi Intl.)",
+    "uid": "AWIM",
+    "lat": 13.687353,
+    "lng": 100.749947,
+    "type": "airport"
+  },
+  {
+    "term": "Sarria, Spain",
+    "uid": "bfGz",
+    "lat": 42.7808,
+    "lng": -7.4141,
+    "type": "city"
+  },
+  {
+    "term": "Koh Samui, Thailand",
+    "uid": "z5kp",
+    "lat": 9.498998,
+    "lng": 100.005077,
+    "type": "city",
+    "state": "Surat Thani"
+  },
+  {
+    "term": "Berlin, Germany",
+    "uid": "tOik",
+    "lat": 52.52348,
+    "lng": 13.411494,
+    "type": "city"
+  },
+  {
+    "term": "Milan, Italy (LIN-Linate)",
+    "uid": "CDH6",
+    "lat": 45.460667,
+    "lng": 9.279102,
+    "type": "airport"
+  },
+  {
+    "term": "Budapest, Hungary",
+    "uid": "l0RE",
+    "lat": 47.498403,
+    "lng": 19.040759,
+    "type": "city"
+  },
+  {
+    "term": "Psalidi, Greece",
+    "uid": "XQuf",
+    "lat": 36.3178914969,
+    "lng": 28.1652545929,
+    "type": "city"
+  },
+  {
+    "term": "Kissimmee, FL, United States",
+    "uid": "Bjlx",
+    "lat": 28.29388,
+    "lng": -81.40578,
+    "type": "city",
+    "state": "Florida"
+  },
+  {
+    "term": "Cape Town, South Africa",
+    "uid": "UUv9",
+    "lat": -33.91975,
+    "lng": 18.42566,
+    "type": "city",
+    "state": "West Coast DC"
+  },
+  {
+    "term": "Istanbul, Turkey (IST)",
+    "uid": "HOJW",
+    "lat": 41.258499,
+    "lng": 28.742676,
+    "type": "airport"
+  },
+  {
+    "term": "New York, NY, United States",
+    "uid": "jiHz",
+    "lat": 40.757929,
+    "lng": -73.985506,
+    "type": "city"
+  },
+  {
+    "term": "Mestre, Italy",
+    "uid": "jxt1",
+    "lat": 45.495837,
+    "lng": 12.244107,
+    "type": "city",
+    "state": "Veneto"
+  },
+  {
+    "term": "Nusa Dua, Indonesia",
+    "uid": "t4Pi",
+    "lat": -8.80322984819,
+    "lng": 115.213880539,
+    "type": "city",
+    "state": "Kuta Selatan"
+  },
+  {
+    "term": "Rhodes, Greece",
+    "uid": "M96F",
+    "lat": 36.4435184029,
+    "lng": 28.2269668579,
+    "type": "city",
+    "state": "Rhodes"
+  },
+  {
+    "term": "Venice, Italy (VCE-Marco Polo)",
+    "uid": "OWEQ",
+    "lat": 45.50462,
+    "lng": 12.340189,
+    "type": "airport"
+  },
+  {
+    "term": "Cannes, France (CEQ-Mandelieu)",
+    "uid": "AZRW",
+    "lat": 43.547153,
+    "lng": 6.953838,
+    "type": "airport"
+  },
+  {
+    "term": "Fatima, Portugal",
+    "uid": "YmVS",
+    "lat": 38.78115,
+    "lng": -9.135894,
+    "type": "city",
+    "state": "Santarem District"
+  },
+  {
+    "term": "Vienna, Austria",
+    "uid": "wCJo",
+    "lat": 48.209206,
+    "lng": 16.372778,
+    "type": "city",
+    "state": "Texas"
+  },
+  {
+    "term": "Sanur, Indonesia",
+    "uid": "PKE3",
+    "lat": -8.69,
+    "lng": 115.26,
+    "type": "city",
+    "state": "Bali"
+  },
+  {
+    "term": "Split, Croatia",
+    "uid": "RTDF",
+    "lat": 43.51267,
+    "lng": 16.44239,
+    "type": "city",
+    "state": "Split-Dalmatia"
+  },
+  {
+    "term": "Bergamo, Italy (BGY-Orio Al Serio)",
+    "uid": "1HRA",
+    "lat": 45.665195,
+    "lng": 9.699935,
+    "type": "airport"
+  },
+  {
+    "term": "Verona, Italy",
+    "uid": "kOTa",
+    "lat": 45.442006,
+    "lng": 10.995485,
+    "type": "city",
+    "state": "Veneto"
+  },
+  {
+    "term": "Tokyo, Japan",
+    "uid": "fRZM",
+    "lat": 35.689506,
+    "lng": 139.6917,
+    "type": "city"
+  },
+  {
+    "term": "Farnborough, England, UK (FAB)",
+    "uid": "NVWV",
+    "lat": 51.274475,
+    "lng": -0.769333,
+    "type": "airport"
+  },
+  {
+    "term": "Kunshan, China",
+    "uid": "lVwl",
+    "lat": 31.3885198467,
+    "lng": 120.969085693,
+    "type": "city"
+  },
+  {
+    "term": "Ericeira, Portugal",
+    "uid": "QtoU",
+    "lat": 38.96295,
+    "lng": -9.415464,
+    "type": "city"
+  },
+  {
+    "term": "Lake Como, Italy",
+    "uid": "L09B",
+    "lat": 45.917086,
+    "lng": 9.285544,
+    "type": "city"
+  },
+  {
+    "term": "Tegel Airport, Germany",
+    "uid": "MO7Z",
+    "lat": 52.56263,
+    "lng": 13.31475,
+    "type": "city"
+  },
+  {
+    "term": "Gran Canaria, Spain",
+    "uid": "iSef",
+    "lat": 27.9725722756,
+    "lng": -15.6033325195,
+    "type": "city",
+    "state": "Las Palmas"
+  },
+  {
+    "term": "Jimbaran, Indonesia",
+    "uid": "D8Qs",
+    "lat": -8.79071733505,
+    "lng": 115.159973146,
+    "type": "city",
+    "state": "Kuta Selatan"
+  },
+  {
+    "term": "Kerobokan, Indonesia",
+    "uid": "p2T5",
+    "lat": -8.65400228468,
+    "lng": 115.163068771,
+    "type": "city",
+    "state": "Kuta Utara"
+  },
+  {
+    "term": "Osaka, Japan (ITM-Itami)",
+    "uid": "Z6TC",
+    "lat": 34.790863,
+    "lng": 135.441086,
+    "type": "airport"
+  },
+  {
+    "term": "Kuala Lumpur, Malaysia",
+    "uid": "EzoR",
+    "lat": 3.139003,
+    "lng": 101.686856,
+    "type": "city",
+    "state": "Selangor"
+  },
+  {
+    "term": "Isola, France",
+    "uid": "2T7t",
+    "lat": 44.186235444,
+    "lng": 7.05017566681,
+    "type": "city"
+  },
+  {
+    "term": "Le Blanc Mesnil, France",
+    "uid": "qlef",
+    "lat": 48.9382880861,
+    "lng": 2.46059417725,
+    "type": "city",
+    "state": "Ile-de-France"
+  },
+  {
+    "term": "Costa Da Caparica, Portugal",
+    "uid": "9Tgw",
+    "lat": 38.6422156737,
+    "lng": -9.23177719116,
+    "type": "city"
+  },
+  {
+    "term": "Dubai, United Arab Emirates",
+    "uid": "SfLK",
+    "lat": 25.197158,
+    "lng": 55.274291,
+    "type": "city"
+  },
+  {
+    "term": "Seoul, South Korea (GMP-Gimpo Intl.)",
+    "uid": "S5DP",
+    "lat": 37.557236,
+    "lng": 126.803345,
+    "type": "airport"
+  },
+  {
+    "term": "Chaweng, Thailand",
+    "uid": "Z36S",
+    "lat": 9.507451,
+    "lng": 100.055737,
+    "type": "city"
+  },
+  {
+    "term": "Ho Chi Minh, Viet Nam",
+    "uid": "Ab2i",
+    "lat": 10.772462,
+    "lng": 106.678555,
+    "type": "city",
+    "state": "Texas"
+  },
+  {
+    "term": "Orly, France",
+    "uid": "pJBt",
+    "lat": 48.745193,
+    "lng": 2.401373,
+    "type": "city",
+    "state": "Ile-de-France"
+  },
+  {
+    "term": "Luso, Portugal",
+    "uid": "HRiV",
+    "lat": 40.38486,
+    "lng": -8.377673,
+    "type": "city"
+  },
+  {
+    "term": "Nice, France (NCE-Cote d'Azur)",
+    "uid": "1PLC",
+    "lat": 43.666698,
+    "lng": 7.21362,
+    "type": "airport"
+  },
+  {
+    "term": "Versailles, France",
+    "uid": "RjNn",
+    "lat": 48.8028498101,
+    "lng": 2.12971687317,
+    "type": "city",
+    "state": "Yvelines"
+  },
+  {
+    "term": "Ubud, Indonesia",
+    "uid": "n6V8",
+    "lat": -8.51974022381,
+    "lng": 115.263834,
+    "type": "city",
+    "state": "Bangli Regency"
+  },
+  {
+    "term": "Osaka, Japan",
+    "uid": "oWA8",
+    "lat": 34.6806523848,
+    "lng": 135.512237549,
+    "type": "city"
+  },
+  {
+    "term": "Kyoto, Japan",
+    "uid": "cdNS",
+    "lat": 35.0080652565,
+    "lng": 135.745697021,
+    "type": "city",
+    "state": "Kyoto"
+  },
+  {
+    "term": "Orlando, FL, United States (MCO-Orlando Intl.)",
+    "uid": "WM3I",
+    "lat": 28.431185,
+    "lng": -81.307915,
+    "type": "airport"
+  },
+  {
+    "term": "Costa Blanca, Spain",
+    "uid": "ykBH",
+    "lat": 38.238951,
+    "lng": -0.179229,
+    "type": "city",
+    "state": "Alicante"
+  },
+  {
+    "term": "Neuilly Sur Seine, France",
+    "uid": "x9rh",
+    "lat": 48.8835133394,
+    "lng": 2.27228164673,
+    "type": "city",
+    "state": "Ile-de-France"
+  },
+  {
+    "term": "Kissimmee, FL, United States of America (ISM-Kissimmee Gateway)",
+    "uid": "UZL7",
+    "lat": 28.2939,
+    "lng": -81.436707,
+    "type": "airport"
+  },
+  {
+    "term": "Karon, Thailand",
+    "uid": "H1cz",
+    "lat": 7.821631900000001,
+    "lng": 98.3002574,
+    "type": "city",
+    "state": "Phuket"
+  },
+  {
+    "term": "Kyoto, Tokyo (UKY)",
+    "uid": "3AUC",
+    "lat": 35.01123,
+    "lng": 135.768127,
+    "type": "airport"
+  },
+  {
+    "term": "Algarve, Portugal",
+    "uid": "62Vt",
+    "lat": 37.22477,
+    "lng": -8.04684,
+    "type": "city"
+  },
+  {
+    "term": "Bophut, Thailand",
+    "uid": "R98r",
+    "lat": 9.56147956848145,
+    "lng": 100.026000976563,
+    "type": "city"
+  },
+  {
+    "term": "Orlando, FL, United States",
+    "uid": "mqNJ",
+    "lat": 28.5379333777,
+    "lng": -81.3793373108,
+    "type": "city",
+    "state": "Florida"
+  },
+  {
+    "term": "Orlando, FL, United States (ORL-Orlando Executive)",
+    "uid": "FQ9X",
+    "lat": 28.548655,
+    "lng": -81.337692,
+    "type": "airport"
+  },
+  {
+    "term": "London, England, UK (STN-Stansted)",
+    "uid": "XUAZ",
+    "lat": 51.889431,
+    "lng": 0.262148,
+    "type": "airport"
+  },
+  {
+    "term": "Clichy, France",
+    "uid": "QrXv",
+    "lat": 48.902695,
+    "lng": 2.30408,
+    "type": "city",
+    "state": "Ile-de-France"
+  },
+  {
+    "term": "Split, Croatia (SPU)",
+    "uid": "4DVY",
+    "lat": 43.536743,
+    "lng": 16.299198,
+    "type": "airport"
+  },
+  {
+    "term": "Riviera Maya, Quintana roo, Mexico",
+    "uid": "XDT1",
+    "lat": 20.2830099627,
+    "lng": -87.3799967766,
+    "type": "city",
+    "state": "Quintana Roo"
+  },
+  {
+    "term": "Jeju, Republic of Korea",
+    "uid": "vJQX",
+    "lat": 33.51,
+    "lng": 126.53,
+    "type": "city",
+    "state": "Jeju"
+  },
+  {
+    "term": "Bangalore, India",
+    "uid": "CJid",
+    "lat": 12.9722747303,
+    "lng": 77.5940322876,
+    "type": "city",
+    "state": "Texas"
+  },
+  {
+    "term": "Delhi, India (DEL-Indira Gandhi Intl.)",
+    "uid": "N25D",
+    "lat": 28.55574,
+    "lng": 77.086143,
+    "type": "airport"
+  },
+  {
+    "term": "Estoril, Portugal",
+    "uid": "90bR",
+    "lat": 38.706179,
+    "lng": -9.397819,
+    "type": "city"
+  },
+  {
+    "term": "Krabi, Thailand",
+    "uid": "ofhC",
+    "lat": 8.059167,
+    "lng": 98.918889,
+    "type": "city",
+    "state": "Krabi Province"
+  },
+  {
+    "term": "Amsterdam, Netherlands",
+    "uid": "5qq3",
+    "lat": 52.373812,
+    "lng": 4.890951,
+    "type": "city",
+    "state": "North Holland"
+  },
+  {
+    "term": "Mallorca, Spain",
+    "uid": "YIQj",
+    "lat": 39.6363648878,
+    "lng": 2.95806884766,
+    "type": "city",
+    "state": "Texas"
+  },
+  {
+    "term": "Curia, Portugal",
+    "uid": "z3Ag",
+    "lat": 40.425527589,
+    "lng": -8.46284151077,
+    "type": "city",
+    "state": "Centro"
+  },
+  {
+    "term": "Palma de Mallorca, Spain (PMI)",
+    "uid": "4VAU",
+    "lat": 39.548031,
+    "lng": 2.731352,
+    "type": "airport"
+  },
+  {
+    "term": "Tenerife, Spain",
+    "uid": "jSgG",
+    "lat": 28.294294,
+    "lng": -16.519057,
+    "type": "city",
+    "state": "Santa Cruz de Tenerife"
+  },
+  {
+    "term": "Dubrovnik, Croatia",
+    "uid": "mopK",
+    "lat": 42.6503133038,
+    "lng": 18.0934410123,
+    "type": "city"
+  },
+  {
+    "term": "Corfu Island, Greece",
+    "uid": "AzfD",
+    "lat": 39.589,
+    "lng": 19.87467,
+    "type": "city"
+  },
+  {
+    "term": "Ibiza, Spain",
+    "uid": "Nk1G",
+    "lat": 38.908857,
+    "lng": 1.432378,
+    "type": "city",
+    "state": "Ibiza Island"
+  },
+  {
+    "term": "Malpensa International Airport, Italy",
+    "uid": "C47r",
+    "lat": 45.63635,
+    "lng": 8.78101,
+    "type": "city"
+  },
+  {
+    "term": "Hanoi, Viet Nam",
+    "uid": "uyW4",
+    "lat": 21.0341,
+    "lng": 105.8372,
+    "type": "city"
+  },
+  {
+    "term": "Naples, Italy",
+    "uid": "L7nM",
+    "lat": 40.839997,
+    "lng": 14.252871,
+    "type": "city"
+  },
+  {
+    "term": "Palermo, Italy",
+    "uid": "AWGv",
+    "lat": 38.115681,
+    "lng": 13.361159,
+    "type": "city",
+    "state": "Palermo"
+  },
+  {
+    "term": "Massy, France",
+    "uid": "8J8o",
+    "lat": 48.7303,
+    "lng": 2.272869,
+    "type": "city",
+    "state": "Essonne"
+  },
+  {
+    "term": "Playa Del Carmen, Quintana roo, Mexico",
+    "uid": "qYyQ",
+    "lat": 20.631299,
+    "lng": -87.073125,
+    "type": "city"
+  },
+  {
+    "term": "Florida, FL, United States",
+    "uid": "7ZHc",
+    "lat": 25.4287,
+    "lng": -80.5074,
+    "type": "city",
+    "state": "Florida"
+  },
+  {
+    "term": "Treviso, Italy",
+    "uid": "bPME",
+    "lat": 45.666286,
+    "lng": 12.242072,
+    "type": "city",
+    "state": "Veneto"
+  },
+  {
+    "term": "Buenos Aires, Buenos aires, Argentina",
+    "uid": "ftAR",
+    "lat": -34.611781,
+    "lng": -58.417309,
+    "type": "city"
+  },
+  {
+    "term": "Jakarta, Indonesia",
+    "uid": "7Ik6",
+    "lat": -6.21086882675,
+    "lng": 106.84513092,
+    "type": "city",
+    "state": "Special Capital Region of Jakarta"
+  },
+  {
+    "term": "Bern, Switzerland",
+    "uid": "6qzv",
+    "lat": 46.947999,
+    "lng": 7.448148,
+    "type": "city",
+    "state": "Obersimmental District"
+  },
+  {
+    "term": "Boulogne Billancourt, France",
+    "uid": "5H1u",
+    "lat": 48.833854,
+    "lng": 2.243401,
+    "type": "city",
+    "state": "Ile-de-France"
+  },
+  {
+    "term": "Granada, Spain",
+    "uid": "66cp",
+    "lat": 37.176487,
+    "lng": -3.597929,
+    "type": "city",
+    "state": "Andalucia"
+  },
+  {
+    "term": "Lisbon, Portugal (LIS-Humberto Delgado)",
+    "uid": "D3WS",
+    "lat": 38.769459,
+    "lng": -9.128802,
+    "type": "airport"
+  },
+  {
+    "term": "Rueil Malmaison, France",
+    "uid": "a6Er",
+    "lat": 48.8771350343,
+    "lng": 2.17906951904,
+    "type": "city",
+    "state": "Ile-de-France"
+  },
+  {
+    "term": "Disney World Orlando, fl, United States",
+    "uid": "aDTM",
+    "lat": 28.37757,
+    "lng": -81.55811,
+    "type": "city"
+  },
+  {
+    "term": "Amsterdam, Netherlands (AMS-Schiphol)",
+    "uid": "NHEU",
+    "lat": 52.307835,
+    "lng": 4.762363,
+    "type": "airport"
+  },
+  {
+    "term": "Vincennes, France",
+    "uid": "LW5w",
+    "lat": 48.845006,
+    "lng": 2.434584,
+    "type": "city",
+    "state": "Ile-de-France"
+  },
+  {
+    "term": "Faro, Portugal",
+    "uid": "yMHz",
+    "lat": 37.01536,
+    "lng": -7.935113,
+    "type": "city"
+  },
+  {
+    "term": "Valencia, Spain",
+    "uid": "UppB",
+    "lat": 39.470239,
+    "lng": -0.376805,
+    "type": "city",
+    "state": "Valencian Community"
+  },
+  {
+    "term": "Schiphol, Netherlands",
+    "uid": "6MYW",
+    "lat": 52.295616,
+    "lng": 4.773369,
+    "type": "city",
+    "state": "North Holland"
+  },
+  {
+    "term": "Marrakech, Morocco (RAK-Menara)",
+    "uid": "CCC7",
+    "lat": 31.603247,
+    "lng": -8.024826,
+    "type": "airport"
+  },
+  {
+    "term": "Chelmsford, England, United Kingdom",
+    "uid": "1cwQ",
+    "lat": 51.7342,
+    "lng": 0.47308,
+    "type": "city"
+  },
+  {
+    "term": "Fira, Greece",
+    "uid": "yt08",
+    "lat": 36.417967,
+    "lng": 25.432835,
+    "type": "city"
+  },
+  {
+    "term": "Jumeirah, United Arab Emirates",
+    "uid": "w9lq",
+    "lat": 25.115755,
+    "lng": 55.135403,
+    "type": "city"
+  },
+  {
+    "term": "Houston, TX, United States",
+    "uid": "ctn4",
+    "lat": 29.759956,
+    "lng": -95.362534,
+    "type": "city",
+    "state": "Texas"
+  },
+  {
+    "term": "Utapao, Thailand (UTP-Utapao Intl.)",
+    "uid": "5DSY",
+    "lat": 12.685057,
+    "lng": 101.000572,
+    "type": "airport"
+  },
+  {
+    "term": "Verona, Italy (VRN-Valerio Catullo)",
+    "uid": "RSUV",
+    "lat": 45.402073,
+    "lng": 10.905822,
+    "type": "airport"
+  },
+  {
+    "term": "Wembley, England, United Kingdom",
+    "uid": "G66P",
+    "lat": 51.554,
+    "lng": -0.29946,
+    "type": "city",
+    "state": "England"
+  },
+  {
+    "term": "Long Beach, CA, United States (LGB-Long Beach Municipal)",
+    "uid": "FPHC",
+    "lat": 33.818409,
+    "lng": -118.144371,
+    "type": "airport"
+  },
+  { "type": "airport" },
+  { "type": "airport" }
+]

@@ -1,23 +1,26 @@
 import { ThemeProvider } from "@emotion/react";
 import { Box, Container, Typography, useTheme } from "@mui/material";
-import SearchBar from "~/components/SearchBar";
-import Head from "next/head";
 import Image from "next/image";
-import { getTheme } from "~/styles/theme";
+import { useRouter } from "next/router";
+import SearchBar, { SearchParams } from "src/components/search-bar/SearchBar";
+import { getTheme } from "src/styles/theme";
 
-export default function Home() {
+export default function Home(props) {
   const theme = useTheme();
+  const router = useRouter();
+  const onSearchButtonClick = (searchParams: SearchParams) => {
+    router.push({
+      pathname: "/search",
+      query: {
+        search: JSON.stringify(searchParams),
+      },
+    });
+  };
+
   return (
     <>
-      <Head>
-        <title>A Hotel Booking - Book Your Next Destination Today!</title>
-        <meta
-          name="description"
-          content="Book your next destination today with A Hotel Booking - with over 50,000 hotels in over 80 destinations around the world."
-        />
-      </Head>
       <ThemeProvider theme={getTheme("dark")}>
-        <Box className="relative h-80 w-full">
+        <Box className="relative mb-6 h-[20rem] w-full">
           <Container
             maxWidth="md"
             className="absolute bottom-0 left-0 right-0 z-20"
@@ -53,7 +56,7 @@ export default function Home() {
               maxWidth="md"
               className="absolute -bottom-6 left-0 right-0 z-20"
             >
-              <SearchBar />
+              <SearchBar onSearchButtonClick={onSearchButtonClick} />
             </Container>
           </ThemeProvider>
         </Box>
