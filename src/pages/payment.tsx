@@ -14,13 +14,11 @@ import {
 } from "@mui/material";
 import Head from "next/head";
 import React, { useState } from "react";
-import TopBarWithSearch from "~/components/TopBarWithSearch";
-import RoomOption from "~/components/RoomOption";
-import RoomOptionVariation from "~/components/RoomOptionVariation";
+
 import DropdownTitle from "~/components/DropdownTitle";
 import CountrySelect from "~/components/CountrySelect";
 import PhoneNumber from "~/components/PhoneNumber";
-import BookingSummary from "~/components/bookingSummary";
+import BookingSummary from "~/components/BookingSummary";
 
 function PrimaryGuestBox() {
   //Title Dropdown
@@ -38,8 +36,13 @@ function PrimaryGuestBox() {
   };
   return (
     <Box
-      className="my-10 flex h-auto w-auto bg-green-100"
-      style={{ display: "flex", flexDirection: "column", padding: "10px" }}
+      className="my-10 flex h-auto w-auto "
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        padding: "10px",
+        border: "1px solid grey",
+      }}
     >
       <Box style={{ display: "flex", flexDirection: "row", padding: "10px" }}>
         <Typography>Primary Guest</Typography>
@@ -140,8 +143,13 @@ function PrimaryGuestBox() {
 function PaymentInformationBillingAddress() {
   return (
     <Box
-      className="my-10 h-auto w-auto bg-purple-200"
-      style={{ display: "flex", flexDirection: "column", padding: "10px" }}
+      className="my-10 h-auto w-auto "
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        padding: "10px",
+        border: "1px solid grey",
+      }}
     >
       <Box style={{ display: "flex", flexDirection: "row", padding: "10px" }}>
         <Typography>Payment Information</Typography>
@@ -407,10 +415,11 @@ interface confirmBookingFormProps {
 function ConfirmBookingForm({ currency, totalPrice }: confirmBookingFormProps) {
   return (
     <Box
-      className="my-10 h-auto w-auto bg-pink-200"
+      className="my-10 h-auto w-auto "
       display="flex"
       justifyContent="center"
       alignItems="center"
+      style={{ border: "1px solid grey" }}
     >
       <FormGroup>
         <FormControlLabel
