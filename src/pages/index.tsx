@@ -4,10 +4,6 @@ import Image from "next/image";
 import { useRouter } from "next/router";
 import SearchBar, { SearchParams } from "src/components/search-bar/SearchBar";
 import { getTheme } from "src/styles/theme";
-import {
-  Convert,
-  PricingSearchQueryParams,
-} from "src/utils/destinationPricing";
 
 export default function Home(props) {
   const theme = useTheme();

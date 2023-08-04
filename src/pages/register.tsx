@@ -10,16 +10,15 @@ import {
   Checkbox,
   Container,
   FormControlLabel,
-  Link as LinkPage,
+  Link,
   Paper,
   Stack,
   TextField,
   Typography,
 } from "@mui/material";
-import Head from "next/head";
-import { type FormEvent } from "react";
 import { signIn } from "next-auth/react";
-import { useState } from "react";
+import Head from "next/head";
+import { useState, type FormEvent } from "react";
 
 export default function Register(props) {
   async function handleSubmit(e: FormEvent) {
@@ -207,9 +206,9 @@ export default function Register(props) {
           </Stack>
         </Paper>
         <Typography className="mt-3 font-semibold">
-          <LinkPage href="/login" underline="hover">
+          <Link href="/login" underline="hover">
             Already have an account? Sign in.
-          </LinkPage>
+          </Link>
         </Typography>
       </Container>
     </>

@@ -10,9 +10,9 @@ import { type AppType } from "next/app";
 import Head from "next/head";
 import React from "react";
 import Layout from "src/components/Layout";
-import "~/styles/globals.css";
 import { getTheme } from "src/styles/theme";
 import { api } from "src/utils/api";
+import "~/styles/globals.css";
 
 const cache = createCache({
   key: "css",

@@ -1,9 +1,9 @@
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import { PrismaClient, User } from "@prisma/client";
+import bcrypt from "bcryptjs";
 import NextAuth, { type AuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { z } from "zod";
-import bcrypt from "bcryptjs";
 // import { type authOptions } from "~/server/auth";
 
 const loginUserSchema = z.object({

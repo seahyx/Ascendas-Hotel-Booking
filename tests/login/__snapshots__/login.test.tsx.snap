@@ -1,0 +1,50 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Home renders correctly 1`] = `
+<div>
+  <div
+    class="container"
+  >
+    <form>
+      <h2>
+        Login
+      </h2>
+      <label
+        for="email"
+      >
+        email:
+      </label>
+      <input
+        id="email"
+        name="email"
+        required=""
+        type="text"
+      />
+      <label
+        for="password"
+      >
+        Password:
+      </label>
+      <input
+        id="password"
+        name="password"
+        required=""
+        type="password"
+      />
+      <button
+        type="submit"
+      >
+        Submit
+      </button>
+    </form>
+    <p>
+      Not registered yet? 
+      <a
+        href="/register"
+      >
+        Register here
+      </a>
+    </p>
+  </div>
+</div>
+`;
