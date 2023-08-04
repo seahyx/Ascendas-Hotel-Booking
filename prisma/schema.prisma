@@ -97,7 +97,7 @@ model BookingDisplayInformation {
 }
 
 model GuestInformation {
-  id          Int    @id
+  id          Int    @id @default(autoincrement())
   uid         String
   firstName   String
   lastName    String
@@ -110,8 +110,4 @@ model PayeeInformation {
   id            Int    @id @default(autoincrement())
   bookings      Booking[] @relation("payee_info")
 }
-
-
-
-
 
