@@ -1,28 +1,26 @@
 import {
   Box,
   Button,
-  Card,
   Container,
-  Link as LinkPage,
+  Link,
   Paper,
   Stack,
   TextField,
   Typography,
 } from "@mui/material";
+import { signIn } from "next-auth/react";
 import Head from "next/head";
-import { signIn } from 'next-auth/react';
-import Link from 'next/link';
-import { type FormEvent } from 'react';
+import { type FormEvent } from "react";
 
-export default function Login() {
+export default function Login(props) {
   async function handleSubmit(e: FormEvent) {
     e.preventDefault();
     const form = new FormData(e.target as HTMLFormElement);
 
-    await signIn('credentials', { 
-      email: form.get('email'), 
-      password: form.get('password'), 
-      callbackUrl: '/',
+    await signIn("credentials", {
+      email: form.get("email"),
+      password: form.get("password"),
+      callbackUrl: "/",
     });
   }
 
@@ -48,44 +46,44 @@ export default function Login() {
               Sign In
             </Typography>
             <form onSubmit={handleSubmit}>
-            <TextField
-              id="email"
-              name = 'email'
-              label="email"
-              type="email"
-              margin="dense"
-              autoComplete="email"
-              autoFocus
-              required
-              fullWidth
-            />
-            <TextField
-              id="password"
-              name = 'password'
-              label="password"
-              type="password"
-              margin="dense"
-              autoComplete="current-password"
-              required
-              fullWidth
-            />
-            <Button
-              type= 'submit'
-              fullWidth
-              variant="contained"
-              className="mt-3"
-              disableElevation
-              size="large"
-            >
-              Submit
-            </Button>
+              <TextField
+                id="email"
+                name="email"
+                label="email"
+                type="email"
+                margin="dense"
+                autoComplete="email"
+                autoFocus
+                required
+                fullWidth
+              />
+              <TextField
+                id="password"
+                name="password"
+                label="password"
+                type="password"
+                margin="dense"
+                autoComplete="current-password"
+                required
+                fullWidth
+              />
+              <Button
+                type="submit"
+                fullWidth
+                variant="contained"
+                className="mt-3"
+                disableElevation
+                size="large"
+              >
+                Submit
+              </Button>
             </form>
           </Stack>
         </Paper>
         <Typography className="mt-3 font-semibold">
-          <LinkPage href="/register" underline="hover">
+          <Link href="/register" underline="hover">
             Not registered yet? Register here.
-          </LinkPage>
+          </Link>
         </Typography>
       </Container>
     </>

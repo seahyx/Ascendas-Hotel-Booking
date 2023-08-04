@@ -1,22 +1,22 @@
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import {
-  Container,
-  Stack,
-  Paper,
-  Box,
-  Typography,
-  Rating,
-  Link,
-  Button,
   Accordion,
-  AccordionSummary,
   AccordionDetails,
+  AccordionSummary,
+  Box,
+  Button,
+  Container,
+  Link,
+  Paper,
+  Rating,
+  Stack,
+  Typography,
 } from "@mui/material";
+import { GetServerSideProps, InferGetServerSidePropsType } from "next";
 import Head from "next/head";
+import Image from "next/image";
 import { useRef } from "react";
 import TopBarWithSearch from "src/components/search-bar/TopBarWithSearch";
-import { GetServerSideProps, InferGetServerSidePropsType } from "next";
-import Image from "next/image";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { DestinationHotel } from "~/utils/destinationHotel";
 
 export const getServerSideProps: GetServerSideProps<{
