@@ -1,15 +1,26 @@
 import { ThemeProvider } from "@emotion/react";
 import { Box, Container, Typography, useTheme } from "@mui/material";
-import Head from "next/head";
 import Image from "next/image";
-import { useState } from "react";
-import SearchBar from "~/components/search-bar/SearchBar";
-import { getTheme } from "~/styles/theme";
-import { Destination } from "~/utils/destinations";
+import { useRouter } from "next/router";
+import SearchBar, { SearchParams } from "src/components/search-bar/SearchBar";
+import { getTheme } from "src/styles/theme";
+import {
+  Convert,
+  PricingSearchQueryParams,
+} from "src/utils/destinationPricing";
 
 export default function Home(props) {
   const theme = useTheme();
-  const [destOption, setDestOption] = useState<Destination | null>(null);
+  const router = useRouter();
+  const onSearchButtonClick = (searchParams: SearchParams) => {
+    router.push({
+      pathname: "/search",
+      query: {
+        search: JSON.stringify(searchParams),
+      },
+    });
+  };
+
   return (
     <>
       <ThemeProvider theme={getTheme("dark")}>
@@ -49,13 +60,7 @@ export default function Home(props) {
               maxWidth="md"
               className="absolute -bottom-6 left-0 right-0 z-20"
             >
-              <SearchBar
-                onDestChange={(dest) => {
-                  setDestOption(dest);
-                  console.log(`Destination value selected:`);
-                  console.log(dest);
-                }}
-              />
+              <SearchBar onSearchButtonClick={onSearchButtonClick} />
             </Container>
           </ThemeProvider>
         </Box>

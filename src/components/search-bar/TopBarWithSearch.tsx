@@ -1,14 +1,14 @@
 import { Box, Container } from "@mui/material";
-import SearchBar from "./SearchBar";
+import SearchBar, { SearchBarProps } from "./SearchBar";
 
-export default function TopBarWithSearch() {
+export default function TopBarWithSearch(props: SearchBarProps) {
   return (
     <Box className="relative mb-6 h-32 w-full" bgcolor="secondary.main">
       <Container
         maxWidth="md"
         className="absolute -bottom-6 left-0 right-0 z-20"
       >
-        <SearchBar />
+        <SearchBar {...props} />
       </Container>
     </Box>
   );
