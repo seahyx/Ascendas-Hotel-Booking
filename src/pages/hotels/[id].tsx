@@ -22,10 +22,13 @@ import { DestinationHotel } from "~/utils/destinationHotel";
 export const getServerSideProps: GetServerSideProps<{
   hotelDetails: DestinationHotel;
 }> = async (context) => {
-  const res = await fetch(
+  const resHotelDetails = await fetch(
     `https://hotelapi.loyalty.dev/api/hotels/${context.params?.id}`
   );
-  const hotelDetails: DestinationHotel = await res.json();
+  // const resIdPricing = await fetch(
+  //   `https://hotelapi.loyalty.dev/api/hotels/${context.params?.id}/`
+  // );
+  const hotelDetails: DestinationHotel = await resHotelDetails.json();
   return { props: { hotelDetails } };
 };
 
