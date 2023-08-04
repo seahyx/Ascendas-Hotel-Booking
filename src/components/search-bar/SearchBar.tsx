@@ -6,6 +6,7 @@ import {
   ClickAwayListener,
   Divider,
   Fade,
+  Link,
   Popper,
   Stack,
   Tooltip,
@@ -17,27 +18,30 @@ import { Destination } from "src/utils/destinations";
 import DateSelectorCard from "./DateSelectorCard";
 import DestinationAutocomplete from "./DestinationAutocomplete";
 import GuestSelectorCard from "./GuestSelectorCard";
-
-export interface SearchParams {
-  dest: Destination | null;
-  checkInDate: Date | null;
-  checkOutDate: Date | null;
-  guests: {
-    adults: number;
-    child: number;
-    rooms: number;
-  };
-}
+import {
+  SearchParams,
+  queryToSearchParams,
+  searchParamsToQuery,
+} from "~/utils/searchParams";
 
 export interface SearchBarProps {
   onDestChange?: (value: Destination | null) => void;
   onSearchButtonClick?: (searchParams: SearchParams) => void;
+  urlFunc?: (searchParams: SearchParams) => string;
 }
 
 export default function SearchBar({
   onDestChange,
-  onSearchButtonClick: onSearchParams,
+  onSearchButtonClick,
+  urlFunc,
 }: SearchBarProps) {
+  // URL function
+  if (!urlFunc) {
+    urlFunc = (searchParams: SearchParams) => {
+      return `/search?${searchParamsToQuery(searchParams)}`;
+    };
+  }
+
   // Input error display toggles
   const [destErr, setDestErr] = useState(false);
   const [checkInOutErr, setCheckInOutErr] = useState(false);
@@ -121,6 +125,8 @@ export default function SearchBar({
   }, [numAdults, numChild, numRooms]);
 
   // Search button
+  const [searchParams, setSearchParams] = useState<SearchParams | null>();
+
   const handleSearchClick = () => {
     // Check for invalid values
     let hasInvalid = false;
@@ -137,19 +143,39 @@ export default function SearchBar({
       hasInvalid = true;
     }
     if (hasInvalid) return;
-    if (!onSearchParams) return;
 
-    onSearchParams({
-      dest,
-      checkInDate,
-      checkOutDate,
-      guests: {
+    searchParams && onSearchButtonClick && onSearchButtonClick(searchParams);
+  };
+
+  useEffect(() => {
+    // Check for invalid values
+    let hasInvalid = false;
+    if (!dest) {
+      hasInvalid = true;
+    }
+    if (!checkOutDate || !checkInDate || isBefore(checkOutDate, checkInDate)) {
+      hasInvalid = true;
+    }
+    if (numAdults <= 0 || numRooms <= 0) {
+      hasInvalid = true;
+    }
+    if (hasInvalid) {
+      setSearchParams(null);
+      return;
+    }
+
+    dest &&
+      checkInDate &&
+      checkOutDate &&
+      setSearchParams({
+        ...dest,
+        checkInDate: checkInDate,
+        checkOutDate: checkOutDate,
         adults: numAdults,
         child: numChild,
         rooms: numRooms,
-      },
-    });
-  };
+      });
+  }, [dest, checkOutDate, checkInDate, numAdults, numRooms, numChild]);
 
   return (
     <Card ref={searchBarRef} className="h-12 w-full rounded-xl">
@@ -303,8 +329,10 @@ export default function SearchBar({
           sx={{
             backgroundColor: "primary.main",
           }}
+          LinkComponent={Link}
           className="flex w-36 flex-none"
           onClick={handleSearchClick}
+          href={searchParams ? urlFunc(searchParams) : ""}
         >
           <Typography className="text-xl font-bold">SEARCH</Typography>
         </CardActionArea>

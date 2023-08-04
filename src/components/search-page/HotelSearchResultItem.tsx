@@ -8,7 +8,7 @@ import {
 } from "@mui/material";
 import { useEffect, useState } from "react";
 import Image from "next/image";
-import { DestinationPricing, Hotel } from "src/utils/destinationPricing";
+import { Hotel } from "src/utils/destinationPricing";
 import { DestinationHotel } from "src/utils/destinationHotel";
 import useSWR from "swr";
 

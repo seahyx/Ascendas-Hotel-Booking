@@ -4,7 +4,7 @@
 //
 //   const hotels = Convert.toHotels(json);
 
-export type idPricing = {
+export type IdPricing = {
   searchCompleted?: null;
   completed?: boolean;
   status?: null;
@@ -73,14 +73,3 @@ export type Surcharge = {
 };
 
 export type Type = "TaxAndServiceFee";
-
-// Converts JSON strings to/from your types
-export class Convert {
-  public static toHotels(json: string): Hotels {
-    return JSON.parse(json);
-  }
-
-  public static hotelsToJson(value: Hotels): string {
-    return JSON.stringify(value);
-  }
-}

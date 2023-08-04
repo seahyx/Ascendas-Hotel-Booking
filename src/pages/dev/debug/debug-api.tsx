@@ -1,13 +1,9 @@
 import { Box, Typography } from "@mui/material";
 import { useState } from "react";
-import { SearchParams } from "src/components/search-bar/SearchBar";
 import TopBarWithSearch from "src/components/search-bar/TopBarWithSearch";
-import {
-  Convert,
-  DestinationPricing,
-  PricingSearchQueryParams,
-} from "src/utils/destinationPricing";
+import { Convert, DestinationPricing } from "src/utils/destinationPricing";
 import useSWR from "swr";
+import { SearchParams } from "~/utils/searchParams";
 
 export default function DebugAPIPage(props) {
   const fetcher = (url: string) => fetch(url).then((r) => r.json());
@@ -25,16 +21,8 @@ export default function DebugAPIPage(props) {
 
   const setSearchParams = (searchParams: SearchParams) => {
     _setSearchParams(searchParams);
-    const pricingSearchParams: PricingSearchQueryParams = {
-      destination_id: searchParams.dest?.uid ?? "",
-      checkin: searchParams.checkInDate ?? new Date(),
-      checkout: searchParams.checkOutDate ?? new Date(),
-      lang: "en_US",
-      currency: "SGD",
-      country_code: "SG",
-      rooms: searchParams.guests.rooms,
-      guests: searchParams.guests.adults + searchParams.guests.child,
-    };
+    const pricingSearchParams =
+      Convert.searchParamsToPricingSearchParams(searchParams);
     console.log(pricingSearchParams);
     const url = Convert.buildDestinationPricingQueryUrl(pricingSearchParams);
     console.log(url);

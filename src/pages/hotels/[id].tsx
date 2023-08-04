@@ -18,27 +18,64 @@ import Image from "next/image";
 import { useRef } from "react";
 import TopBarWithSearch from "src/components/search-bar/TopBarWithSearch";
 import { DestinationHotel } from "~/utils/destinationHotel";
+import { Convert } from "~/utils/destinationPricing";
+import { IdPricing } from "~/utils/idPricing";
+import { SearchParams, parsedQueryToSearchParams } from "~/utils/searchParams";
 
 export const getServerSideProps: GetServerSideProps<{
-  hotelDetails: DestinationHotel;
+  searchParamsJSON?: string;
+  hotelDetails?: DestinationHotel;
+  hotelPricing?: IdPricing;
 }> = async (context) => {
-  const resHotelDetails = await fetch(
-    `https://hotelapi.loyalty.dev/api/hotels/${context.params?.id}`
-  );
-  // const resIdPricing = await fetch(
-  //   `https://hotelapi.loyalty.dev/api/hotels/${context.params?.id}/`
-  // );
-  const hotelDetails: DestinationHotel = await resHotelDetails.json();
-  return { props: { hotelDetails } };
+  const query = context.query;
+  const id = context.params?.id;
+  let searchParams: SearchParams | undefined;
+  let hotelDetails: DestinationHotel | undefined;
+  let hotelPricing: IdPricing | undefined;
+
+  if (id) {
+    const resHotelDetails = await fetch(
+      `https://hotelapi.loyalty.dev/api/hotels/${id}`
+    );
+    hotelDetails = await resHotelDetails.json();
+  }
+
+  if (query.uid) {
+    searchParams = parsedQueryToSearchParams(query);
+    if (id) {
+      const pricingSearchParams =
+        Convert.searchParamsToPricingSearchParams(searchParams);
+      const destQuery = Convert.buildDestinationPricingQueryUrl(
+        pricingSearchParams,
+        true
+      );
+      const priceQueryUrl = `https://hotelapi.loyalty.dev/api/hotels/${id}/price?${destQuery}`;
+      const resHotelPricing = await fetch(priceQueryUrl);
+      hotelPricing = await resHotelPricing.json();
+    }
+  } else {
+    console.error("Error retrieving search parameters from url query string.");
+  }
+  return {
+    props: {
+      searchParamsJSON: JSON.stringify(searchParams),
+      hotelDetails,
+      hotelPricing,
+    },
+  };
 };
 
 export default function HotelDetails({
+      searchParamsJSON: searchParams,
       hotelDetails,
+      hotelPricing,
     }: InferGetServerSidePropsType<typeof getServerSideProps>) {
   const scrollToRooms = useRef();
   const currency = "SGD";
 
+  console.log(searchParams);
   console.log(hotelDetails);
+  console.log(hotelPricing);
 
   return (
     <>
@@ -68,14 +105,19 @@ export default function HotelDetails({
                   component="h1"
                   variant="h4"
                 >
-                  {hotelDetails.name}
+                  {hotelDetails?.name}
                 </Typography>
-                <Rating value={hotelDetails.rating} precision={0.5} readOnly />
+                <Rating value={hotelDetails?.rating} precision={0.5} readOnly />
               </Stack>
               <Typography component="h2" variant="subtitle1">
-                {hotelDetails.address}
+                {hotelDetails?.address}
               </Typography>
-              <Link href="#" underline="hover" color="primary.dark">
+              <Link
+                href="#"
+                component="a"
+                underline="hover"
+                color="primary.dark"
+              >
                 See on map
               </Link>
               <Box className="grow" />
@@ -113,7 +155,7 @@ export default function HotelDetails({
                 <Typography
                   component="div"
                   dangerouslySetInnerHTML={{
-                    __html: hotelDetails.description ?? "",
+                    __html: hotelDetails?.description ?? "",
                   }}
                 />
               </AccordionDetails>

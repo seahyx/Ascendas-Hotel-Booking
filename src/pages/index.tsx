@@ -2,20 +2,12 @@ import { ThemeProvider } from "@emotion/react";
 import { Box, Container, Typography, useTheme } from "@mui/material";
 import Image from "next/image";
 import { useRouter } from "next/router";
-import SearchBar, { SearchParams } from "src/components/search-bar/SearchBar";
+import SearchBar from "src/components/search-bar/SearchBar";
 import { getTheme } from "src/styles/theme";
 
 export default function Home(props) {
   const theme = useTheme();
   const router = useRouter();
-  const onSearchButtonClick = (searchParams: SearchParams) => {
-    router.push({
-      pathname: "/search",
-      query: {
-        search: JSON.stringify(searchParams),
-      },
-    });
-  };
 
   return (
     <>
@@ -56,7 +48,7 @@ export default function Home(props) {
               maxWidth="md"
               className="absolute -bottom-6 left-0 right-0 z-20"
             >
-              <SearchBar onSearchButtonClick={onSearchButtonClick} />
+              <SearchBar />
             </Container>
           </ThemeProvider>
         </Box>
