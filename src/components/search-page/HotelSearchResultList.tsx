@@ -1,5 +1,5 @@
 import { Pagination, Stack } from "@mui/material";
-import { Hotel } from "~/utils/destinationPricing";
+import { Hotel } from "src/utils/destinationPricing";
 import HotelSearchResultItem, {
   HotelSearchResultItemProps,
 } from "./HotelSearchResultItem";
@@ -51,7 +51,7 @@ export default function HotelSearchResultList({
       newHotelsPricingSliced
         .map(
           (hotel): HotelSearchResultItemProps => ({
-            url: "/",
+            url: `/hotels/${hotel.id}`,
             key: hotel.id,
             currency: currency,
             hotelPricing: hotel,

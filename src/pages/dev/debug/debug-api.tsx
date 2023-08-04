@@ -1,13 +1,13 @@
 import { Box, Typography } from "@mui/material";
 import { useState } from "react";
-import useSWR from "swr";
-import { SearchParams } from "~/components/search-bar/SearchBar";
-import TopBarWithSearch from "~/components/search-bar/TopBarWithSearch";
+import { SearchParams } from "src/components/search-bar/SearchBar";
+import TopBarWithSearch from "src/components/search-bar/TopBarWithSearch";
 import {
   Convert,
   DestinationPricing,
   PricingSearchQueryParams,
-} from "~/utils/destinationPricing";
+} from "src/utils/destinationPricing";
+import useSWR from "swr";
 
 export default function DebugAPIPage(props) {
   const fetcher = (url: string) => fetch(url).then((r) => r.json());

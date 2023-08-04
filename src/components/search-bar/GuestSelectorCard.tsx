@@ -24,11 +24,11 @@ function GuestSelectRow({
   return (
     <Stack direction="row" className="items-center">
       <Typography className="flex-grow px-2">{children}</Typography>
-      <IconButton onClick={onRemove} aria-label="remove">
+      <IconButton id="neg-button" onClick={onRemove} aria-label="remove">
         <RemoveRounded />
       </IconButton>
       <Typography>{value}</Typography>
-      <IconButton onClick={onAdd} aria-label="add">
+      <IconButton id="plus-button" onClick={onAdd} aria-label="add">
         <AddRounded />
       </IconButton>
     </Stack>
@@ -69,7 +69,7 @@ export default function GuestSelectorCard({
   };
 
   return (
-    <Card className="px-6 py-4">
+    <Card id="guest-card" className="px-6 py-4">
       <Stack
         direction="column"
         divider={<Divider orientation="horizontal" flexItem />}

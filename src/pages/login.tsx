@@ -8,9 +8,22 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
+import { signIn } from "next-auth/react";
 import Head from "next/head";
+import { type FormEvent } from "react";
 
 export default function Login(props) {
+  async function handleSubmit(e: FormEvent) {
+    e.preventDefault();
+    const form = new FormData(e.target as HTMLFormElement);
+
+    await signIn("credentials", {
+      email: form.get("email"),
+      password: form.get("password"),
+      callbackUrl: "/",
+    });
+  }
+
   return (
     <>
       <Head>
@@ -32,31 +45,39 @@ export default function Login(props) {
             >
               Sign In
             </Typography>
-            <TextField
-              id="login-email"
-              label="Email"
-              type="email"
-              margin="dense"
-              autoComplete="username"
-              autoFocus
-              required
-            />
-            <TextField
-              id="login-password"
-              label="Password"
-              type="password"
-              margin="dense"
-              autoComplete="current-password"
-              required
-            />
-            <Button
-              variant="contained"
-              className="mt-3"
-              disableElevation
-              size="large"
-            >
-              Submit
-            </Button>
+            <form onSubmit={handleSubmit}>
+              <TextField
+                id="email"
+                name="email"
+                label="email"
+                type="email"
+                margin="dense"
+                autoComplete="email"
+                autoFocus
+                required
+                fullWidth
+              />
+              <TextField
+                id="password"
+                name="password"
+                label="password"
+                type="password"
+                margin="dense"
+                autoComplete="current-password"
+                required
+                fullWidth
+              />
+              <Button
+                type="submit"
+                fullWidth
+                variant="contained"
+                className="mt-3"
+                disableElevation
+                size="large"
+              >
+                Submit
+              </Button>
+            </form>
           </Stack>
         </Paper>
         <Typography className="mt-3 font-semibold">

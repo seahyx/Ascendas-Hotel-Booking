@@ -110,7 +110,7 @@ export default function DateSelectorCard({
   const today = new Date();
   const maxDate = addYears(today, 2);
   return (
-    <Card className="grid grid-cols-2 p-4">
+    <Card id="calendar" className="grid grid-cols-2 p-4">
       <Typography
         component="p"
         variant="h6"

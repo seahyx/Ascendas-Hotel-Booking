@@ -13,7 +13,7 @@ import {
 } from "@mui/material";
 import { format, isBefore } from "date-fns";
 import { useEffect, useRef, useState } from "react";
-import { Destination } from "~/utils/destinations";
+import { Destination } from "src/utils/destinations";
 import DateSelectorCard from "./DateSelectorCard";
 import DestinationAutocomplete from "./DestinationAutocomplete";
 import GuestSelectorCard from "./GuestSelectorCard";

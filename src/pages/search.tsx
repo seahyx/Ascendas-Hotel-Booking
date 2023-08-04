@@ -1,31 +1,30 @@
 import {
-  Checkbox,
   Box,
-  Slider,
+  Button,
+  Checkbox,
   Container,
+  FormControlLabel,
+  FormGroup,
+  Paper,
   Rating,
+  Slider,
   Stack,
   Typography,
-  FormGroup,
-  FormControlLabel,
-  Paper,
-  Pagination,
-  Button,
 } from "@mui/material";
-import Head from "next/head";
-import TopBarWithSearch from "~/components/search-bar/TopBarWithSearch";
-import { useEffect, useState } from "react";
+import { parseJSON } from "date-fns";
 import GoogleMapReact from "google-map-react";
+import Head from "next/head";
 import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
+import TopBarWithSearch from "src/components/search-bar/TopBarWithSearch";
+import HotelSearchResultList from "src/components/search-page/HotelSearchResultList";
 import {
   Convert,
   DestinationPricing,
   PricingSearchQueryParams,
-} from "~/utils/destinationPricing";
-import { SearchParams } from "../components/search-bar/SearchBar";
-import { parseJSON } from "date-fns";
+} from "src/utils/destinationPricing";
 import useSWR from "swr";
-import HotelSearchResultList from "~/components/search-page/HotelSearchResultList";
+import { SearchParams } from "../components/search-bar/SearchBar";
 
 function Sidebar() {
   const [ratingRange, setRatingRange] = useState<number[]>([2.5, 5.0]);

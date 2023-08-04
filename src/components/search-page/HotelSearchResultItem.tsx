@@ -8,8 +8,8 @@ import {
 } from "@mui/material";
 import { useEffect, useState } from "react";
 import Image from "next/image";
-import { DestinationPricing, Hotel } from "~/utils/destinationPricing";
-import { DestinationHotel } from "~/utils/destinationHotel";
+import { DestinationPricing, Hotel } from "src/utils/destinationPricing";
+import { DestinationHotel } from "src/utils/destinationHotel";
 import useSWR from "swr";
 
 export interface HotelSearchResultItemProps {
@@ -70,7 +70,11 @@ export default function HotelSearchResultItem({
             >
               {hotelDetails?.name ?? title}
             </Typography>
-            <Rating value={hotelDetails?.rating ?? rating} readOnly />
+            <Rating
+              value={hotelDetails?.rating ?? rating}
+              precision={0.5}
+              readOnly
+            />
           </Stack>
           <Typography component="h2" variant="subtitle1">
             {hotelDetails?.address ?? address}
