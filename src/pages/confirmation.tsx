@@ -12,7 +12,7 @@ import {
 } from "@mui/material";
 import Head from "next/head";
 import Image from "next/image";
-import BookingSummary from "~/components/bookingSummary";
+import BookingSummary from "~/components/BookingSummary";
 
 export default function Confirmation() {
   const bookingData = {
@@ -24,6 +24,7 @@ export default function Confirmation() {
     currency: "SGD",
     roomCount: 2,
     adultCount: 2,
+    childCount: 2,
     roomPrice: 200, // Example room price
     roomRate: 400,
     taxAndRecoveryCharges: 50, // Example tax and charges
