@@ -1,3 +1,8 @@
+import {
+  LocationOnRounded,
+  StarRounded,
+  StarsRounded,
+} from "@mui/icons-material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import {
   Accordion,
@@ -15,23 +20,84 @@ import {
 import { GetServerSideProps, InferGetServerSidePropsType } from "next";
 import Head from "next/head";
 import Image from "next/image";
-import { useRef } from "react";
+import {
+  PropsWithChildren,
+  ReactNode,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import TopBarWithSearch from "src/components/search-bar/TopBarWithSearch";
+import useSWR from "swr";
 import { DestinationHotel } from "~/utils/destinationHotel";
 import { Convert } from "~/utils/destinationPricing";
-import { IdPricing } from "~/utils/idPricing";
+import { IdPricing, Room } from "~/utils/idPricing";
 import { SearchParams, parsedQueryToSearchParams } from "~/utils/searchParams";
+
+const TitleSection = ({
+  hotelDetails,
+}: {
+  hotelDetails?: DestinationHotel;
+}) => {
+  const SubItemContainer = ({ children }: { children?: ReactNode }) => (
+    <Box className="flex flex-row items-center gap-2">{children}</Box>
+  );
+  const city = hotelDetails?.original_metadata.city;
+  const state = hotelDetails?.original_metadata.state;
+
+  return (
+    <Stack direction="row" className="w-full">
+      <Stack direction="column" spacing={1}>
+        <Typography component="h1" variant="h2">
+          {hotelDetails?.name}
+        </Typography>
+        <Stack direction="row" spacing={3} className="items-center">
+          <SubItemContainer>
+            <StarRounded color="primary" />
+            <Typography variant="subtitle1">
+              <strong>{hotelDetails?.trustyou.score.kaligo_overall}</strong>
+            </Typography>
+            <Typography variant="subtitle1" color="text.secondary">
+              TrustYou™ Rating
+            </Typography>
+          </SubItemContainer>
+          <SubItemContainer>
+            <Rating
+              value={hotelDetails?.rating}
+              precision={0.5}
+              sx={{ color: "primary.light" }}
+              readOnly
+            />
+            <Typography color="text.secondary">
+              {hotelDetails?.rating}-Star Hotel
+            </Typography>
+          </SubItemContainer>
+          <SubItemContainer>
+            <LocationOnRounded color="primary" />
+            <Typography color="text.secondary">
+              {hotelDetails?.address}
+              {city ? `, ${city}` : ""}
+              {state ? `, ${state}` : ""}
+            </Typography>
+          </SubItemContainer>
+        </Stack>
+      </Stack>
+    </Stack>
+  );
+};
 
 export const getServerSideProps: GetServerSideProps<{
   searchParamsJSON?: string;
   hotelDetails?: DestinationHotel;
   hotelPricing?: IdPricing;
+  pricingQueryUrl?: string;
 }> = async (context) => {
   const query = context.query;
-  const id = context.params?.id;
+  const id = context.params?.id as string;
   let searchParams: SearchParams | undefined;
   let hotelDetails: DestinationHotel | undefined;
   let hotelPricing: IdPricing | undefined;
+  let pricingQueryUrl: string | undefined;
 
   if (id) {
     const resHotelDetails = await fetch(
@@ -49,9 +115,16 @@ export const getServerSideProps: GetServerSideProps<{
         pricingSearchParams,
         true
       );
-      const priceQueryUrl = `https://hotelapi.loyalty.dev/api/hotels/${id}/price?${destQuery}`;
-      const resHotelPricing = await fetch(priceQueryUrl);
+      // API url to be called from the server to pre-load the request
+      pricingQueryUrl = `https://hotelapi.loyalty.dev/api/hotels/${id}/price?${destQuery}`;
+      const resHotelPricing = await fetch(pricingQueryUrl);
       hotelPricing = await resHotelPricing.json();
+
+      // Change url to be client-side compatible
+      pricingQueryUrl = Convert.buildHotelPricingQueryUrl(
+        pricingSearchParams,
+        id
+      );
     }
   } else {
     console.error("Error retrieving search parameters from url query string.");
@@ -61,85 +134,74 @@ export const getServerSideProps: GetServerSideProps<{
       searchParamsJSON: JSON.stringify(searchParams),
       hotelDetails,
       hotelPricing,
+      pricingQueryUrl,
     },
   };
 };
 
 export default function HotelDetails({
-      searchParamsJSON: searchParams,
+      searchParamsJSON,
       hotelDetails,
-      hotelPricing,
+      pricingQueryUrl,
     }: InferGetServerSidePropsType<typeof getServerSideProps>) {
   const scrollToRooms = useRef();
   const currency = "SGD";
+  const [startingPrice, setStartingPrice] = useState(0);
 
-  console.log(searchParams);
-  console.log(hotelDetails);
-  console.log(hotelPricing);
+  // console.log(hotelDetails);
+  console.log(pricingQueryUrl);
+
+  const fetcher = (url: string) => fetch(url).then((r) => r.json());
+  const checkSearchComplete = (data: IdPricing) => {
+    if (!data || data.completed) return 0;
+    return 500;
+  };
+  const onPricingResponse = (data: IdPricing) => {
+    console.log(data);
+    if (data.completed) {
+      const rooms: Room[] = data.rooms ?? [];
+      setStartingPrice(
+        rooms.reduce((prev, curr) => {
+          if (
+            prev === -1 ||
+            (curr.lowest_converted_price && prev > curr.lowest_converted_price)
+          ) {
+            return curr.lowest_converted_price ?? -1;
+          }
+          return -1;
+        }, -1)
+      );
+    }
+  };
+  const { data: hotelPricing }: { data: IdPricing } = useSWR(
+    pricingQueryUrl,
+    fetcher,
+    {
+      refreshInterval: checkSearchComplete,
+      onSuccess: onPricingResponse,
+    }
+  );
 
   return (
     <>
       <Head>
-        <title>Hotel Details</title>
+        <title>{hotelDetails?.name} - SUTDHotelBooking</title>
         <meta name="description" content="Details of chosen hotel here." />
       </Head>
       <TopBarWithSearch />
       <Container maxWidth="lg" className="my-6">
         <Stack direction="column" spacing={2}>
-          <Paper className="flex h-64 w-full flex-row overflow-hidden">
-            <Box className="relative h-full w-96 shrink-0">
-              <Image
-                src={
-                  hotelDetails
-                    ? `${hotelDetails.image_details.prefix}${hotelDetails.default_image_index}${hotelDetails.image_details.suffix}`
-                    : "/img/hotelplaceholder.jpg"
-                }
-                fill
-                alt="Hotel Image"
-              />
-            </Box>
-            <Stack className="h-full grow p-4" direction="column">
-              <Stack direction="row">
-                <Typography
-                  className="me-2 grow font-semibold"
-                  component="h1"
-                  variant="h4"
-                >
-                  {hotelDetails?.name}
-                </Typography>
-                <Rating value={hotelDetails?.rating} precision={0.5} readOnly />
-              </Stack>
-              <Typography component="h2" variant="subtitle1">
-                {hotelDetails?.address}
-              </Typography>
-              <Link
-                href="#"
-                component="a"
-                underline="hover"
-                color="primary.dark"
-              >
-                See on map
-              </Link>
-              <Box className="grow" />
-              <Stack className="mt-2" direction="row" alignItems="baseline">
-                <Typography className="me-2 grow" whiteSpace="nowrap">
-                  Select a room starting from:
-                </Typography>
-                <Typography whiteSpace="nowrap" component="h3" variant="h4">
-                  {currency} {123}
-                </Typography>
-                <Typography>/night</Typography>
-              </Stack>
-              <Button
-                variant="contained"
-                size="large"
-                className="my-3 w-fit self-end"
-              >
-                View room options
-              </Button>
-            </Stack>
-          </Paper>
-
+          <TitleSection hotelDetails={hotelDetails} />
+          <Box
+            className="grid h-96 w-full grid-flow-dense grid-cols-4 gap-4 overflow-hidden"
+            borderRadius={1}
+          >
+            <Box className="col-span-2 row-span-2 bg-slate-600"></Box>
+            <Box className="bg-slate-300"></Box>
+            <Box className="bg-slate-300"></Box>
+            <Box className="bg-slate-300"></Box>
+            <Box className="bg-slate-300"></Box>
+          </Box>
           <Box>
             <Accordion defaultExpanded>
               <AccordionSummary expandIcon={<ExpandMoreIcon />}>

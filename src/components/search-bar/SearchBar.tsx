@@ -18,11 +18,7 @@ import { Destination } from "src/utils/destinations";
 import DateSelectorCard from "./DateSelectorCard";
 import DestinationAutocomplete from "./DestinationAutocomplete";
 import GuestSelectorCard from "./GuestSelectorCard";
-import {
-  SearchParams,
-  queryToSearchParams,
-  searchParamsToQuery,
-} from "~/utils/searchParams";
+import { SearchParams, searchParamsToQuery } from "~/utils/searchParams";
 
 export interface SearchBarProps {
   onDestChange?: (value: Destination | null) => void;

@@ -90,7 +90,7 @@ export default function HotelSearchResultItem({
               Select a room starting from:
             </Typography>
             <Typography whiteSpace="nowrap" component="h3" variant="h6">
-              {currency} {hotelPricing.price}
+              {currency} {hotelPricing.price.toFixed(2)}
             </Typography>
             <Typography component="p" variant="body2">
               /night

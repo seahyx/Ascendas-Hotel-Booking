@@ -2,7 +2,7 @@
 //
 //   import { Convert, DestinationPricing } from "./file";
 import { format } from "date-fns";
-import { SearchParams, queryToSearchParams } from "./searchParams";
+import { SearchParams } from "./searchParams";
 //
 //   const destinationPricing = Convert.toDestinationPricing(json);
 //
@@ -10,7 +10,7 @@ import { SearchParams, queryToSearchParams } from "./searchParams";
 // match the expected interface, even if the JSON is valid.
 
 const HotelsPricesAPI = "/hotelapi/hotels/prices";
-const HotelPricesAPI = ["/hotelapi/hotels/", "/prices"];
+const HotelPricesAPI = ["/hotelapi/hotels/", "/price"];
 
 export type PricingSearchParams = {
   destination_id: string;
@@ -136,7 +136,7 @@ export class Convert {
       pricingSearchParams,
       true
     );
-    return HotelPricesAPI.join(hotelId) + "$" + query;
+    return HotelPricesAPI.join(hotelId) + "?" + query;
   }
 }
 

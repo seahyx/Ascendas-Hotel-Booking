@@ -1,9 +1,15 @@
 import { PaletteMode, createTheme } from "@mui/material";
-import { blueGrey } from "@mui/material/colors";
+import { Readex_Pro } from "next/font/google";
 import NextLink from "next/link";
-import { forwardRef } from "react";
+import { ForwardedRef, forwardRef } from "react";
 
-const LinkBehaviour = forwardRef(function LinkBehaviour(props, ref) {
+// Fonts
+const lexend = Readex_Pro({ subsets: ["latin"] });
+
+const LinkBehaviour = forwardRef(function LinkBehaviour(
+  props: { href: string; [key: string]: any },
+  ref: ForwardedRef<HTMLAnchorElement>
+) {
   return <NextLink ref={ref} {...props} />;
 });
 const rootElement = () => document.getElementById("__next");
@@ -23,9 +29,9 @@ export const getTheme = (mode: PaletteMode) =>
               contrastText: "#ffffff66",
             },
             warning: {
-              main:"#ed6c02",
+              main: "#ed6c02",
               contrastText: "#ffffff66",
-            }
+            },
           }
         : {
             // Palette values for dark mode
@@ -37,20 +43,20 @@ export const getTheme = (mode: PaletteMode) =>
               contrastText: "#ffffff66",
             },
             warning: {
-              main:"#e65100",
+              main: "#e65100",
               contrastText: "#ffffff66",
-            }
+            },
           }),
     },
     shape: {
-      borderRadius: 8,
+      borderRadius: 16,
     },
     typography: {
       fontFamily: [
+        lexend.style.fontFamily,
         "-apple-system",
         "BlinkMacSystemFont",
         '"Segoe UI"',
-        "Roboto",
         '"Helvetica Neue"',
         "Arial",
         "sans-serif",
