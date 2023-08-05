@@ -12,10 +12,14 @@ import {
   IconButton,
   TextField,
   Button,
+  Accordion,
+  AccordionSummary,
+  AccordionDetails,
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import Head from "next/head";
 import Link from "next/link";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
 export default function Profile() {
   const [activeTab, setActiveTab] = useState(0);
@@ -26,6 +30,22 @@ export default function Profile() {
   const firstName = "Test";
   const lastName = "Account";
   const email = "testaccount@gmail.com";
+
+  const bookings = [
+    {
+      id: 1,
+      bookingDate: "2023-08-10",
+      roomType: "Deluxe Suite",
+      hotel: 'Ritz Carlton',
+    },
+    {
+      id: 2,
+      bookingDate: "2023-08-15",
+      roomType: "Standard Room",
+      hotel: 'Marina Bay Sands',
+    },
+    // Add more bookings as needed
+  ];
 
   const handleTabChange = (event, newValue) => {
     setActiveTab(newValue);
@@ -122,7 +142,20 @@ export default function Profile() {
                 >
                   Bookings
                 </Typography>
-                {/* Display booking history here */}
+                {bookings.map((booking) => (
+                  <Accordion key={booking.id}>
+                    <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+                      <Typography>
+                        {booking.hotel}
+                        <br/>
+                        {booking.bookingDate} - ({booking.roomType})
+                      </Typography>
+                    </AccordionSummary>
+                    <AccordionDetails>
+                      {/* Additional details for each booking can be added here */}
+                    </AccordionDetails>
+                  </Accordion>
+                ))}
               </>
             )}
             {activeTab === 2 && (
