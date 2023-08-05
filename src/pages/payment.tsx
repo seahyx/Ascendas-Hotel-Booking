@@ -261,7 +261,109 @@ function PrimaryGuestBox({
   );
 }
 
-function PaymentInformationBillingAddress() {
+interface PaymentInformationBillingAddressData {
+  cardNumber: string;
+  nameOnCard: string;
+  expiryDate: string;
+  cvvcvc: string;
+  address: string;
+  city: string;
+  zipPostCode: string;
+  country: string;
+}
+
+interface PaymentInformationBillingAddressProps {
+  onEnteredPaymentInformationBillingAddressDataChange: React.Dispatch<
+    React.SetStateAction<PaymentInformationBillingAddressData>
+  >;
+}
+
+function PaymentInformationBillingAddress({
+  onEnteredPaymentInformationBillingAddressDataChange,
+}: PaymentInformationBillingAddressProps) {
+  //Card Number field
+  const [cardNumber, setCardNumber] = useState("");
+
+  const handleCardNumberChange = (value: string) => {
+    setCardNumber(value);
+  };
+
+  //Name on Card field
+  const [nameOnCard, setNameOnCard] = useState("");
+
+  const handleNameOnCardChange = (value: string) => {
+    setNameOnCard(value);
+  };
+
+  //Expiry Date field
+  const [expiryDate, setExpiryDate] = useState("");
+
+  const handleExpiryDateChange = (value: string) => {
+    setExpiryDate(value);
+  };
+
+  //cvvcvc field
+  const [cvvcvc, setCvvcvc] = useState("");
+
+  const handleCvvcvcChange = (value: string) => {
+    setCvvcvc(value);
+  };
+
+  //address field
+  const [address, setAddress] = useState("");
+
+  const handleAddressChange = (value: string) => {
+    setAddress(value);
+  };
+
+  //city field
+  const [city, setCity] = useState("");
+
+  const handleCityChange = (value: string) => {
+    setCity(value);
+  };
+
+  //ZipPostCode field
+  const [zipPostCode, setZipPostCode] = useState("");
+
+  const handleZipPostCodeChange = (value: string) => {
+    setZipPostCode(value);
+  };
+
+  //Country field
+  const [country, setCountry] = useState("");
+
+  const handleCountryChange = (value: string) => {
+    setCountry(value);
+  };
+
+  const getEnteredData = () => {
+    return {
+      cardNumber,
+      nameOnCard,
+      expiryDate,
+      cvvcvc,
+      address,
+      city,
+      zipPostCode,
+      country,
+    };
+  };
+
+  useEffect(() => {
+    // Notify parent component whenever entered data changes
+    onEnteredPaymentInformationBillingAddressDataChange(getEnteredData());
+  }, [
+    cardNumber,
+    nameOnCard,
+    expiryDate,
+    cvvcvc,
+    address,
+    city,
+    zipPostCode,
+    country,
+  ]);
+
   return (
     <Box
       className="my-10 h-auto w-auto "
@@ -328,6 +430,7 @@ function PaymentInformationBillingAddress() {
                 );
                 // Update the value of the input field
                 event.target.value = formattedValueWithSpaces;
+                handleCardNumberChange(event.target.value);
               }}
             />
           </Box>
@@ -348,7 +451,11 @@ function PaymentInformationBillingAddress() {
           <Box
             style={{ display: "flex", flexDirection: "row", padding: "10px" }}
           >
-            <TextField id="name-oncard" variant="outlined" />
+            <TextField
+              id="name-oncard"
+              variant="outlined"
+              onChange={(event) => handleNameOnCardChange(event.target.value)}
+            />
           </Box>
         </Box>
       </Box>
@@ -386,6 +493,7 @@ function PaymentInformationBillingAddress() {
                   .slice(0, 5); // Limit the input length to 5 characters (including the slash)
                 // Update the value of the input field
                 event.target.value = formattedValueWithSlash;
+                handleExpiryDateChange(event.target.value);
               }}
             />
           </Box>
@@ -421,6 +529,7 @@ function PaymentInformationBillingAddress() {
                 const formattedValueLimited = formattedValue.slice(0, 4);
                 // Update the value of the input field
                 event.target.value = formattedValueLimited;
+                handleCvvcvcChange(event.target.value);
               }}
             />
           </Box>
@@ -446,7 +555,11 @@ function PaymentInformationBillingAddress() {
           <Box
             style={{ display: "flex", flexDirection: "row", padding: "10px" }}
           >
-            <TextField id="address" variant="outlined" />
+            <TextField
+              id="address"
+              variant="outlined"
+              onChange={(event) => handleAddressChange(event.target.value)}
+            />
           </Box>
         </Box>
         <Box
@@ -465,7 +578,11 @@ function PaymentInformationBillingAddress() {
           <Box
             style={{ display: "flex", flexDirection: "row", padding: "10px" }}
           >
-            <TextField id="city" variant="outlined" />
+            <TextField
+              id="city"
+              variant="outlined"
+              onChange={(event) => handleCityChange(event.target.value)}
+            />
           </Box>
         </Box>
       </Box>
@@ -500,6 +617,7 @@ function PaymentInformationBillingAddress() {
                 const formattedValueLimited = formattedValue.slice(0, 6);
                 // Update the value of the input field
                 event.target.value = formattedValueLimited;
+                handleZipPostCodeChange(event.target.value);
               }}
             />
           </Box>
@@ -520,7 +638,7 @@ function PaymentInformationBillingAddress() {
           <Box
             style={{ display: "flex", flexDirection: "row", padding: "10px" }}
           >
-            <CountrySelect />
+            <CountrySelect handleCountryChange={handleCountryChange} />
           </Box>
         </Box>
       </Box>
@@ -532,12 +650,14 @@ interface confirmBookingFormProps {
   currency: string;
   totalPrice: string;
   enteredPrimaryGuestData: PrimaryGuestData;
+  enteredPaymentInformationBillingAddressData: PaymentInformationBillingAddressData;
 }
 
 function ConfirmBookingForm({
   currency,
   totalPrice,
   enteredPrimaryGuestData,
+  enteredPaymentInformationBillingAddressData,
 }: confirmBookingFormProps) {
   const [isFirstCheckboxChecked, setIsFirstCheckboxChecked] = useState(false);
   const [isSecondCheckboxChecked, setIsSecondCheckboxChecked] = useState(false);
@@ -548,6 +668,11 @@ function ConfirmBookingForm({
 
   const [showPrimaryGuestErrorAlert, setShowPrimaryGuestErrorAlert] =
     useState(false);
+
+  const [
+    showPaymentInformationBillingAddressErrorAlert,
+    setShowPaymentInformationBillingAddressErrorAlert,
+  ] = useState(false);
 
   function handleFirstCheckboxChange(
     event: React.ChangeEvent<HTMLInputElement>
@@ -579,10 +704,46 @@ function ConfirmBookingForm({
     );
   };
 
+  const isPaymentInformationBillingAddressInputValid = (
+    enteredPaymentInformationBillingAddressData: PaymentInformationBillingAddressData
+  ) => {
+    const {
+      cardNumber,
+      nameOnCard,
+      expiryDate,
+      cvvcvc,
+      address,
+      city,
+      zipPostCode,
+      country,
+    } = enteredPaymentInformationBillingAddressData;
+    return (
+      cardNumber.length === 19 &&
+      nameOnCard !== "" &&
+      expiryDate.length === 5 && //make seperate validity checker
+      (cvvcvc.length === 3 || cvvcvc.length === 4) &&
+      address !== "" &&
+      city !== "" &&
+      zipPostCode !== "" &&
+      country !== ""
+    );
+  };
+
   function handleConfirmBooking() {
     if (!isPrimaryGuestInputValid(enteredPrimaryGuestData)) {
       console.log("Enter all required details in Primary Guest Form correctly");
       setShowPrimaryGuestErrorAlert(true);
+      setShowSuccessAlert(false);
+    } else if (
+      !isPaymentInformationBillingAddressInputValid(
+        enteredPaymentInformationBillingAddressData
+      )
+    ) {
+      // Display an error message or take appropriate action
+      console.log(
+        "Enter all required details in Payment Information and Billing Address Form correctly"
+      );
+      setShowCheckingBoxErrorAlert(true);
       setShowSuccessAlert(false);
     } else if (!(isFirstCheckboxChecked && isSecondCheckboxChecked)) {
       // Display an error message or take appropriate action
@@ -662,6 +823,20 @@ function ConfirmBookingForm({
           . Phone number: {enteredPrimaryGuestData.phoneNumber}. Email:{" "}
           {enteredPrimaryGuestData.validEmail}. specialRequest:{" "}
           {enteredPrimaryGuestData.specialRequest}.
+          {enteredPaymentInformationBillingAddressData.cardNumber}
+          {", "}
+          nameOnCard:{enteredPaymentInformationBillingAddressData.nameOnCard}
+          {", "}expiryDate:
+          {enteredPaymentInformationBillingAddressData.expiryDate}
+          {", "}
+          cvv/cvc:{enteredPaymentInformationBillingAddressData.cvvcvc}
+          {", "}address"{enteredPaymentInformationBillingAddressData.address}
+          {", "}
+          city:{enteredPaymentInformationBillingAddressData.city}
+          {", "}zippostcode:
+          {enteredPaymentInformationBillingAddressData.zipPostCode}
+          {", "}
+          country:{enteredPaymentInformationBillingAddressData.country}
         </Alert>
       )}
 
@@ -688,6 +863,32 @@ function ConfirmBookingForm({
           {enteredPrimaryGuestData.specialRequest}.
         </Alert>
       )}
+
+      {showPaymentInformationBillingAddressErrorAlert && (
+        <Alert
+          severity="error"
+          onClose={() =>
+            setShowPaymentInformationBillingAddressErrorAlert(false)
+          }
+        >
+          Please check that you have entered all required inputs correctly in
+          the Payment Information and Billing Address form.cardNumber:{" "}
+          {enteredPaymentInformationBillingAddressData.cardNumber}
+          {", "}
+          nameOnCard:{enteredPaymentInformationBillingAddressData.nameOnCard}
+          {", "}expiryDate:
+          {enteredPaymentInformationBillingAddressData.expiryDate}
+          {", "}
+          cvv/cvc:{enteredPaymentInformationBillingAddressData.cvvcvc}
+          {", "}address"{enteredPaymentInformationBillingAddressData.address}
+          {", "}
+          city:{enteredPaymentInformationBillingAddressData.city}
+          {", "}zippostcode:
+          {enteredPaymentInformationBillingAddressData.zipPostCode}
+          {", "}
+          country:{enteredPaymentInformationBillingAddressData.country}
+        </Alert>
+      )}
     </Box>
   );
 }
@@ -702,6 +903,20 @@ export default function Book() {
       lastName: "",
       specialRequest: "",
     });
+
+  const [
+    enteredPaymentInformationBillingAddressData,
+    setEnteredPaymentInformationBillingAddressData,
+  ] = useState<PaymentInformationBillingAddressData>({
+    cardNumber: "",
+    nameOnCard: "",
+    expiryDate: "",
+    cvvcvc: "",
+    address: "",
+    city: "",
+    zipPostCode: "",
+    country: "",
+  });
 
   const bookingData = {
     hotelName: "Sample Hotel",
@@ -736,11 +951,18 @@ export default function Book() {
           <PrimaryGuestBox
             onEnteredPrimaryGuestDataChange={setEnteredPrimaryGuestData}
           />
-          <PaymentInformationBillingAddress />
+          <PaymentInformationBillingAddress
+            onEnteredPaymentInformationBillingAddressDataChange={
+              setEnteredPaymentInformationBillingAddressData
+            }
+          />
           <ConfirmBookingForm
             currency="SGD"
             totalPrice="500"
             enteredPrimaryGuestData={enteredPrimaryGuestData}
+            enteredPaymentInformationBillingAddressData={
+              enteredPaymentInformationBillingAddressData
+            }
           />
         </Box>
         <Box

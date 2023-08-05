@@ -2,8 +2,13 @@ import * as React from "react";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
+interface CountrySelectProps {
+  handleCountryChange: (value: string) => void;
+}
 
-export default function CountrySelect() {
+export default function CountrySelect({
+  handleCountryChange,
+}: CountrySelectProps) {
   return (
     <Autocomplete
       id="country-select-demo"
@@ -37,6 +42,9 @@ export default function CountrySelect() {
           }}
         />
       )}
+      onChange={(event, value) => {
+        handleCountryChange(value?.label || ""); // Pass the selected country label to the handler
+      }}
     />
   );
 }
