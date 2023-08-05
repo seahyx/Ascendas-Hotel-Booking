@@ -71,17 +71,11 @@ model Booking {
   id              Int       @id @default(autoincrement())
   destinationId   Int
   hotelId         Int
-  bookingInfoId   Int
-  guestInfoId     Int
-  payeeInfoId     Int
-  additionalInfo String
-  bookingInfo     BookingDisplayInformation @relation("booking_info", fields: [bookingInfoId], references: [id])
-  guestInfo       GuestInformation        @relation("guest_info", fields: [guestInfoId], references: [id])
-  payeeInfo       PayeeInformation        @relation("payee_info", fields: [payeeInfoId], references: [id])
-}
-
-model BookingDisplayInformation {
-  id             Int       @id @default(autoincrement())
+  uid         Int
+  firstName   String
+  lastName    String
+  phoneNumber String
+  email       String
   numberOfNights Int
   numberOfRooms Int
   startDate      DateTime
@@ -93,21 +87,6 @@ model BookingDisplayInformation {
   avgRoomCost   Float
   roomRate      Float
   tax       Float
-  bookings       Booking[] @relation("booking_info")
-}
-
-model GuestInformation {
-  id          Int    @id @default(autoincrement())
-  uid         String
-  firstName   String
-  lastName    String
-  phoneNumber String
-  email       String
-bookings      Booking[] @relation("guest_info")
-}
-
-model PayeeInformation {
-  id            Int    @id @default(autoincrement())
-  bookings      Booking[] @relation("payee_info")
-}
+  additionalInfo String 
+  }
 
