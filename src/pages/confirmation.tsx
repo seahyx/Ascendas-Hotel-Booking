@@ -2,6 +2,8 @@ import {
   Box,
   Button,
   Card,
+  CardContent,
+  CardHeader,
   Container,
   Grid,
   Link,
@@ -13,21 +15,28 @@ import {
 import Head from "next/head";
 import Image from "next/image";
 import BookingSummary from "~/components/bookingSummary";
+import { Convert, Hotels } from "~/server/api/idHotel";
+// const hotels = Convert.toHotels(json);
 
 export default function Confirmation() {
   const bookingData = {
-    hotelName: "Sample Hotel",
+    bookerName: "Mr John Doe",
+    bookingID: 123456789,
+    paymentID: 333444555,
+    payerID: 111222333,
+    hotelName: "Hotel California",
     roomType: "Deluxe Room",
-    checkInDate: "2023-08-02",
+    checkInDate: "2023-08-08",
     checkOutDate: "2023-08-10",
     numberOfNights: 2,
     currency: "SGD",
-    roomCount: 2,
     adultCount: 2,
+    childCount: 2,
     roomPrice: 200, // Example room price
     roomRate: 400,
     taxAndRecoveryCharges: 50, // Example tax and charges
     grandTotal: 500, // Example total
+    messageToHotel: "Please prepare a baby cot for my child.",
   };
   return (
     <>
@@ -58,12 +67,7 @@ export default function Confirmation() {
           reservation has been confirmed.
         </Typography>
 
-        <Stack
-          className="mb-10 mt-10"
-          direction="row"
-          spacing={2}
-          width="w-full"
-        >
+        
           <Box style={{ flex: 1 }}>
             <BookingSummary {...bookingData} />
           </Box>
@@ -92,18 +96,16 @@ export default function Confirmation() {
             </Typography>
   </Card>*/}
           <Box style={{ flex: 1 }}>
-            <Card className="mt-6 w-full border-gray-300">
-              <Typography
-                className="ml-3 mt-1 font-semibold underline"
-                component="h3"
-                variant="h5"
-              >
-                Additional Information
-              </Typography>
-              <Typography className="ml-3 mt-2 text-lg underline">
+            <Card className="mt-6 mb-6 w-full border-gray-300" variant='outlined'>
+              <CardHeader
+                title="Additional Information"
+                titleTypographyProps={{ variant: "h6" }}
+              />
+              <CardContent>
+              <Typography className="mt-2 text-lg underline">
                 Cancellation Policy
               </Typography>
-              <Typography className="ml-3 text-sm">
+              <Typography className="text-sm">
                 This booking is non-refundable from 22/4/2023, 16:00 onwards.
                 Cancellation before 22/4/2023 16:00 will incur a 50%
                 cancellation fee. All times indicated are in the GTC +8
@@ -111,26 +113,27 @@ export default function Confirmation() {
                 cancellation fee of the total refundable amount of the booking
                 will be charged.
               </Typography>
-              <Typography className="ml-3 mt-2 text-lg underline">
+              <Typography className="mt-2 text-lg underline">
                 Amendment Policy
               </Typography>
-              <Typography className="ml-3 text-sm">
+              <Typography className="text-sm">
                 To amend your booking in any way, you will have to cancel your
                 current reservation booking subject to the current cancellation
                 policy before making a new booking based on the prevailing rates
                 and availability.
               </Typography>
-              <Typography className="ml-3 mt-2 text-lg underline">
+              <Typography className="mt-2 text-lg underline">
                 Further Information
               </Typography>
-              <Typography className="ml-3 text-sm">
+              <Typography className="mb-5 text-sm">
                 Club benefits are not included in this booking. If you would
                 like to add on any club benefits, please contact the hotel
                 directly at hotel@hotel.com.
               </Typography>
+              </CardContent>
             </Card>
           </Box>
-        </Stack>
+        
       </Container>
     </>
   );
