@@ -6,155 +6,91 @@ import {
   Divider,
   Typography,
   Box,
-  Stack,
 } from "@mui/material";
 
 interface BookingSummaryProps {
-  bookerName: string;
-  bookingID: number;
-  paymentID: number;
-  payerID: number;
   hotelName: string;
   roomType: string;
   checkInDate: string;
   checkOutDate: string;
   numberOfNights: number;
   currency: string;
+  roomCount: number;
   adultCount: number;
   childCount: number;
   roomPrice: number;
   roomRate: number;
   taxAndRecoveryCharges: number;
   grandTotal: number;
-  messageToHotel: string;
 }
 
-const BookingSummary: React.FC<BookingSummaryProps> = ({
-  bookerName,
-  bookingID,
-  paymentID,
-  payerID,
+export default function BookingSummary({
   hotelName,
   roomType,
   checkInDate,
   checkOutDate,
   numberOfNights,
   currency,
+  roomCount,
   adultCount,
   childCount,
   roomPrice,
   roomRate,
   taxAndRecoveryCharges,
   grandTotal,
-  messageToHotel,
-}) => {
+}: BookingSummaryProps) {
   return (
-    <Stack
-      direction="row"
-      spacing={2}>
-    <Card variant="outlined" className='mt-8'>
-      <Typography
-        className="ml-4 mt-2 mb-2 font-semibold"
-        component="h3"
-        variant="h5"  
-      >
-        Booking Summary
-      </Typography>
-      <Divider />
+    <Card>
+      <CardHeader
+        title="Booking Summary"
+        titleTypographyProps={{ variant: "h6" }}
+      />
       <CardContent>
-        <Box marginBottom={1}>
-          <Typography className='text-base/loose'>
-            Booker Name: {bookerName}
-            <br />
-            Hotel Name: <strong>{hotelName}</strong>
-            <br />
-            Room Type: {roomType}
-            <br />
-            Number of Guests: {adultCount} Adults and {childCount} Children
+        <Box marginBottom={2}>
+          <Typography variant="h6">{hotelName}</Typography>
+          <Typography fontWeight="bold">{roomType}</Typography>
+          <Typography>Room Only</Typography>
+          <Typography>
+            {roomCount === 1 ? "1 Room" : `${roomCount} Rooms`} for{" "}
+            {adultCount === 1 ? "1 Adult" : `${adultCount} Adults `}
+            {childCount === 0
+              ? ""
+              : childCount === 1
+              ? "and 1 Child"
+              : `and ${childCount} Children`}
           </Typography>
         </Box>
         <Divider />
-        <Box marginBottom={1}>
-          <Typography className='text-base/loose'>
-            Check-In Date: {checkInDate}
-            <br />
-            Check-Out Date: {checkOutDate}
-            <br />
-            Number of Nights: {numberOfNights}
-            <br />
-            Booking ID : {bookingID}
-            <br />
-            Payment ID : {paymentID}
-            <br />
-            Payer ID : {payerID}
+        <Box marginBottom={2}>
+          <Typography>Check-in: {checkInDate}</Typography>
+          <Typography>Check-out: {checkOutDate}</Typography>
+          <Typography>
+            {numberOfNights === 1 ? "1 Night" : `${numberOfNights} Nights`}
+          </Typography>
+          <Typography>
+            Average per room per night: {currency} {roomPrice}
           </Typography>
         </Box>
         <Divider />
-        <Box marginBottom={1}>
-          <Typography className='text-base/loose'>
-            Message to Hotel: {messageToHotel}
+        <Box fontWeight="bold" marginBottom={2}>
+          <Typography>
+            Room rate for{" "}
+            {numberOfNights === 1 ? "1 Night" : `${numberOfNights} Nights`},
+            {roomCount === 1 ? "1 Room" : `${roomCount} Rooms`} : {currency}{" "}
+            {roomRate}
+          </Typography>
+          <Typography>
+            Tax Recovery Charges And Service Fees: {currency}{" "}
+            {taxAndRecoveryCharges}
+          </Typography>
+        </Box>
+        <Divider />
+        <Box fontWeight="bold">
+          <Typography fontSize="1.2em">
+            Total: {currency} {grandTotal}
           </Typography>
         </Box>
       </CardContent>
     </Card>
-    <Card variant="outlined" className='mt-8'>
-      <Typography
-        className="ml-4 mt-2 mb-2 font-semibold"
-        component="h3"
-        variant="h5"  
-      >
-        Invoice
-      </Typography>
-      <Divider />
-      <CardContent>
-        <Stack
-        direction='row'>
-        <Box marginBottom={1} >
-          <Typography className='text-base/loose'>
-            Total Booking Fee: 
-            <br />
-            <br />
-            Tax Recovery Charges And Service Fees: 
-            <br />
-            <br />
-            
-          </Typography>
-        </Box>
-        <Box marginBottom={1} className='flex-1' >
-          <Typography className='text-base/loose text-right'>
-            {currency} {roomPrice} x {numberOfNights} Night(s)
-            <br />
-            <br />
-            {currency} {taxAndRecoveryCharges}
-            <br />
-            <br />
-            
-          </Typography>
-        </Box>
-        </Stack>
-        <Divider />
-        <Stack
-        direction='row'>
-        <Box marginBottom={1} >
-          <Typography className='text-base/loose'>
-            <br />
-            <strong>Total:</strong> 
-            <br />
-            
-          </Typography>
-        </Box>
-        <Box marginBottom={1} className='flex-1'>
-          <Typography className='text-base/loose text-right'>
-            <br />
-            {currency} {+roomRate + +taxAndRecoveryCharges} 
-            <br />
-          </Typography>
-        </Box>
-        </Stack>
-      </CardContent>
-    </Card>
-    </Stack>
   );
-};
-
-export default BookingSummary;
+}

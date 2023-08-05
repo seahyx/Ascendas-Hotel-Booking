@@ -32,7 +32,6 @@ export default function Confirmation() {
     currency: "SGD",
     adultCount: 2,
     childCount: 2,
-    childCount: 2,
     roomPrice: 200, // Example room price
     roomRate: 400,
     taxAndRecoveryCharges: 50, // Example tax and charges
