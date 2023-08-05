@@ -14,7 +14,7 @@ import {
 } from "@mui/material";
 import Head from "next/head";
 import Image from "next/image";
-import BookingSummary from "~/components/bookingSummary";
+import BookingSummary from "~/components/BookingSummary";
 import { Convert, Hotels } from "~/server/api/idHotel";
 // const hotels = Convert.toHotels(json);
 
@@ -31,6 +31,7 @@ export default function Confirmation() {
     numberOfNights: 2,
     currency: "SGD",
     adultCount: 2,
+    childCount: 2,
     childCount: 2,
     roomPrice: 200, // Example room price
     roomRate: 400,
