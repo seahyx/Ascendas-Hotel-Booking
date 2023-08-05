@@ -11,21 +11,54 @@ import {
   Divider,
   Checkbox,
   FormGroup,
+  Alert,
 } from "@mui/material";
 import Head from "next/head";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 import DropdownTitle from "~/components/DropdownTitle";
 import CountrySelect from "~/components/CountrySelect";
 import PhoneNumber from "~/components/PhoneNumber";
+import EmailInput from "~/components/EmailInput";
 import BookingSummary from "~/components/BookingSummary";
 
-function PrimaryGuestBox() {
+interface PrimaryGuestData {
+  title: string;
+  phoneNumber: string;
+  validEmail: string;
+  firstName: string;
+  lastName: string;
+  specialRequest: string;
+}
+interface PrimaryGuestBoxProps {
+  onEnteredPrimaryGuestDataChange: React.Dispatch<
+    React.SetStateAction<PrimaryGuestData>
+  >;
+}
+
+function PrimaryGuestBox({
+  onEnteredPrimaryGuestDataChange,
+}: PrimaryGuestBoxProps) {
   //Title Dropdown
   const [title, setTitle] = useState<string>("");
 
   const handleTitleChange = (value: string) => {
     setTitle(value);
+    console.log(title);
+  };
+
+  //First name field
+  const [firstName, setFirstName] = useState("");
+
+  const handleFirstNameChange = (value: string) => {
+    setFirstName(value);
+  };
+
+  //Last name field
+  const [lastName, setLastName] = useState("");
+
+  const handleLastNameChange = (value: string) => {
+    setLastName(value);
   };
 
   //Phone Number Text Field
@@ -33,7 +66,40 @@ function PrimaryGuestBox() {
 
   const handlePhoneNumberChange = (value: string) => {
     setPhoneNumber(value);
+    console.log(phoneNumber);
   };
+
+  //Email Field
+  const [validEmail, setValidEmail] = useState("");
+
+  const handleValidEmailChange = (email: string) => {
+    setValidEmail(email);
+  };
+
+  //Special Request field
+  const [specialRequest, setSpecialRequest] = useState("");
+
+  const handleSpecialRequestChange = (value: string) => {
+    setSpecialRequest(value);
+  };
+
+  const getEnteredData = () => {
+    return {
+      title,
+      phoneNumber,
+      validEmail,
+      firstName,
+      lastName,
+      specialRequest,
+    };
+  };
+
+  useEffect(() => {
+    // Notify parent component whenever entered data changes
+    onEnteredPrimaryGuestDataChange(getEnteredData());
+    console.log("from useEffect", validEmail);
+  }, [title, phoneNumber, validEmail, firstName, lastName, specialRequest]);
+
   return (
     <Box
       className="my-10 flex h-auto w-auto "
@@ -82,7 +148,11 @@ function PrimaryGuestBox() {
           >
             First name
           </Box>
-          <TextField id="first-name" variant="outlined" />
+          <TextField
+            id="first-name"
+            variant="outlined"
+            onChange={(event) => handleFirstNameChange(event.target.value)}
+          />
         </Box>
         <Box
           style={{
@@ -97,25 +167,73 @@ function PrimaryGuestBox() {
           >
             Last name
           </Box>
-          <TextField id="last-name" variant="outlined" />
-        </Box>
-      </Box>
-      <Box
-        style={{ display: "flex", flexDirection: "column", padding: "10px" }}
-      >
-        <Box style={{ display: "flex", flexDirection: "row", padding: "10px" }}>
-          Phone Number
-        </Box>
-        <Box style={{ display: "flex", flexDirection: "row", padding: "10px" }}>
-          <PhoneNumber
-            label="Phone Number"
-            value={phoneNumber}
-            onChange={handlePhoneNumberChange}
+          <TextField
+            id="last-name"
+            variant="outlined"
+            onChange={(event) => handleLastNameChange(event.target.value)}
           />
         </Box>
-        <Box />
+      </Box>
+      <Box style={{ display: "flex", flexDirection: "row", padding: "10px" }}>
         <Box
-          style={{ display: "flex", flexDirection: "column", padding: "10px" }}
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            padding: "10px",
+            flex: 1,
+          }}
+        >
+          <Box
+            style={{ display: "flex", flexDirection: "row", padding: "10px" }}
+          >
+            Phone Number
+          </Box>
+
+          <Box
+            style={{ display: "flex", flexDirection: "row", padding: "10px" }}
+          >
+            <PhoneNumber
+              label="Phone Number"
+              value={phoneNumber}
+              onChange={handlePhoneNumberChange}
+            />
+          </Box>
+        </Box>
+        <Box
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            padding: "10px",
+            flex: 1,
+          }}
+        >
+          <Box
+            style={{ display: "flex", flexDirection: "row", padding: "10px" }}
+          >
+            Email
+          </Box>
+
+          <Box
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              padding: "10px",
+              width: "w-full",
+            }}
+          >
+            <EmailInput onValidEmailChange={handleValidEmailChange} />
+
+            {/*{validEmail && <p>Valid Email: {validEmail}</p>}*/}
+          </Box>
+        </Box>
+      </Box>
+      <Box style={{ display: "flex", flexDirection: "row", padding: "10px" }}>
+        <Box
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            padding: "10px",
+          }}
         >
           <Box
             style={{ display: "flex", flexDirection: "row", padding: "10px" }}
@@ -132,6 +250,9 @@ function PrimaryGuestBox() {
               rows={4}
               defaultValue=""
               style={{ width: 700 }}
+              onChange={(event) =>
+                handleSpecialRequestChange(event.target.value)
+              }
             />
           </Box>
         </Box>
@@ -410,9 +531,72 @@ function PaymentInformationBillingAddress() {
 interface confirmBookingFormProps {
   currency: string;
   totalPrice: string;
+  enteredPrimaryGuestData: PrimaryGuestData;
 }
 
-function ConfirmBookingForm({ currency, totalPrice }: confirmBookingFormProps) {
+function ConfirmBookingForm({
+  currency,
+  totalPrice,
+  enteredPrimaryGuestData,
+}: confirmBookingFormProps) {
+  const [isFirstCheckboxChecked, setIsFirstCheckboxChecked] = useState(false);
+  const [isSecondCheckboxChecked, setIsSecondCheckboxChecked] = useState(false);
+
+  const [showSuccessAlert, setShowSuccessAlert] = useState(false);
+  const [showCheckingBoxErrorAlert, setShowCheckingBoxErrorAlert] =
+    useState(false);
+
+  const [showPrimaryGuestErrorAlert, setShowPrimaryGuestErrorAlert] =
+    useState(false);
+
+  function handleFirstCheckboxChange(
+    event: React.ChangeEvent<HTMLInputElement>
+  ) {
+    setIsFirstCheckboxChecked(event.target.checked);
+    console.log("first checked");
+  }
+
+  function handleSecondCheckboxChange(
+    event: React.ChangeEvent<HTMLInputElement>
+  ) {
+    setIsSecondCheckboxChecked(event.target.checked);
+    console.log("second checked");
+  }
+
+  const isPrimaryGuestInputValid = (
+    enteredPrimaryGuestData: PrimaryGuestData
+  ) => {
+    const { title, phoneNumber, validEmail, firstName, lastName } =
+      enteredPrimaryGuestData;
+    console.log("from isPrimaryGuestInputValid:", validEmail);
+    console.log(phoneNumber.length);
+    return (
+      title !== "" &&
+      phoneNumber.length === 13 &&
+      validEmail !== "" &&
+      firstName !== "" &&
+      lastName !== ""
+    );
+  };
+
+  function handleConfirmBooking() {
+    if (!isPrimaryGuestInputValid(enteredPrimaryGuestData)) {
+      console.log("Enter all required details in Primary Guest Form correctly");
+      setShowPrimaryGuestErrorAlert(true);
+      setShowSuccessAlert(false);
+    } else if (!(isFirstCheckboxChecked && isSecondCheckboxChecked)) {
+      // Display an error message or take appropriate action
+      console.log("Please check both checkboxes before confirming the booking");
+      setShowCheckingBoxErrorAlert(true);
+      setShowSuccessAlert(false);
+    } else {
+      // Both checkboxes are checked, you can proceed with booking logic here
+      console.log("Booking confirmed");
+      setShowSuccessAlert(true);
+      setShowCheckingBoxErrorAlert(false);
+      setShowPrimaryGuestErrorAlert(false);
+    }
+  }
   return (
     <Box
       className="my-10 h-auto w-auto "
@@ -424,7 +608,12 @@ function ConfirmBookingForm({ currency, totalPrice }: confirmBookingFormProps) {
       <FormGroup>
         <FormControlLabel
           required
-          control={<Checkbox />}
+          control={
+            <Checkbox
+              checked={isFirstCheckboxChecked}
+              onChange={handleFirstCheckboxChange}
+            />
+          }
           label="I agree to the Cancellation Policy and Kaligo's Terms of Use and Privacy policy"
         />
         <Divider
@@ -434,7 +623,12 @@ function ConfirmBookingForm({ currency, totalPrice }: confirmBookingFormProps) {
 
         <FormControlLabel
           required
-          control={<Checkbox />}
+          control={
+            <Checkbox
+              checked={isSecondCheckboxChecked}
+              onChange={handleSecondCheckboxChange}
+            />
+          }
           label="I confirm that my payment details and preferred loyalty program are correct."
         />
         <Divider
@@ -442,7 +636,9 @@ function ConfirmBookingForm({ currency, totalPrice }: confirmBookingFormProps) {
           sx={{ marginY: 2, borderColor: "transparent" }}
         />
 
-        <Button variant="contained">Confirm Booking</Button>
+        <Button variant="contained" onClick={handleConfirmBooking}>
+          Confirm Booking
+        </Button>
 
         <Divider
           variant="middle"
@@ -457,11 +653,56 @@ function ConfirmBookingForm({ currency, totalPrice }: confirmBookingFormProps) {
           sx={{ marginY: 2, borderColor: "transparent" }}
         />
       </FormGroup>
+
+      {/* Alert to display on successful booking confirmation */}
+      {showSuccessAlert && (
+        <Alert severity="success" onClose={() => setShowSuccessAlert(false)}>
+          Booking confirmed for {enteredPrimaryGuestData.title}{" "}
+          {enteredPrimaryGuestData.firstName} {enteredPrimaryGuestData.lastName}
+          . Phone number: {enteredPrimaryGuestData.phoneNumber}. Email:{" "}
+          {enteredPrimaryGuestData.validEmail}. specialRequest:{" "}
+          {enteredPrimaryGuestData.specialRequest}.
+        </Alert>
+      )}
+
+      {/* Alert to display error message */}
+      {showCheckingBoxErrorAlert && (
+        <Alert
+          severity="error"
+          onClose={() => setShowCheckingBoxErrorAlert(false)}
+        >
+          Please check both checkboxes before confirming the booking.
+        </Alert>
+      )}
+
+      {showPrimaryGuestErrorAlert && (
+        <Alert
+          severity="error"
+          onClose={() => setShowPrimaryGuestErrorAlert(false)}
+        >
+          Please check that you have entered all required inputs correctly in
+          the Primary Guest Form. {enteredPrimaryGuestData.title}{" "}
+          {enteredPrimaryGuestData.firstName} {enteredPrimaryGuestData.lastName}
+          . Phone number: {enteredPrimaryGuestData.phoneNumber}. Email:{" "}
+          {enteredPrimaryGuestData.validEmail}. specialRequest:{" "}
+          {enteredPrimaryGuestData.specialRequest}.
+        </Alert>
+      )}
     </Box>
   );
 }
 
 export default function Book() {
+  const [enteredPrimaryGuestData, setEnteredPrimaryGuestData] =
+    useState<PrimaryGuestData>({
+      title: "",
+      phoneNumber: "",
+      validEmail: "",
+      firstName: "",
+      lastName: "",
+      specialRequest: "",
+    });
+
   const bookingData = {
     hotelName: "Sample Hotel",
     roomType: "Deluxe Room",
@@ -471,6 +712,7 @@ export default function Book() {
     currency: "SGD",
     roomCount: 2,
     adultCount: 2,
+    childCount: 2,
     roomPrice: 200, // Example room price
     roomRate: 400,
     taxAndRecoveryCharges: 50, // Example tax and charges
@@ -479,7 +721,7 @@ export default function Book() {
   return (
     <>
       <Head>
-        <title>Hotel Details</title>
+        <title>Payment</title>
         <meta name="description" content="Details of chosen hotel here." />
       </Head>
       <Box style={{ display: "flex", flexDirection: "row", padding: "10px" }}>
@@ -491,9 +733,15 @@ export default function Book() {
             flex: 5,
           }}
         >
-          <PrimaryGuestBox />
+          <PrimaryGuestBox
+            onEnteredPrimaryGuestDataChange={setEnteredPrimaryGuestData}
+          />
           <PaymentInformationBillingAddress />
-          <ConfirmBookingForm currency="SGD" totalPrice="500" />
+          <ConfirmBookingForm
+            currency="SGD"
+            totalPrice="500"
+            enteredPrimaryGuestData={enteredPrimaryGuestData}
+          />
         </Box>
         <Box
           style={{

@@ -17,13 +17,14 @@ interface BookingSummaryProps {
   currency: string;
   roomCount: number;
   adultCount: number;
+  childCount: number;
   roomPrice: number;
   roomRate: number;
   taxAndRecoveryCharges: number;
   grandTotal: number;
 }
 
-const BookingSummary: React.FC<BookingSummaryProps> = ({
+export default function BookingSummary({
   hotelName,
   roomType,
   checkInDate,
@@ -32,11 +33,12 @@ const BookingSummary: React.FC<BookingSummaryProps> = ({
   currency,
   roomCount,
   adultCount,
+  childCount,
   roomPrice,
   roomRate,
   taxAndRecoveryCharges,
   grandTotal,
-}) => {
+}: BookingSummaryProps) {
   return (
     <Card>
       <CardHeader
@@ -50,7 +52,12 @@ const BookingSummary: React.FC<BookingSummaryProps> = ({
           <Typography>Room Only</Typography>
           <Typography>
             {roomCount === 1 ? "1 Room" : `${roomCount} Rooms`} for{" "}
-            {adultCount === 1 ? "1 Guest" : `${adultCount} Guests`}
+            {adultCount === 1 ? "1 Adult" : `${adultCount} Adults `}
+            {childCount === 0
+              ? ""
+              : childCount === 1
+              ? "and 1 Child"
+              : `and ${childCount} Children`}
           </Typography>
         </Box>
         <Divider />
@@ -86,6 +93,4 @@ const BookingSummary: React.FC<BookingSummaryProps> = ({
       </CardContent>
     </Card>
   );
-};
-
-export default BookingSummary;
+}
