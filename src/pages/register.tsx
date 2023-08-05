@@ -192,6 +192,8 @@ export default function Register(props) {
                 label="I agree to the terms of use and privacy policy."
               />
               <Button
+                id='submit'
+                name='submit'
                 variant="contained"
                 type="submit"
                 className="mt-3"

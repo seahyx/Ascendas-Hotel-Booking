@@ -68,6 +68,8 @@ export default function Login(props) {
                 fullWidth
               />
               <Button
+                id='submit'
+                name='submit'
                 type="submit"
                 fullWidth
                 variant="contained"

@@ -6,20 +6,20 @@ describe('Login', () => {
       cy.visit('http://localhost:3000/login')
       cy.get('input[name="email"]').type("abc@example.com")
       cy.get('input[name="password"]').type("Password1")
-      cy.get("button").click
+      cy.get("#submit").click()
     })
     it('should NOT allow log in if invalid email or password', () => {
         cy.visit('http://localhost:3000/login')
         cy.get('input[name="email"]').type("abc@example.com")
         cy.get('input[name="password"]').type("Password1")
-        cy.get("button").click //TO-DO
+        cy.get("button").click() 
         cy.url().should('include', '/login')
       })
     it('should allow log in (& redirect to main) if correct email and password', () => {
         cy.visit('http://localhost:3000/login')
-        cy.get('input[name="email"]').type("") //TO-DO
-        cy.get('input[name="password"]').type("") //TO-DO
-        cy.get("button").click //TO-DO
+        cy.get('input[name="email"]').type("test1@test.com") 
+        cy.get('input[name="password"]').type("test")
+        cy.get("#submit").click()
         cy.url().should("not.include", "/login") 
       })
 
@@ -39,7 +39,7 @@ describe('Login', () => {
       for(let i = 0; i<100;i++){
         cy.get('input[name="email"]').type(generateRandomString(10) + "@example.com")
         cy.get('input[name="password"]').type(generateRandomString(10))
-        cy.get("button").click //TO-DO
+        cy.get("#submit").click()
       }
     })
   })
