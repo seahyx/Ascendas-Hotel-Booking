@@ -2,6 +2,8 @@ import { PrismaClient, Booking } from '@prisma/client';
 
 const prisma = new PrismaClient();
 
+
+
 // Function to add a new booking
 async function addBooking(
   destinationId: number,
