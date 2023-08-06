@@ -66,3 +66,27 @@ model VerificationToken {
 
     @@unique([identifier, token])
 }
+
+model Booking {
+  id              Int       @id @default(autoincrement())
+  destinationId   Int
+  hotelId         Int
+  uid         Int
+  firstName   String
+  lastName    String
+  phoneNumber String
+  email       String
+  numberOfNights Int
+  numberOfRooms Int
+  startDate      DateTime
+  endDate        DateTime
+  adults         Int
+  children       Int
+  messageToHotel String
+  roomTypes      String
+  avgRoomCost   Float
+  roomRate      Float
+  tax       Float
+  additionalInfo String 
+  }
+

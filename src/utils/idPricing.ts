@@ -76,11 +76,13 @@ export type Type = "TaxAndServiceFee";
 
 // Converts JSON strings to/from your types
 export class Convert {
-  public static toHotels(json: string): Hotels {
+
+  public static toHotels(json: string): idPricing {
     return JSON.parse(json);
   }
 
-  public static hotelsToJson(value: Hotels): string {
+  public static hotelsToJson(value: idPricing): string {
+
     return JSON.stringify(value);
   }
 }

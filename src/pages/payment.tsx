@@ -15,6 +15,7 @@ import {
 } from "@mui/material";
 import Head from "next/head";
 import React, { useState, useEffect } from "react";
+import { MuiTelInput, matchIsValidTel } from "mui-tel-input";
 
 import DropdownTitle from "~/components/DropdownTitle";
 import CountrySelect from "~/components/CountrySelect";
@@ -697,7 +698,7 @@ function ConfirmBookingForm({
     console.log(phoneNumber.length);
     return (
       title !== "" &&
-      phoneNumber.length === 13 &&
+      matchIsValidTel(phoneNumber) &&
       validEmail !== "" &&
       firstName !== "" &&
       lastName !== ""
