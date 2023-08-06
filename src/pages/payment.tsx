@@ -734,6 +734,8 @@ function ConfirmBookingForm({
       console.log("Enter all required details in Primary Guest Form correctly");
       setShowPrimaryGuestErrorAlert(true);
       setShowSuccessAlert(false);
+      setShowPaymentInformationBillingAddressErrorAlert(false);
+      setShowCheckingBoxErrorAlert(false);
     } else if (
       !isPaymentInformationBillingAddressInputValid(
         enteredPaymentInformationBillingAddressData
@@ -743,19 +745,24 @@ function ConfirmBookingForm({
       console.log(
         "Enter all required details in Payment Information and Billing Address Form correctly"
       );
-      setShowCheckingBoxErrorAlert(true);
+      setShowPaymentInformationBillingAddressErrorAlert(true);
       setShowSuccessAlert(false);
+      setShowCheckingBoxErrorAlert(false);
+      setShowPrimaryGuestErrorAlert(false);
     } else if (!(isFirstCheckboxChecked && isSecondCheckboxChecked)) {
       // Display an error message or take appropriate action
       console.log("Please check both checkboxes before confirming the booking");
       setShowCheckingBoxErrorAlert(true);
       setShowSuccessAlert(false);
+      setShowPrimaryGuestErrorAlert(false);
+      setShowPaymentInformationBillingAddressErrorAlert(false);
     } else {
       // Both checkboxes are checked, you can proceed with booking logic here
       console.log("Booking confirmed");
       setShowSuccessAlert(true);
       setShowCheckingBoxErrorAlert(false);
       setShowPrimaryGuestErrorAlert(false);
+      setShowPaymentInformationBillingAddressErrorAlert(false);
     }
   }
   return (
