@@ -211,11 +211,12 @@ export default function SearchBar({
               className="min-w-0 grow-[3] basis-0 transition-all focus-within:grow-[4] hover:grow-[4]"
             >
               <CardActionArea
+                id='date-box'
                 className="flex h-full"
                 onClick={handleCheckInOutClick}
               >
                 <DateRangeOutlined fontSize="medium" className="ms-3" />
-                <Typography className="w-full truncate px-3 text-center">
+                <Typography id='check-text' className="w-full truncate px-3 text-center">
                   {checkInOutText}
                 </Typography>
               </CardActionArea>
@@ -267,12 +268,13 @@ export default function SearchBar({
               className="min-w-0 grow-[3] basis-0 transition-all focus-within:grow-[4] hover:grow-[4]"
             >
               <CardActionArea
+                id='guest-button'
                 ref={guestRef}
                 className="flex h-full"
                 onClick={handleGuestSelectorClick}
               >
                 <HotelOutlined fontSize="medium" className="ms-3" />
-                <Typography className="w-full truncate px-3 text-center">
+                <Typography id='guest-text' className="w-full truncate px-3 text-center">
                   {guestText}
                 </Typography>
               </CardActionArea>
@@ -300,6 +302,7 @@ export default function SearchBar({
         </ClickAwayListener>
 
         <CardActionArea
+          id='search'
           sx={{
             backgroundColor: "primary.main",
           }}

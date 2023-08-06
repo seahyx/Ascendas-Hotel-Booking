@@ -62,7 +62,7 @@ export default function HotelSearchResultList({
   }, [hotelsPricing, currentPage]);
 
   return (
-    <Stack direction="column" className="w-full items-center" spacing={2}>
+    <Stack id='hotel-list' direction="column" className="w-full items-center" spacing={2}>
       {...hotelResultList}
 
       <Pagination

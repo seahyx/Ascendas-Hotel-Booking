@@ -146,6 +146,7 @@ export default function DateSelectorCard({
         }}
       />
       <DateCalendar
+        id='endDate'
         value={endDate}
         onChange={(newDate) => {
           setEndDate(newDate);
