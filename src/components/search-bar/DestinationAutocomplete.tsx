@@ -36,6 +36,7 @@ export default function DestinationAutocomplete({
 
   return (
     <Autocomplete
+      id='auto-box'
       className={className}
       size="small"
       autoHighlight

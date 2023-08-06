@@ -11,10 +11,8 @@ describe('Autocomplete', () => {
       .should('have.class', 'MuiAutocomplete-option')
       .click()
     cy.get("#auto-box").should('have.value', 'Barcelona, Spain') 
-  })
-})
+  });
 
-describe('Autocomplete', () => {
   it('should pick a date', () => {
     cy.visit('http://localhost:3000/')
     //cy.get(".MuiTypography-root MuiTypography-body1 w-full truncate px-3 text-center css-nwh2cx-MuiTypography-root")
@@ -30,5 +28,5 @@ describe('Autocomplete', () => {
       .should('be.visible')
       .contains('4 Aug 2023 - 8 Aug 2023')
 
-  })
+  });
 })
