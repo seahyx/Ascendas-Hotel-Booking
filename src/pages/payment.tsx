@@ -297,6 +297,26 @@ function PaymentInformationBillingAddress({
   };
 
   //Expiry Date field
+
+  const isNotInPast = (mmYyString: string): boolean => {
+    try {
+      const currentDate = new Date();
+      const [month, year] = mmYyString.split("/");
+      const inputDate = new Date(
+        parseInt(`20${year}`, 10),
+        parseInt(`${month}`, 10) - 1
+      );
+
+      if (inputDate < currentDate) {
+        return false;
+      } else {
+        return true;
+      }
+    } catch (error) {
+      // Handle invalid input format
+      return false;
+    }
+  };
   const [expiryDate, setExpiryDate] = useState("");
 
   const handleExpiryDateChange = (value: string) => {
