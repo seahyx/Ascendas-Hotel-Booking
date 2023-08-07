@@ -764,6 +764,7 @@ function ConfirmBookingForm({
       cardNumber.length === 19 &&
       nameOnCard !== "" &&
       isNotInPast(expiryDate) && //make seperate validity checker
+      expiryDate.length === 5 &&
       (cvvcvc.length === 3 || cvvcvc.length === 4) &&
       address !== "" &&
       city !== "" &&
