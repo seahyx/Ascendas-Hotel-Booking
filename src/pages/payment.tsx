@@ -1,26 +1,25 @@
 import {
-  TextField,
+  Alert,
   Box,
   Button,
-  Typography,
-  FormControlLabel,
-  Divider,
   Checkbox,
-  FormGroup,
-  Alert,
   Container,
+  FormControlLabel,
+  FormGroup,
   Paper,
   Stack,
+  TextField,
+  Typography,
 } from "@mui/material";
-import Head from "next/head";
-import React, { useState, useEffect } from "react";
 import { matchIsValidTel } from "mui-tel-input";
+import Head from "next/head";
+import React, { useEffect, useState } from "react";
 
-import DropdownTitle from "~/components/DropdownTitle";
-import CountrySelect from "~/components/CountrySelect";
-import PhoneNumber from "~/components/PhoneNumber";
-import EmailInput from "~/components/EmailInput";
 import BookingSummary from "~/components/BookingSummary";
+import CountrySelect from "~/components/CountrySelect";
+import DropdownTitle from "~/components/DropdownTitle";
+import EmailInput from "~/components/EmailInput";
+import PhoneNumber from "~/components/PhoneNumber";
 
 interface PrimaryGuestData {
   title: string;
