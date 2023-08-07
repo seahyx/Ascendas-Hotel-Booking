@@ -1,10 +1,17 @@
 // To parse this data:
 //
 //   import { Convert, Hotels } from "./file";
+import { toCapitalizedWords } from "./camelToCapitalized";
 //
 //   const hotels = Convert.toHotels(json);
 
-export type idPricing = {
+export const mapBreakfastInfoToText = (breakfastInfo?: string) => {
+  return breakfastInfo
+    ? toCapitalizedWords(breakfastInfo.split("_").splice(2).join(" "))
+    : "";
+};
+
+export type IdPricing = {
   searchCompleted?: null;
   completed?: boolean;
   status?: null;
@@ -52,16 +59,16 @@ export type MarketRate = {
 export type PriceType = "single";
 
 export type RoomAdditionalInfo = {
-  breakfastInfo?: String;
+  breakfastInfo?: string;
   displayFields?: DisplayFields;
 };
 
 export type DisplayFields = {
-  special_check_in_instructions?: String;
-  check_in_instructions?: String;
-  know_before_you_go?: String;
-  fees_optional?: String;
-  fees_mandatory?: String | boolean;
+  special_check_in_instructions?: string;
+  check_in_instructions?: string;
+  know_before_you_go?: string;
+  fees_optional?: string;
+  fees_mandatory?: string | boolean;
   kaligo_service_fee?: number;
   hotel_fees?: any[];
   surcharges?: Surcharge[];
@@ -73,6 +80,7 @@ export type Surcharge = {
 };
 
 export type Type = "TaxAndServiceFee";
+<<<<<<< HEAD
 
 // Converts JSON strings to/from your types
 export class Convert {
@@ -86,3 +94,5 @@ export class Convert {
     return JSON.stringify(value);
   }
 }
+=======
+>>>>>>> dcb26a544dd2277d689b3e59a9672678913fb9d7

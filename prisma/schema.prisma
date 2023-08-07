@@ -87,6 +87,6 @@ model Booking {
   avgRoomCost   Float
   roomRate      Float
   tax       Float
-  additionalInfo String 
+  additionalInfo String @db.LongText
   }
 

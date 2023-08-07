@@ -1,8 +1,10 @@
 import React, { useState } from "react";
-import { TextField } from "@mui/material";
+import { TextField, TextFieldProps } from "@mui/material";
 
 interface EmailInputProps {
+  label: string;
   onValidEmailChange: (email: string) => void;
+  inputProps?: TextFieldProps;
 }
 
 const isValidEmail = (email: string) => {
@@ -12,7 +14,11 @@ const isValidEmail = (email: string) => {
   return emailRegex.test(email);
 };
 
-export default function EmailInput({ onValidEmailChange }: EmailInputProps) {
+export default function EmailInput({
+  label,
+  onValidEmailChange,
+  inputProps,
+}: EmailInputProps) {
   const [email, setEmail] = useState<string>("");
   const [isEmailValid, setIsEmailValid] = useState<boolean>(true);
 
@@ -29,22 +35,18 @@ export default function EmailInput({ onValidEmailChange }: EmailInputProps) {
   };
 
   return (
-    <form style={{ width: "100%" }}>
-      <TextField
-        fullWidth
-        variant="outlined"
-        id="email"
-        name="email"
-        type="email"
-        inputProps={{ style: { textTransform: "lowercase" } }}
-        onChange={handleEmailChange}
-        value={email}
-        error={!isEmailValid}
-        helperText={!isEmailValid ? "Enter a valid email" : ""}
-        InputLabelProps={{
-          shrink: true,
-        }}
-      />
-    </form>
+    <TextField
+      fullWidth
+      id="email"
+      name="email"
+      type="email"
+      label={label}
+      inputProps={{ style: { textTransform: "lowercase" } }}
+      onChange={handleEmailChange}
+      value={email}
+      error={!isEmailValid}
+      helperText={!isEmailValid ? "Please enter a valid email address" : ""}
+      {...inputProps}
+    />
   );
 }

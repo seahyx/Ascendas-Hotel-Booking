@@ -48,6 +48,8 @@ const MyApp: AppType<{ session: Session | null }> = ({
           name="description"
           content="Book your next destination today with A Hotel Booking - with over 50,000 hotels in over 80 destinations around the world."
         />
+        <link rel="icon" href="/favicon.ico" />
+        <meta name="viewport" content="initial-scale=1, width=device-width" />
       </Head>
       <SessionProvider session={session}>
         <LocalizationProvider dateAdapter={AdapterDateFns}>

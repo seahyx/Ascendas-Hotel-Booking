@@ -8,7 +8,7 @@ import {
 } from "@mui/material";
 import { useEffect, useState } from "react";
 import Image from "next/image";
-import { DestinationPricing, Hotel } from "src/utils/destinationPricing";
+import { Hotel } from "src/utils/destinationPricing";
 import { DestinationHotel } from "src/utils/destinationHotel";
 import useSWR from "swr";
 
@@ -16,6 +16,7 @@ export interface HotelSearchResultItemProps {
   key: string;
   url: string;
   currency: string;
+  perRoomPerNight: number;
   hotelPricing: Hotel;
 }
 
@@ -23,6 +24,7 @@ export default function HotelSearchResultItem({
   key,
   url,
   currency,
+  perRoomPerNight,
   hotelPricing,
 }: HotelSearchResultItemProps) {
   const fetcher = (url: string) => fetch(url).then((r) => r.json());
@@ -35,7 +37,7 @@ export default function HotelSearchResultItem({
     fetcher,
     {
       onSuccess(data, key, config) {
-        console.log(data);
+        // console.log(data);
       },
     }
   );
@@ -47,16 +49,17 @@ export default function HotelSearchResultItem({
   return (
     <Card className="h-40 w-full" key={key}>
       <CardActionArea href={url} className="flex h-full flex-row">
-        <Box className="relative h-full w-64 shrink-0">
+        <Box className="relative h-full w-64 shrink-0 bg-slate-300">
           <Image
             src={
               hotelDetails
-                ? `${hotelDetails.image_details.prefix}${hotelDetails.default_image_index}${hotelDetails.image_details.suffix}`
-                : "/img/hotelplaceholder.jpg"
+                ? `${hotelDetails.image_details.prefix}0${hotelDetails.image_details.suffix}`
+                : ""
             }
             sizes="32rem"
             alt="Hotel Image"
             className="object-cover"
+            loading="eager"
             quality={20}
             fill
           />
@@ -90,7 +93,7 @@ export default function HotelSearchResultItem({
               Select a room starting from:
             </Typography>
             <Typography whiteSpace="nowrap" component="h3" variant="h6">
-              {currency} {hotelPricing.price}
+              {currency} {(hotelPricing.price / perRoomPerNight).toFixed(0)}
             </Typography>
             <Typography component="p" variant="body2">
               /night

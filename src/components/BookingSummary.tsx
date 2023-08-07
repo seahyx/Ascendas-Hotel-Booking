@@ -6,6 +6,7 @@ import {
   Divider,
   Typography,
   Box,
+  Stack,
 } from "@mui/material";
 
 interface BookingSummaryProps {
@@ -40,56 +41,101 @@ export default function BookingSummary({
   grandTotal,
 }: BookingSummaryProps) {
   return (
-    <Card>
+    <Card variant="outlined">
       <CardHeader
         title="Booking Summary"
-        titleTypographyProps={{ variant: "h6" }}
+        titleTypographyProps={{ variant: "h5" }}
       />
+      <Divider />
       <CardContent>
-        <Box marginBottom={2}>
-          <Typography variant="h6">{hotelName}</Typography>
-          <Typography fontWeight="bold">{roomType}</Typography>
-          <Typography>Room Only</Typography>
-          <Typography>
-            {roomCount === 1 ? "1 Room" : `${roomCount} Rooms`} for{" "}
-            {adultCount === 1 ? "1 Adult" : `${adultCount} Adults `}
-            {childCount === 0
-              ? ""
-              : childCount === 1
-              ? "and 1 Child"
-              : `and ${childCount} Children`}
-          </Typography>
-        </Box>
-        <Divider />
-        <Box marginBottom={2}>
-          <Typography>Check-in: {checkInDate}</Typography>
-          <Typography>Check-out: {checkOutDate}</Typography>
-          <Typography>
-            {numberOfNights === 1 ? "1 Night" : `${numberOfNights} Nights`}
-          </Typography>
-          <Typography>
-            Average per room per night: {currency} {roomPrice}
-          </Typography>
-        </Box>
-        <Divider />
-        <Box fontWeight="bold" marginBottom={2}>
-          <Typography>
-            Room rate for{" "}
-            {numberOfNights === 1 ? "1 Night" : `${numberOfNights} Nights`},
-            {roomCount === 1 ? "1 Room" : `${roomCount} Rooms`} : {currency}{" "}
-            {roomRate}
-          </Typography>
-          <Typography>
-            Tax Recovery Charges And Service Fees: {currency}{" "}
-            {taxAndRecoveryCharges}
-          </Typography>
-        </Box>
-        <Divider />
-        <Box fontWeight="bold">
-          <Typography fontSize="1.2em">
-            Total: {currency} {grandTotal}
-          </Typography>
-        </Box>
+        <Stack spacing={1} divider={<Divider />}>
+          <Box>
+            <Typography variant="h6">{hotelName}</Typography>
+            <Typography variant="subtitle2">{roomType}</Typography>
+            <Typography>Room Only</Typography>
+            <Typography>
+              {roomCount === 1 ? "1 Room" : `${roomCount} Rooms`} for{" "}
+              {adultCount === 1 ? "1 Adult" : `${adultCount} Adults `}
+              {childCount === 0
+                ? ""
+                : childCount === 1
+                ? "and 1 Child"
+                : `and ${childCount} Children`}
+            </Typography>
+          </Box>
+          <Box>
+            <Stack
+              direction="row"
+              spacing={2}
+              className="place-content-between"
+            >
+              <Typography>Check-in:</Typography>{" "}
+              <Typography>{checkInDate}</Typography>
+            </Stack>
+            <Stack
+              direction="row"
+              spacing={2}
+              className="place-content-between"
+            >
+              <Typography>Check-out:</Typography>{" "}
+              <Typography>{checkOutDate}</Typography>
+            </Stack>
+            <Typography variant="subtitle2" className="text-end">
+              {numberOfNights === 1 ? "1 Night" : `${numberOfNights} Nights`}
+            </Typography>
+
+            <Stack
+              direction="row"
+              spacing={2}
+              className="place-content-between items-baseline"
+            >
+              <Typography variant="body2">Avg per room per night:</Typography>
+              <Typography className="shrink-0">
+                {currency} {roomPrice}
+              </Typography>
+            </Stack>
+          </Box>
+          <Box>
+            <Stack
+              direction="row"
+              spacing={2}
+              className="place-content-between items-baseline"
+            >
+              <Typography variant="body2">
+                Room rate for{" "}
+                {numberOfNights === 1 ? "1 Night" : `${numberOfNights} Nights`},
+                {roomCount === 1 ? "1 Room" : ` ${roomCount} Rooms`}:
+              </Typography>
+              <Typography>
+                {currency} {roomRate}
+              </Typography>
+            </Stack>
+            <Stack
+              direction="row"
+              spacing={2}
+              className="place-content-between items-baseline"
+            >
+              <Typography variant="body2">
+                Tax, Recovery Charges, and Service Fees:
+              </Typography>
+              <Typography className="shrink-0">
+                {currency} {taxAndRecoveryCharges}
+              </Typography>
+            </Stack>
+          </Box>
+          <Box>
+            <Stack
+              direction="row"
+              spacing={2}
+              className="place-content-between items-baseline"
+            >
+              <Typography variant="h5">Total:</Typography>
+              <Typography variant="h4" className="shrink-0">
+                {currency} {grandTotal}
+              </Typography>
+            </Stack>
+          </Box>
+        </Stack>
       </CardContent>
     </Card>
   );

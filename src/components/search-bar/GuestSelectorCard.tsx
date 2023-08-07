@@ -1,12 +1,5 @@
 import { AddRounded, RemoveRounded } from "@mui/icons-material";
-import {
-  Box,
-  Card,
-  Divider,
-  IconButton,
-  Stack,
-  Typography,
-} from "@mui/material";
+import { Card, Divider, IconButton, Stack, Typography } from "@mui/material";
 import { PropsWithChildren, useState } from "react";
 
 interface GuestSelectRowProps {
@@ -44,6 +37,11 @@ interface GuestSelectorCardProps {
     child: number;
     rooms: number;
   };
+  defaultValues?: {
+    adults?: number;
+    child?: number;
+    rooms?: number;
+  };
 }
 
 export default function GuestSelectorCard({
@@ -51,10 +49,11 @@ export default function GuestSelectorCard({
   onSetChild,
   onSetRooms,
   max,
+  defaultValues,
 }: GuestSelectorCardProps) {
-  const [numAdults, _setNumAdults] = useState(1);
-  const [numChild, _setNumChild] = useState(0);
-  const [numRooms, _setNumRooms] = useState(1);
+  const [numAdults, _setNumAdults] = useState(defaultValues?.adults ?? 1);
+  const [numChild, _setNumChild] = useState(defaultValues?.child ?? 0);
+  const [numRooms, _setNumRooms] = useState(defaultValues?.rooms ?? 1);
   const setNumAdults = (value: number) => {
     _setNumAdults(value);
     onSetAdults && onSetAdults(value);
@@ -80,7 +79,7 @@ export default function GuestSelectorCard({
           onAdd={() =>
             numAdults < (max?.adults ?? 10) && setNumAdults(numAdults + 1)
           }
-          onRemove={() => numAdults > 0 && setNumAdults(numAdults - 1)}
+          onRemove={() => numAdults > 1 && setNumAdults(numAdults - 1)}
         >
           Adults
         </GuestSelectRow>
@@ -98,7 +97,7 @@ export default function GuestSelectorCard({
           onAdd={() =>
             numRooms < (max?.rooms ?? 5) && setNumRooms(numRooms + 1)
           }
-          onRemove={() => numRooms > 0 && setNumRooms(numRooms - 1)}
+          onRemove={() => numRooms > 1 && setNumRooms(numRooms - 1)}
         >
           Rooms
         </GuestSelectRow>

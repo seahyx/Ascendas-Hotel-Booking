@@ -23,7 +23,7 @@ export default function Footer() {
       bgcolor="secondary.main"
       className="flex h-32 justify-center py-8"
     >
-      <Container maxWidth="sm">
+      <Container maxWidth="lg">
         <Typography
           variant="body1"
           color="secondary.contrastText"
