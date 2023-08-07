@@ -91,7 +91,7 @@ export default function BookingSummary({
             >
               <Typography variant="body2">Avg per room per night:</Typography>
               <Typography className="shrink-0">
-                {currency} {roomPrice}
+                {currency} {roomPrice.toFixed(2)}
               </Typography>
             </Stack>
           </Box>
@@ -103,11 +103,11 @@ export default function BookingSummary({
             >
               <Typography variant="body2">
                 Room rate for{" "}
-                {numberOfNights === 1 ? "1 Night" : `${numberOfNights} Nights`},
-                {roomCount === 1 ? "1 Room" : ` ${roomCount} Rooms`}:
+                {numberOfNights === 1 ? "1 Night " : `${numberOfNights} Nights`}
+                ,{roomCount === 1 ? "1 Room" : ` ${roomCount} Rooms`}:
               </Typography>
               <Typography>
-                {currency} {roomRate}
+                {currency} {roomRate.toFixed(2)}
               </Typography>
             </Stack>
             <Stack
@@ -119,7 +119,7 @@ export default function BookingSummary({
                 Tax, Recovery Charges, and Service Fees:
               </Typography>
               <Typography className="shrink-0">
-                {currency} {taxAndRecoveryCharges}
+                {currency} {taxAndRecoveryCharges.toFixed(2)}
               </Typography>
             </Stack>
           </Box>
@@ -131,7 +131,7 @@ export default function BookingSummary({
             >
               <Typography variant="h5">Total:</Typography>
               <Typography variant="h4" className="shrink-0">
-                {currency} {grandTotal}
+                {currency} {grandTotal.toFixed(2)}
               </Typography>
             </Stack>
           </Box>
