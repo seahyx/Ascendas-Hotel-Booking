@@ -638,7 +638,7 @@ function ConfirmBookingForm({
           label="I confirm that my payment details and preferred loyalty program are correct."
         />
       </FormGroup>
-      <Button variant="contained" onClick={handleConfirmBooking}>
+      <Button variant="contained" onClick={handleConfirmBooking} size="large">
         Confirm Booking
       </Button>
 
