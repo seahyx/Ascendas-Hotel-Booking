@@ -33,6 +33,20 @@ describe('Navigation', () => {
     })
   })
   /*
+  describe('Navigate from search to hotels', () => {
+    it('should navigate to the hotels page', () => {
+      // Start from the search page
+      cy.visit('http://localhost:3000/search')
+
+      // Perform a search to get results on page
+
+      // Find a link with an href attribute containing "hotels" and click it
+      cy.get('a[href*="hotels"]').click()
+
+      // The new url should include "/login"
+      cy.url().should('include', '/hotels')
+    })
+  })
   describe('Navigate from profile to bookingHistory', () => {
     it('should navigate to the history page', () => {
       // Start from the profile page
@@ -50,8 +64,10 @@ describe('Navigation', () => {
   })
   describe('Navigate from id to payment', () => {
     it('should navigate to the payment page', () => {
+      // Get an id for testing
+      
       // Start from the details page
-      cy.visit('http://localhost:3000/details')
+      cy.visit('http://localhost:3000/hotels/')
 
       // Find a link with an href attribute containing "payment" and click it
       cy.get('a[href*="payment"]').click()
