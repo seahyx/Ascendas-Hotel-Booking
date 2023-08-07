@@ -128,4 +128,4 @@ async function run() {
 
 
 run();
-export { addBooking, getBookings };
+export { addBooking, getBookings, getLatestBooking };
