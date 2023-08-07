@@ -14,7 +14,7 @@ export default function Home(props) {
       <ThemeProvider theme={getTheme("dark")}>
         <Box className="relative mb-6 h-[20rem] w-full">
           <Container
-            maxWidth="md"
+            maxWidth="lg"
             className="absolute bottom-0 left-0 right-0 z-20"
           >
             <Typography
@@ -45,7 +45,7 @@ export default function Home(props) {
           <div className="absolute z-10 h-full w-full bg-gradient-to-b from-transparent via-[rgba(0,0,0,0.2)] to-[rgba(0,0,0,0.5)]"></div>
           <ThemeProvider theme={theme}>
             <Container
-              maxWidth="md"
+              maxWidth="lg"
               className="absolute -bottom-6 left-0 right-0 z-20"
             >
               <SearchBar />
