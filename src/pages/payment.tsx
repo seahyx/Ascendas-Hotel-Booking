@@ -517,6 +517,9 @@ function PaymentInformationBillingAddress({
                 handleExpiryDateChange(event.target.value);
               }}
             />
+            {!isNotInPast(expiryDate) && expiryDate !== "" && (
+              <div style={{ color: "red" }}>Invalid Expiry Date</div>
+            )}
           </Box>
         </Box>
         <Box
@@ -724,6 +727,25 @@ function ConfirmBookingForm({
       lastName !== ""
     );
   };
+  const isNotInPast = (mmYyString: string): boolean => {
+    try {
+      const currentDate = new Date();
+      const [month, year] = mmYyString.split("/");
+      const inputDate = new Date(
+        parseInt(`20${year}`, 10),
+        parseInt(`${month}`, 10) - 1
+      );
+
+      if (inputDate < currentDate) {
+        return false;
+      } else {
+        return true;
+      }
+    } catch (error) {
+      // Handle invalid input format
+      return false;
+    }
+  };
 
   const isPaymentInformationBillingAddressInputValid = (
     enteredPaymentInformationBillingAddressData: PaymentInformationBillingAddressData
@@ -741,7 +763,7 @@ function ConfirmBookingForm({
     return (
       cardNumber.length === 19 &&
       nameOnCard !== "" &&
-      expiryDate.length === 5 && //make seperate validity checker
+      isNotInPast(expiryDate) && //make seperate validity checker
       (cvvcvc.length === 3 || cvvcvc.length === 4) &&
       address !== "" &&
       city !== "" &&
