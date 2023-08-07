@@ -7,11 +7,15 @@ import { DESTINATIONS, Destination } from "src/utils/destinations";
 interface DestinationAutocompleteProps {
   className?: React.HTMLProps<HTMLElement>["className"];
   onChange?: (value: Destination | null) => void;
+  defaultValues?: {
+    dest?: Destination;
+  };
 }
 
 export default function DestinationAutocomplete({
   className,
   onChange,
+  defaultValues,
 }: DestinationAutocompleteProps) {
   const [options, setOptions] = useState<readonly Destination[]>([]);
   const [loading, setLoading] = useState(false);
@@ -44,6 +48,7 @@ export default function DestinationAutocomplete({
       onChange={(event, value: Destination | null) =>
         onChange ? onChange(value) : null
       }
+      defaultValue={defaultValues?.destination}
       loading={loading}
       options={options}
       getOptionLabel={(option) => option.term}
@@ -59,6 +64,7 @@ export default function DestinationAutocomplete({
           {...params}
           variant="standard"
           placeholder="Search destinations"
+          defaultValue={defaultValues?.destination?.term}
           sx={{
             input: {
               "&::placeholder": {

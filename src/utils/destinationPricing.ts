@@ -2,8 +2,7 @@
 //
 //   import { Convert, DestinationPricing } from "./file";
 import { format } from "date-fns";
-import { ParsedUrlQuery } from "querystring";
-import { SearchParams } from "src/components/search-bar/SearchBar";
+import { SearchParams } from "./searchParams";
 //
 //   const destinationPricing = Convert.toDestinationPricing(json);
 //
@@ -11,9 +10,9 @@ import { SearchParams } from "src/components/search-bar/SearchBar";
 // match the expected interface, even if the JSON is valid.
 
 const HotelsPricesAPI = "/hotelapi/hotels/prices";
-const LocalSearchAPI = "/search";
+const HotelPricesAPI = ["/hotelapi/hotels/", "/price"];
 
-export type PricingSearchQueryParams = {
+export type PricingSearchParams = {
   destination_id: string;
   checkin: Date;
   checkout: Date;
@@ -66,6 +65,22 @@ export enum PriceType {
 // Converts JSON strings to/from your types
 // and asserts the results of JSON.parse at runtime
 export class Convert {
+  public static searchParamsToPricingSearchParams(
+    searchParams: SearchParams
+  ): PricingSearchParams {
+    const pricingSearchParams: PricingSearchParams = {
+      destination_id: searchParams.uid,
+      checkin: searchParams.checkInDate,
+      checkout: searchParams.checkOutDate,
+      lang: "en_US",
+      currency: "SGD",
+      country_code: "SG",
+      rooms: searchParams.rooms,
+      guests: searchParams.adults + searchParams.child,
+    };
+    return pricingSearchParams;
+  }
+
   public static toDestinationPricing(json: string): DestinationPricing {
     return cast(JSON.parse(json), r("DestinationPricing"));
   }
@@ -75,7 +90,8 @@ export class Convert {
   }
 
   public static buildDestinationPricingQueryUrl(
-    searchParams: PricingSearchQueryParams
+    pricingSearchParams: PricingSearchParams,
+    queryOnly: boolean = false
   ): string {
     const guestRoomStringBuilder = (rooms: number, guests: number) => {
       if (rooms == 0) return "0";
@@ -89,18 +105,38 @@ export class Convert {
     };
 
     let urlParams = new URLSearchParams();
-    urlParams.append("destination_id", searchParams.destination_id);
-    urlParams.append("checkin", format(searchParams.checkin, "yyyy-MM-dd"));
-    urlParams.append("checkout", format(searchParams.checkout, "yyyy-MM-dd"));
-    urlParams.append("lang", searchParams.lang);
-    urlParams.append("currency", searchParams.currency);
+    urlParams.append("destination_id", pricingSearchParams.destination_id);
+    urlParams.append(
+      "checkin",
+      format(pricingSearchParams.checkin, "yyyy-MM-dd")
+    );
+    urlParams.append(
+      "checkout",
+      format(pricingSearchParams.checkout, "yyyy-MM-dd")
+    );
+    urlParams.append("lang", pricingSearchParams.lang);
+    urlParams.append("currency", pricingSearchParams.currency);
     urlParams.append(
       "guests",
-      guestRoomStringBuilder(searchParams.rooms, searchParams.guests)
+      guestRoomStringBuilder(
+        pricingSearchParams.rooms,
+        pricingSearchParams.guests
+      )
     );
-    urlParams.append("partner_id", searchParams.partner_id ?? "1");
+    urlParams.append("partner_id", pricingSearchParams.partner_id ?? "1");
 
-    return `${HotelsPricesAPI}?${urlParams}`;
+    return queryOnly ? urlParams.toString() : `${HotelsPricesAPI}?${urlParams}`;
+  }
+
+  public static buildHotelPricingQueryUrl(
+    pricingSearchParams: PricingSearchParams,
+    hotelId: string
+  ): string {
+    const query = this.buildDestinationPricingQueryUrl(
+      pricingSearchParams,
+      true
+    );
+    return HotelPricesAPI.join(hotelId) + "?" + query;
   }
 }
 

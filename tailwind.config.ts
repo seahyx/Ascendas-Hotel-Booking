@@ -7,7 +7,7 @@ export default {
   theme: {
     extend: {},
   },
-  plugins: [],
+  plugins: [require("tailwind-gradient-mask-image")],
   corePlugins: {
     preflight: false,
   },
