@@ -1,9 +1,18 @@
 /// <reference types="cypress" />
 // @ts-check
 
-describe('Autocomplete the seachbar', () => {
-  it('implement the searchbar', () => {
+describe('From Start to Finish', () => {
+  it('implement the app', () => {
     cy.visit('http://localhost:3000/')
+    cy.visit('http://localhost:3000/register')
+    cy.get('input[name="name"]').type("Guest")
+    cy.get('input[name="email"]').type("abc@example.com")
+    cy.get('input[name="password"]').type("Password1")
+    cy.get('input[name="confirmPassword"]').type("Password1")
+    cy.get('.PrivateSwitchBase-input').check();
+    cy.get("#submit").click()
+    cy.wait(5000)
+
     cy.get("#auto-box").click()
     cy.focused().type('barcelona')
     cy.wait(2000)
@@ -35,15 +44,11 @@ describe('Autocomplete the seachbar', () => {
     cy.get('#guest-text').contains('2 Adults/1 Room')
     cy.wait(2000)
     cy.get('#search').click()
-    //Down below is the URL when u fill in the above details. Need to do this because cypress does not load pages unless you 
-    //input cy.visit(). So if u want to change the details, remember to change the search URL as well.
-    //If u have any idea to make it better feel free to change
-    cy.visit('http://localhost:3000/search?search=%7B%22dest%22%3A%7B%22term%22%3A%22Barcelona%2C+Spain%22%2C%22uid%22%3A%22FkG9%22%2C%22lat%22%3A41.387917%2C%22lng%22%3A2.169919%2C%22type%22%3A%22city%22%2C%22state%22%3A%22Barcelona%22%7D%2C%22checkInDate%22%3A%222023-08-23T15%3A48%3A40.000Z%22%2C%22checkOutDate%22%3A%222023-08-28T15%3A48%3A40.000Z%22%2C%22guests%22%3A%7B%22adults%22%3A2%2C%22child%22%3A0%2C%22rooms%22%3A1%7D%7D')
+    cy.get('#search > .MuiTypography-root').click()
     cy.url().should('include', '/search?')
     cy.wait(5000)
 
-    cy.get('#hotel-list').find('[href="/hotels/4ptz"]').click()
-    cy.visit('http://localhost:3000/hotels/4ptz')
+    cy.get(':nth-child(1) > .MuiButtonBase-root > .p-4 > .css-m69qwo-MuiStack-root > .MuiTypography-root').click();
     cy.wait(3000)
 
 
