@@ -63,11 +63,57 @@ async function getBookings(uidn: number) {
       },
     });
 
-    console.log(res);
+    return (res);
   } catch (err) {
     console.log(err);
   } finally {
     await prisma.$disconnect(); // Don't use an async function in the finally block, directly await the $disconnect()
+  }
+}
+
+async function getLatestBooking(uidn: number) {
+  try {
+    const res = await prisma.booking.findMany({
+      where: {
+        uid: {
+          equals: uidn,
+        },
+      },
+      orderBy: {
+        id: 'desc', // Assuming id is the auto-incrementing primary key or timestamp field
+      },
+    });
+
+    console.log(res);
+    return res.length > 0 ? res[0] : null; // Return the first item (latest booking) if available, otherwise return null
+  } catch (err) {
+    console.log(err);
+    return null;
+  } finally {
+    await prisma.$disconnect();
+  }
+}
+
+async function getBookingWithId(idn: number) {
+  try {
+    const res = await prisma.booking.findMany({
+      where: {
+        id: {
+          equals: idn,
+        },
+      },
+      orderBy: {
+        id: 'desc', // Assuming id is the auto-incrementing primary key or timestamp field
+      },
+    });
+
+    console.log(res);
+    return res.length > 0 ? res[0] : null; // Return the first item (latest booking) if available, otherwise return null
+  } catch (err) {
+    console.log(err);
+    return null;
+  } finally {
+    await prisma.$disconnect();
   }
 }
 
@@ -99,11 +145,13 @@ async function run() {
 
     const bookings = await getBookings(3);
 
+    console.log("This code is ran from bookingfunctions.ts async function run ()")
+
     console.log('Read Booking', bookings)
   } catch (error) {
     console.error('Error creating booking:', error);
   }
 }
 
-run();
-export { addBooking, getBookings };
+
+export { addBooking, getBookings,getLatestBooking,getBookingWithId };
