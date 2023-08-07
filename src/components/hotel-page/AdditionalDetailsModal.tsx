@@ -74,18 +74,20 @@ export const AdditionalDetailsModal = ({
             <Typography variant="h4">
               {room.roomNormalizedDescription}
             </Typography>
-            <Box>
-              <Typography variant="h5" className="mb-2">
-                Details
-              </Typography>
-              <ExpandableBox maxHeightRem={20}>
-                <Box
-                  dangerouslySetInnerHTML={{
-                    __html: room?.long_description ?? "",
-                  }}
-                />
-              </ExpandableBox>
-            </Box>
+            {room.long_description && (
+              <Box>
+                <Typography variant="h5" className="mb-2">
+                  Details
+                </Typography>
+                <ExpandableBox maxHeightRem={20}>
+                  <Box
+                    dangerouslySetInnerHTML={{
+                      __html: room?.long_description ?? "",
+                    }}
+                  />
+                </ExpandableBox>
+              </Box>
+            )}
             <Box>
               <Typography variant="h5" className="mb-4">
                 Amenities
