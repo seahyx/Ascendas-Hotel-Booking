@@ -1,17 +1,13 @@
 // To parse this data:
 //
 //   import { Convert, Hotels } from "./file";
+import { toCapitalizedWords } from "./camelToCapitalized";
 //
 //   const hotels = Convert.toHotels(json);
 
-const breakfastInfoToTextMapping: Record<string, string> = {
-  hotel_detail_room_only: "Room only",
-  hotel_detail_breakfast_included: "Breakfast included",
-};
-
 export const mapBreakfastInfoToText = (breakfastInfo?: string) => {
   return breakfastInfo
-    ? breakfastInfoToTextMapping[breakfastInfo] ?? breakfastInfo
+    ? toCapitalizedWords(breakfastInfo.split("_").splice(2).join(" "))
     : "";
 };
 
