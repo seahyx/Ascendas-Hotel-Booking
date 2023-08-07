@@ -34,7 +34,7 @@ describe('Registration', () => {
         cy.get('input[name="email"]').type("abc@example.com")
         cy.get('input[name="password"]').type("Password1")
         cy.get('input[name="confirmPassword"]').type("P2")
-        cy.get("#submit").click() //TO-DO 
+        cy.get("#submit").should('be.disabled') //TO-DO 
         cy.url().should('include', '/register')
       })
     it('should allow registration if valid inputs', () => {
