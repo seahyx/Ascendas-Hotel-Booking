@@ -26,7 +26,7 @@ export const getTheme = (mode: PaletteMode) =>
             },
             secondary: {
               main: "#240900",
-              contrastText: "#ffffff66",
+              contrastText: "#ffffffaa",
             },
             warning: {
               main: "#ed6c02",
@@ -40,7 +40,7 @@ export const getTheme = (mode: PaletteMode) =>
             },
             secondary: {
               main: "#240900",
-              contrastText: "#ffffff66",
+              contrastText: "#ffffffaa",
             },
             warning: {
               main: "#e65100",

@@ -1,9 +1,12 @@
-import { Box, Typography } from "@mui/material";
+import { Box, Button, Typography } from "@mui/material";
 import { useState } from "react";
 import TopBarWithSearch from "src/components/search-bar/TopBarWithSearch";
 import { Convert, DestinationPricing } from "src/utils/destinationPricing";
 import useSWR from "swr";
 import { SearchParams } from "~/utils/searchParams";
+
+import "yet-another-react-lightbox/styles.css";
+import { Lightbox } from "yet-another-react-lightbox";
 
 export default function DebugAPIPage(props) {
   const fetcher = (url: string) => fetch(url).then((r) => r.json());
@@ -29,12 +32,25 @@ export default function DebugAPIPage(props) {
     setUrl(url);
   };
 
+  const [index, setIndex] = useState(0);
+  const [lightboxOpen, setLightboxOpen] = useState(false);
+
   return (
     <>
       <TopBarWithSearch onSearchButtonClick={setSearchParams} />
       <Box className="w-full">
         <Typography variant="body2">{JSON.stringify(data)}</Typography>
       </Box>
+      <Button variant="contained" onClick={() => setLightboxOpen(true)}>
+        Open lightbox
+      </Button>
+      <Lightbox
+        index={index}
+        open={lightboxOpen}
+        close={() => setLightboxOpen(false)}
+        // slides={slides}
+        // render={{ slide: NextJsImage }}
+      />
     </>
   );
 }

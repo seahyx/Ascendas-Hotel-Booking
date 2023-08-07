@@ -1,90 +1,38 @@
 import {
-  LocationOnRounded,
-  StarRounded,
-  StarsRounded,
-} from "@mui/icons-material";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import {
-  Accordion,
-  AccordionDetails,
-  AccordionSummary,
   Box,
   Button,
+  CardActionArea,
+  Chip,
   Container,
-  Link,
   Paper,
-  Rating,
   Stack,
   Typography,
 } from "@mui/material";
+import GoogleMap from "google-maps-react-markers";
 import { GetServerSideProps, InferGetServerSidePropsType } from "next";
 import Head from "next/head";
-import Image from "next/image";
-import {
-  PropsWithChildren,
-  ReactNode,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
+import { useRef, useState } from "react";
 import TopBarWithSearch from "src/components/search-bar/TopBarWithSearch";
 import useSWR from "swr";
+import ExpandableBox from "~/components/ExpandableBox";
+import Marker from "~/components/google-map/Marker";
+import { AmenitiesRatingSection } from "~/components/hotel-page/AmenitiesRatingSection";
+import { ImageSection } from "~/components/hotel-page/ImageSection";
+import { OverviewChips } from "~/components/hotel-page/OverviewChips";
+import { RoomSection } from "~/components/hotel-page/RoomSection";
+import { TitleSection } from "~/components/hotel-page/TitleSection";
+import { toCapitalizedWords } from "~/utils/camelToCapitalized";
 import { DestinationHotel } from "~/utils/destinationHotel";
 import { Convert } from "~/utils/destinationPricing";
 import { IdPricing, Room } from "~/utils/idPricing";
-import { SearchParams, parsedQueryToSearchParams } from "~/utils/searchParams";
-
-const TitleSection = ({
-  hotelDetails,
-}: {
-  hotelDetails?: DestinationHotel;
-}) => {
-  const SubItemContainer = ({ children }: { children?: ReactNode }) => (
-    <Box className="flex flex-row items-center gap-2">{children}</Box>
-  );
-  const city = hotelDetails?.original_metadata.city;
-  const state = hotelDetails?.original_metadata.state;
-
-  return (
-    <Stack direction="row" className="w-full">
-      <Stack direction="column" spacing={1}>
-        <Typography component="h1" variant="h2">
-          {hotelDetails?.name}
-        </Typography>
-        <Stack direction="row" spacing={3} className="items-center">
-          <SubItemContainer>
-            <StarRounded color="primary" />
-            <Typography variant="subtitle1">
-              <strong>{hotelDetails?.trustyou.score.kaligo_overall}</strong>
-            </Typography>
-            <Typography variant="subtitle1" color="text.secondary">
-              TrustYou™ Rating
-            </Typography>
-          </SubItemContainer>
-          <SubItemContainer>
-            <Rating
-              value={hotelDetails?.rating}
-              precision={0.5}
-              sx={{ color: "primary.light" }}
-              readOnly
-            />
-            <Typography color="text.secondary">
-              {hotelDetails?.rating}-Star Hotel
-            </Typography>
-          </SubItemContainer>
-          <SubItemContainer>
-            <LocationOnRounded color="primary" />
-            <Typography color="text.secondary">
-              {hotelDetails?.address}
-              {city ? `, ${city}` : ""}
-              {state ? `, ${state}` : ""}
-            </Typography>
-          </SubItemContainer>
-        </Stack>
-      </Stack>
-    </Stack>
-  );
-};
+import {
+  SearchParams,
+  jsonToSearchParams,
+  parsedQueryToSearchParams,
+} from "~/utils/searchParams";
+import { DateSelectorPopper } from "../../components/search-bar/DateSelectorPopper";
+import { GuestSelectorPopper } from "~/components/search-bar/GuestSelectorPopper";
+import { differenceInDays } from "date-fns";
 
 export const getServerSideProps: GetServerSideProps<{
   searchParamsJSON?: string;
@@ -144,12 +92,12 @@ export default function HotelDetails({
       hotelDetails,
       pricingQueryUrl,
     }: InferGetServerSidePropsType<typeof getServerSideProps>) {
-  const scrollToRooms = useRef();
+  const roomsHeaderRef = useRef<HTMLHeadingElement>(null);
   const currency = "SGD";
   const [startingPrice, setStartingPrice] = useState(0);
 
   // console.log(hotelDetails);
-  console.log(pricingQueryUrl);
+  // console.log(pricingQueryUrl);
 
   const fetcher = (url: string) => fetch(url).then((r) => r.json());
   const checkSearchComplete = (data: IdPricing) => {
@@ -157,18 +105,15 @@ export default function HotelDetails({
     return 500;
   };
   const onPricingResponse = (data: IdPricing) => {
-    console.log(data);
+    // console.log(data);
     if (data.completed) {
       const rooms: Room[] = data.rooms ?? [];
       setStartingPrice(
         rooms.reduce((prev, curr) => {
-          if (
-            prev === -1 ||
-            (curr.lowest_converted_price && prev > curr.lowest_converted_price)
-          ) {
-            return curr.lowest_converted_price ?? -1;
+          if (prev === -1 || (curr.price && prev > curr.price)) {
+            return curr.price ?? -1;
           }
-          return -1;
+          return prev;
         }, -1)
       );
     }
@@ -182,103 +127,239 @@ export default function HotelDetails({
     }
   );
 
+  const searchParams: SearchParams | undefined = searchParamsJSON
+    ? jsonToSearchParams(searchParamsJSON)
+    : undefined;
+  console.log(searchParams);
+
+  // Check in/out date range picker
+  const checkInOutRef = useRef(null);
+
+  const defaultCheckInOutText = "Check-in/out";
+  const [checkInOutErr, setCheckInOutErr] = useState(false);
+  const [checkInDate, setCheckInDate] = useState<Date>(
+    searchParams?.checkInDate ?? new Date()
+  );
+  const [checkOutDate, setCheckOutDate] = useState<Date>(
+    searchParams?.checkOutDate ?? new Date()
+  );
+  const [checkInOutText, setCheckInOutText] = useState(defaultCheckInOutText);
+  const [checkInOutPopperAnchor, setCheckInOutPopperAnchor] =
+    useState<null | HTMLElement>(null);
+
+  const handleCheckInOutClick = () => {
+    setCheckInOutErr(false);
+    setCheckInOutPopperAnchor(
+      checkInOutPopperAnchor ? null : checkInOutRef.current
+    );
+  };
+
+  // Guest selector
+  const guestRef = useRef(null);
+
+  const defaultGuestText = "Guests/Rooms";
+  const [guestErr, setGuestErr] = useState(false);
+  const [guestText, setGuestText] = useState(defaultGuestText);
+  const [guestPopperAnchor, setGuestPopperAnchor] =
+    useState<null | HTMLElement>(null);
+
+  const handleGuestSelectorClick = () => {
+    setGuestErr(false);
+    setGuestPopperAnchor(guestPopperAnchor ? null : guestRef.current);
+  };
+
+  const [numAdults, setNumAdults] = useState(searchParams?.adults ?? 1);
+  const [numChild, setNumChild] = useState(searchParams?.child ?? 0);
+  const [numRooms, setNumRooms] = useState(searchParams?.rooms ?? 1);
+
   return (
     <>
       <Head>
         <title>{hotelDetails?.name} - SUTDHotelBooking</title>
         <meta name="description" content="Details of chosen hotel here." />
       </Head>
-      <TopBarWithSearch />
+      <TopBarWithSearch
+        initialValues={{
+          checkInDate: searchParams?.checkInDate,
+          checkOutDate: searchParams?.checkOutDate,
+          adults: searchParams?.adults,
+          child: searchParams?.child,
+          rooms: searchParams?.rooms,
+        }}
+      />
       <Container maxWidth="lg" className="my-6">
-        <Stack direction="column" spacing={2}>
+        <Stack direction="column" spacing={3}>
           <TitleSection hotelDetails={hotelDetails} />
-          <Box
-            className="grid h-96 w-full grid-flow-dense grid-cols-4 gap-4 overflow-hidden"
-            borderRadius={1}
-          >
-            <Box className="col-span-2 row-span-2 bg-slate-600"></Box>
-            <Box className="bg-slate-300"></Box>
-            <Box className="bg-slate-300"></Box>
-            <Box className="bg-slate-300"></Box>
-            <Box className="bg-slate-300"></Box>
-          </Box>
-          <Box>
-            <Accordion defaultExpanded>
-              <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-                <Typography
-                  component="h2"
-                  variant="h5"
-                  className="font-semibold"
-                >
-                  Hotel overview
-                </Typography>
-              </AccordionSummary>
-              <AccordionDetails>
-                <Typography
-                  component="div"
+          <ImageSection hotelDetails={hotelDetails} />
+          <Stack direction="row" spacing={2}>
+            <Stack direction="column" className="grow">
+              <Typography component="h2" variant="h4">
+                Hotel Overview
+              </Typography>
+              <OverviewChips hotelDetails={hotelDetails} />
+              <ExpandableBox maxHeightRem={20}>
+                <Box
                   dangerouslySetInnerHTML={{
                     __html: hotelDetails?.description ?? "",
                   }}
                 />
-              </AccordionDetails>
-            </Accordion>
-            <Accordion defaultExpanded>
-              <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-                <Typography
-                  component="h2"
-                  variant="h5"
-                  className="font-semibold"
+              </ExpandableBox>
+              <Typography component="h2" variant="h4" className="mt-6">
+                Ratings
+              </Typography>
+              <AmenitiesRatingSection hotelDetails={hotelDetails} />
+              <Typography component="h2" variant="h4" className="mt-6">
+                Location
+              </Typography>
+              <Box className="mt-3 h-[32rem] overflow-hidden" borderRadius={1}>
+                <GoogleMap
+                  apiKey=""
+                  defaultCenter={
+                    hotelDetails?.latitude && hotelDetails.longitude
+                      ? {
+                          lat: hotelDetails.latitude,
+                          lng: hotelDetails.longitude,
+                        }
+                      : undefined
+                  }
+                  defaultZoom={18}
                 >
-                  Facilities and features
-                </Typography>
-              </AccordionSummary>
-              <AccordionDetails>
-                <Typography>Hotel description go here</Typography>
-              </AccordionDetails>
-            </Accordion>
-            <Accordion defaultExpanded>
-              <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-                <Typography
-                  component="h2"
-                  variant="h5"
-                  className="font-semibold"
+                  {hotelDetails && (
+                    <Marker
+                      lat={hotelDetails.latitude}
+                      lng={hotelDetails.longitude}
+                      tooltip={hotelDetails.name}
+                      color="primary"
+                    />
+                  )}
+                </GoogleMap>
+              </Box>
+            </Stack>
+            <Stack direction="column" className="w-96 shrink-0" spacing={2}>
+              <Paper variant="outlined" className="p-6">
+                <Typography>Rooms available starting from</Typography>
+                <Stack
+                  direction="row"
+                  className="place-content-between items-baseline"
                 >
-                  Room options
+                  <Typography variant="h5">
+                    {currency}{" "}
+                    {startingPrice > 0 && searchParams
+                      ? (
+                          startingPrice /
+                          differenceInDays(
+                            searchParams?.checkOutDate,
+                            searchParams?.checkInDate
+                          ) /
+                          searchParams.rooms
+                        ).toFixed(0)
+                      : startingPrice}
+                  </Typography>
+                  <Typography
+                    className="shrink-0"
+                    color="text.secondary"
+                    variant="body2"
+                  >
+                    *incl. taxes and fees
+                  </Typography>
+                </Stack>
+                <Typography variant="body2" color="text.secondary">
+                  per room per night
                 </Typography>
-              </AccordionSummary>
-              <AccordionDetails>
-                <Typography>Hotel description go here</Typography>
-              </AccordionDetails>
-            </Accordion>
-            <Accordion defaultExpanded>
-              <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-                <Typography
-                  component="h2"
-                  variant="h5"
-                  className="font-semibold"
+
+                <DateSelectorPopper
+                  onCheckInDateChange={setCheckInDate}
+                  onCheckOutDateChange={setCheckOutDate}
+                  onSetCheckInOutText={(text) => setCheckInOutText(text)}
+                  onClickAway={() => setCheckInOutPopperAnchor(null)}
+                  showError={checkInOutErr}
+                  showTextOnStart={true}
+                  anchorEl={checkInOutPopperAnchor}
+                  defaultValues={{
+                    checkInDate: checkInDate,
+                    checkOutDate: checkOutDate,
+                  }}
                 >
-                  Reviews
-                </Typography>
-              </AccordionSummary>
-              <AccordionDetails>
-                <Typography>Hotel description go here</Typography>
-              </AccordionDetails>
-            </Accordion>
-            <Accordion defaultExpanded>
-              <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-                <Typography
-                  component="h2"
-                  variant="h5"
-                  className="font-semibold"
+                  <CardActionArea
+                    className="mt-4 p-3"
+                    ref={checkInOutRef}
+                    sx={{
+                      border: 1,
+                      borderRadius: 1,
+                      borderBottomLeftRadius: 0,
+                      borderBottomRightRadius: 0,
+                    }}
+                    onClick={handleCheckInOutClick}
+                  >
+                    <Typography className="text-center">
+                      {checkInOutText}
+                    </Typography>
+                  </CardActionArea>
+                </DateSelectorPopper>
+                <GuestSelectorPopper
+                  onAdultsChange={setNumAdults}
+                  onChildChange={setNumChild}
+                  onRoomsChange={setNumRooms}
+                  anchorEl={guestPopperAnchor}
+                  onClickAway={() => setGuestPopperAnchor(null)}
+                  onSetGuestsText={setGuestText}
+                  showError={guestErr}
+                  defaultValues={{
+                    adults: searchParams?.adults,
+                    child: searchParams?.child,
+                    rooms: searchParams?.rooms,
+                  }}
                 >
-                  Location
+                  <CardActionArea
+                    className="p-3"
+                    sx={{
+                      border: 1,
+                      borderTop: 0,
+                      borderRadius: 1,
+                      borderTopLeftRadius: 0,
+                      borderTopRightRadius: 0,
+                    }}
+                    ref={guestRef}
+                    onClick={handleGuestSelectorClick}
+                  >
+                    <Typography className="text-center">{guestText}</Typography>
+                  </CardActionArea>
+                </GuestSelectorPopper>
+
+                <Typography color="text.secondary" className="mt-4">
+                  {hotelPricing?.rooms?.length} rooms available
                 </Typography>
-              </AccordionSummary>
-              <AccordionDetails>
-                <Typography>Hotel description go here</Typography>
-              </AccordionDetails>
-            </Accordion>
-          </Box>
+                <Button
+                  variant="contained"
+                  className="mt-3 w-full"
+                  onClick={() =>
+                    roomsHeaderRef.current?.scrollIntoView({
+                      behavior: "smooth",
+                    })
+                  }
+                >
+                  See Room Options
+                </Button>
+              </Paper>
+              <Paper variant="outlined" className="p-6">
+                <Typography component="h3" variant="h6">
+                  Amenities
+                </Typography>
+                <Stack direction="row" className="mt-3 flex-wrap gap-2">
+                  {Object.keys(hotelDetails?.amenities ?? {}).map((key) => (
+                    <Chip key={key} label={toCapitalizedWords(key)} />
+                  ))}
+                </Stack>
+              </Paper>
+            </Stack>
+          </Stack>
+          <Typography ref={roomsHeaderRef} component="h2" variant="h4">
+            Room Options
+          </Typography>
+          <RoomSection
+            hotelRooms={hotelPricing?.rooms}
+            searchParams={searchParams}
+          />
         </Stack>
       </Container>
     </>

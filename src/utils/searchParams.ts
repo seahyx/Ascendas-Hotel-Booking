@@ -27,12 +27,14 @@ export const queryToSearchParams = (query: string): SearchParams => {
     SearchParams[keyof SearchParams] | string
   > = {};
   for (const key of Object.keys(queryObj)) {
+    const decoded = decodeURIComponent(queryObj[key] ?? "");
     try {
-      searchParams[key] = JSON.parse(decodeURIComponent(queryObj[key] ?? ""));
+      searchParams[key] = JSON.parse(decoded);
     } catch (e) {
       console.error(
         `Error parsing value ${searchParams[key]} of key ${key} as a JSON string.`
       );
+      searchParams[key] = decoded;
     }
   }
   searchParams.checkInDate = searchParams.checkInDate
@@ -44,6 +46,14 @@ export const queryToSearchParams = (query: string): SearchParams => {
   return searchParams as SearchParams;
 };
 
+export const jsonToSearchParams = (json: string): SearchParams => {
+  const obj = JSON.parse(json);
+  obj.checkInDate = parseJSON(obj.checkInDate);
+  obj.checkOutDate = parseJSON(obj.checkOutDate);
+  const searchParams: SearchParams = obj;
+  return searchParams;
+};
+
 export const parsedQueryToSearchParams = (
   parsedQuery: ParsedUrlQuery
 ): SearchParams => {
@@ -52,14 +62,14 @@ export const parsedQueryToSearchParams = (
     SearchParams[keyof SearchParams] | string
   > = {};
   for (const key of Object.keys(parsedQuery)) {
+    const decoded = decodeURIComponent((parsedQuery[key] as string) ?? "");
     try {
-      searchParams[key] = JSON.parse(
-        decodeURIComponent((parsedQuery[key] as string) ?? "")
-      );
+      searchParams[key] = JSON.parse(decoded);
     } catch (e) {
-      console.error(
+      console.warn(
         `Error parsing value ${parsedQuery[key]} of key ${key} as a JSON string.`
       );
+      searchParams[key] = decoded;
     }
   }
   searchParams.checkInDate = searchParams.checkInDate

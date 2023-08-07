@@ -4,6 +4,17 @@
 //
 //   const hotels = Convert.toHotels(json);
 
+const breakfastInfoToTextMapping: Record<string, string> = {
+  hotel_detail_room_only: "Room only",
+  hotel_detail_breakfast_included: "Breakfast included",
+};
+
+export const mapBreakfastInfoToText = (breakfastInfo?: string) => {
+  return breakfastInfo
+    ? breakfastInfoToTextMapping[breakfastInfo] ?? breakfastInfo
+    : "";
+};
+
 export type IdPricing = {
   searchCompleted?: null;
   completed?: boolean;
@@ -52,16 +63,16 @@ export type MarketRate = {
 export type PriceType = "single";
 
 export type RoomAdditionalInfo = {
-  breakfastInfo?: String;
+  breakfastInfo?: string;
   displayFields?: DisplayFields;
 };
 
 export type DisplayFields = {
-  special_check_in_instructions?: String;
-  check_in_instructions?: String;
-  know_before_you_go?: String;
-  fees_optional?: String;
-  fees_mandatory?: String | boolean;
+  special_check_in_instructions?: string;
+  check_in_instructions?: string;
+  know_before_you_go?: string;
+  fees_optional?: string;
+  fees_mandatory?: string | boolean;
   kaligo_service_fee?: number;
   hotel_fees?: any[];
   surcharges?: Surcharge[];

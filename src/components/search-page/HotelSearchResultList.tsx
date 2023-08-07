@@ -5,6 +5,7 @@ import HotelSearchResultItem, {
 } from "./HotelSearchResultItem";
 import { useEffect, useState } from "react";
 import { SearchParams, searchParamsToQuery } from "~/utils/searchParams";
+import { differenceInDays } from "date-fns";
 
 export interface HotelSearchResultListProps {
   hotelsPricing: Hotel[];
@@ -58,6 +59,12 @@ export default function HotelSearchResultList({
             key: hotel.id,
             currency: currency,
             hotelPricing: hotel,
+            perRoomPerNight: searchParams
+              ? differenceInDays(
+                  searchParams?.checkOutDate,
+                  searchParams?.checkInDate
+                ) * searchParams.rooms
+              : 1,
           })
         )
         .map((props) => <HotelSearchResultItem {...props} />)

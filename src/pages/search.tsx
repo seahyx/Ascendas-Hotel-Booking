@@ -11,11 +11,10 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
-import GoogleMapReact from "google-map-react";
+import GoogleMap from "google-maps-react-markers";
 import { GetServerSideProps, InferGetServerSidePropsType } from "next";
 import Head from "next/head";
-import { ParsedUrlQuery } from "querystring";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import TopBarWithSearch from "src/components/search-bar/TopBarWithSearch";
 import HotelSearchResultList from "src/components/search-page/HotelSearchResultList";
 import { Convert, DestinationPricing } from "src/utils/destinationPricing";
@@ -70,17 +69,17 @@ function Sidebar() {
       lat: 10.99835602,
       lng: 77.01502627,
     },
-    zoom: 11,
+    zoom: 14,
   };
 
   return (
     <Stack className="w-64 shrink-0 self-start" spacing={2}>
       <Paper className="h-52 overflow-hidden">
-        <GoogleMapReact
-          bootstrapURLKeys={{ key: "" }}
+        <GoogleMap
+          apiKey=""
           defaultCenter={defaultMapProps.center}
           defaultZoom={defaultMapProps.zoom}
-        ></GoogleMapReact>
+        ></GoogleMap>
       </Paper>
       <Paper className="px-6 py-4">
         <Button className="mb-4 w-full" size="large" variant="outlined">
@@ -170,9 +169,9 @@ export const getServerSideProps: GetServerSideProps<{
 };
 
 export default function SearchResults({
-  searchParamsJSON,
-  destQueryUrl,
-}: InferGetServerSidePropsType<typeof getServerSideProps>) {
+      searchParamsJSON,
+      destQueryUrl,
+    }: InferGetServerSidePropsType<typeof getServerSideProps>) {
   const maxItemsPerPage = 10;
   const searchParams: SearchParams | undefined = searchParamsJSON
     ? JSON.parse(searchParamsJSON)
