@@ -29,15 +29,13 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
 export default function Profile() {
   const [activeTab, setActiveTab] = useState(0);
-  const [editedFirstName, setEditedFirstName] = useState("");
-  const [editedLastName, setEditedLastName] = useState("");
+  const [editedFullName, setEditedFullName] = useState("");
   const [editedEmail, setEditedEmail] = useState("");
   const [number, setEditedNumber] = useState("");
   const [isDeleteDialogOpen, setDeleteDialogOpen] = useState(false);
   
 
-  const firstName = "Test";
-  const lastName = "Account";
+  const fullName = "JohnDoe";
   const email = "testaccount@gmail.com";
   const editedNumber = "91234567";
 
@@ -76,8 +74,7 @@ export default function Profile() {
   };
 
   const handleSaveChanges = () => {
-    setEditedFirstName(firstName);
-    setEditedLastName(lastName);
+    setEditedFullName(fullName);
     setEditedEmail(email);
     setEditedNumber(number);
   };
@@ -132,22 +129,12 @@ export default function Profile() {
               </Typography>
               <Stack spacing={2}>
                 <Grid container spacing={2}>
-                  <Grid item xs={6}>
+                  <Grid item xs={12}>
                     <TextField
-                      label="First Name"
+                      label="Full Name"
                       variant="outlined"
-                      value={editedFirstName || firstName}
-                      onChange={(e) => setEditedFirstName(e.target.value)}
-                      fullWidth
-                      InputProps={{ style: { color: "gray" } }}
-                    />
-                  </Grid>
-                  <Grid item xs={6}>
-                    <TextField
-                      label="Last Name"
-                      variant="outlined"
-                      value={editedLastName || lastName}
-                      onChange={(e) => setEditedLastName(e.target.value)}
+                      value={editedFullName || fullName}
+                      onChange={(e) => setEditedFullName(e.target.value)}
                       fullWidth
                       InputProps={{ style: { color: "gray" } }}
                     />
