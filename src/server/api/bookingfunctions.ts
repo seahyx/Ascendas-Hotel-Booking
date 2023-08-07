@@ -1,4 +1,4 @@
-import { PrismaClient, Booking } from '@prisma/client';
+import { PrismaClient, Booking } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
@@ -56,12 +56,12 @@ async function getBookings(uidn: number) {
     const res = await prisma.booking.findMany({
       where: {
         uid: {
-          equals: uidn, // 
+          equals: uidn, //
         },
       },
     });
     console.log(res);
-    return res
+    return res;
   } catch (err) {
     console.log(err);
   } finally {
@@ -78,7 +78,7 @@ async function getLatestBooking(uidn: number) {
         },
       },
       orderBy: {
-        id: 'desc', // Assuming id is the auto-incrementing primary key or timestamp field
+        id: "desc", // Assuming id is the auto-incrementing primary key or timestamp field
       },
     });
 
@@ -97,35 +97,36 @@ async function run() {
       1, // destinationId
       2, // hotelId
       3, // uid
-      'John', // firstName
-      'Doe', // lastName
-      '123456789', // phoneNumber
-      'john.doe@example.com', // email
+      "John", // firstName
+      "Doe", // lastName
+      "123456789", // phoneNumber
+      "john.doe@example.com", // email
       3, // numberOfNights
       2, // numberOfRooms
       new Date(), // startDate
       new Date(), // endDate
       2, // adults
       1, // children
-      'Some message', // messageToHotel
-      'Double, Single', // roomTypes
+      "Some message", // messageToHotel
+      "Double, Single", // roomTypes
       120.0, // avgRoomCost
       50.0, // roomRate
       10.0, // tax
-      'Additional info' // additionalInfo
+      "Additional info" // additionalInfo
     );
 
-    console.log('New booking:', newBooking);
+    console.log("New booking:", newBooking);
 
     const bookings = await getBookings(3);
 
-    console.log('Read Booking', bookings)
+    console.log(
+      "This code is ran from bookingfunctions.ts async function run ()"
+    );
+
+    console.log("Read Booking", bookings);
   } catch (error) {
-    console.error('Error creating booking:', error);
+    console.error("Error creating booking:", error);
   }
 }
 
-
-
-run();
 export { addBooking, getBookings, getLatestBooking };
