@@ -14,6 +14,7 @@ import {
 import { Booking, Prisma } from "@prisma/client";
 import { format, parseJSON } from "date-fns";
 import { matchIsValidTel } from "mui-tel-input";
+import { getSession, useSession } from "next-auth/react";
 import Head from "next/head";
 import React, { useEffect, useState } from "react";
 
@@ -424,6 +425,8 @@ function ConfirmBookingForm({
   enteredPaymentInformationBillingAddressData,
   paymentProps,
 }: ConfirmBookingFormProps) {
+  const session = useSession();
+
   const [isFirstCheckboxChecked, setIsFirstCheckboxChecked] = useState(false);
   const [isSecondCheckboxChecked, setIsSecondCheckboxChecked] = useState(false);
 
@@ -591,7 +594,7 @@ function ConfirmBookingForm({
         additionalInfo: paymentProps.additionalInfo,
         payeeId: "",
         paymentId: "",
-        uid: "",
+        uid: session.data?.user.id,
       } as Booking;
       fetch("http://localhost:3001/api/createbooking", {
         method: "POST",
