@@ -15,6 +15,8 @@ import {
   Accordion,
   AccordionSummary,
   AccordionDetails,
+  FormControlLabel,
+  Checkbox,
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import Head from "next/head";
@@ -26,10 +28,12 @@ export default function Profile() {
   const [editedFirstName, setEditedFirstName] = useState("");
   const [editedLastName, setEditedLastName] = useState("");
   const [editedEmail, setEditedEmail] = useState("");
+  const [number, setEditedNumber] = useState("");
 
   const firstName = "Test";
   const lastName = "Account";
   const email = "testaccount@gmail.com";
+  const editedNumber = "91234567";
 
   const bookings = [
     {
@@ -37,12 +41,26 @@ export default function Profile() {
       bookingDate: "2023-08-10",
       roomType: "Deluxe Suite",
       hotel: 'Ritz Carlton',
+      lengthOfStay: 5, 
+      adults: 2,
+      children: 1, 
+      bookingID: "ABC123", 
+      paymentID: "XYZ789", 
+      payeeID: "DEF456",
+      payment: '500' 
     },
     {
       id: 2,
       bookingDate: "2023-08-15",
       roomType: "Standard Room",
       hotel: 'Marina Bay Sands',
+      lengthOfStay: 3,
+      adults: 1,
+      children: 0,
+      bookingID: "DEF456",
+      paymentID: "GHI789",
+      payeeID: "JKL123",
+      payment: '300'
     },
     // Add more bookings as needed
   ];
@@ -52,12 +70,10 @@ export default function Profile() {
   };
 
   const handleSaveChanges = () => {
-    // Here you can save the changes made to firstName, lastName, and email
-    // You can update the state, make API calls, etc.
-    // For this example, let's just update the state with the edited values.
     setEditedFirstName(firstName);
     setEditedLastName(lastName);
     setEditedEmail(email);
+    setEditedNumber(number);
   };
 
   return (
@@ -82,55 +98,69 @@ export default function Profile() {
         container
         direction="row"
         justifyContent="space-around"
-        alignItems="flex-start"
+        alignItems="center"
       >
         <Grid item>
-          <Paper className="h-auto w-80 p-4">
-            {activeTab === 0 && (
-              <>
-                <Typography
-                  component="h1"
-                  variant="h5"
-                  align="center"
-                  className="pb-4 font-semibold"
-                >
-                  Profile Details
-                </Typography>
-                <Stack spacing={2}>
-                  <TextField
-                    label="First Name"
-                    variant="outlined"
-                    value={editedFirstName || firstName}
-                    onChange={(e) => setEditedFirstName(e.target.value)}
-                    fullWidth
-                    InputProps={{
-                      style: { color: "gray" }, }}
-                  />
-                  <TextField
-                    label="Last Name"
-                    variant="outlined"
-                    value={editedLastName || lastName}
-                    onChange={(e) => setEditedLastName(e.target.value)}
-                    fullWidth
-                    InputProps={{
-                      style: { color: "gray" }, }}
-                  />
-                  <TextField
-                    label="Email"
-                    variant="outlined"
-                    value={editedEmail || email}
-                    onChange={(e) => setEditedEmail(e.target.value)}
-                    fullWidth
-                    InputProps={{
-                      style: { color: "gray" }, }}
-                  />
-                </Stack>
-                <Box mt={2}>
-                  <Button variant="contained" color="primary" onClick={handleSaveChanges}>
-                    Save Changes
-                  </Button>
-                </Box>
-              </>
+          <Paper className="h-auto w-96 p-4 mb-8">
+          {activeTab === 0 && (
+            <>
+              <Typography
+                component="h1"
+                variant="h5"
+                align="center"
+                className="pb-4 font-semibold"
+              >
+                Profile Details
+              </Typography>
+              <Stack spacing={2}>
+                <Grid container spacing={2}>
+                  <Grid item xs={6}>
+                    <TextField
+                      label="First Name"
+                      variant="outlined"
+                      value={editedFirstName || firstName}
+                      onChange={(e) => setEditedFirstName(e.target.value)}
+                      fullWidth
+                      InputProps={{ style: { color: "gray" } }}
+                    />
+                  </Grid>
+                  <Grid item xs={6}>
+                    <TextField
+                      label="Last Name"
+                      variant="outlined"
+                      value={editedLastName || lastName}
+                      onChange={(e) => setEditedLastName(e.target.value)}
+                      fullWidth
+                      InputProps={{ style: { color: "gray" } }}
+                    />
+                  </Grid>
+                  <Grid item xs={6}>
+                    <TextField
+                      label="Phone Number"
+                      variant="outlined"
+                      value={editedNumber || number}
+                      fullWidth
+                      InputProps={{ style: { color: "gray" } }}
+                    />
+                  </Grid>
+                  <Grid item xs={6}>
+                    <TextField
+                      label="Email"
+                      variant="outlined"
+                      value={editedEmail || email}
+                      onChange={(e) => setEditedEmail(e.target.value)}
+                      fullWidth
+                      InputProps={{ style: { color: "gray" } }}
+                    />
+                  </Grid>
+                </Grid>
+              </Stack>
+              <Box mt={2}>
+                <Button variant="contained" color="primary" onClick={handleSaveChanges}>
+                  Save Changes
+                </Button>
+              </Box>
+            </>
             )}
             {activeTab === 1 && (
               <>
@@ -147,12 +177,26 @@ export default function Profile() {
                     <AccordionSummary expandIcon={<ExpandMoreIcon />}>
                       <Typography>
                         {booking.hotel}
-                        <br/>
+                        <br />
                         {booking.bookingDate} - ({booking.roomType})
                       </Typography>
                     </AccordionSummary>
                     <AccordionDetails>
-                      {/* Additional details for each booking can be added here */}
+                      <Typography>
+                        Length of Stay: {booking.lengthOfStay} nights
+                        <br />
+                        Adults: {booking.adults}
+                        <br />
+                        Children: {booking.children}
+                        <br />
+                        Booking ID: {booking.bookingID}
+                        <br />
+                        Payment ID: {booking.paymentID}
+                        <br />
+                        Payee ID: {booking.payeeID}
+                        <br />
+                        Payment Cost: <strong> ${booking.payment} </strong>
+                      </Typography>
                     </AccordionDetails>
                   </Accordion>
                 ))}
@@ -160,16 +204,38 @@ export default function Profile() {
             )}
             {activeTab === 2 && (
               <>
-                <Typography
-                  component="h1"
-                  variant="h5"
-                  align="center"
-                  className="pb-4 font-semibold"
-                >
-                  Other Page
+              <Typography
+                component="h1"
+                variant="h5"
+                align="center"
+                className="pb-4 font-semibold"
+              >
+                Profile Settings
+              </Typography>
+              <Stack spacing={2}>
+                <Typography component="div" variant="body1" className="font-semibold">
+                  Miscellaneous Settings:
                 </Typography>
-                {/* Display content for other page here */}
-              </>
+                <FormControlLabel
+                  control={<Checkbox />}
+                  label="Misc Setting 1"
+                />
+                <FormControlLabel
+                  control={<Checkbox />}
+                  label="Misc Setting 2"
+                />
+                <FormControlLabel
+                  control={<Checkbox />}
+                  label="Misc Setting 3"
+                />
+                <Button variant="contained" color="primary" /*onClick={}*/>
+                  Delete Account
+                </Button>
+                <Button variant="contained" color="primary" /*onClick={}*/>
+                  Logout
+                </Button>
+              </Stack>
+            </>
             )}
             {/* Add more conditions for other pages */}
           </Paper>
