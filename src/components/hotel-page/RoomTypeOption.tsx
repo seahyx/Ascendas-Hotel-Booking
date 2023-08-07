@@ -7,7 +7,7 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
-import { differenceInDays } from "date-fns";
+import { differenceInDays, format } from "date-fns";
 import { useState } from "react";
 import { Room, mapBreakfastInfoToText } from "~/utils/idPricing";
 import { SearchParams } from "~/utils/searchParams";

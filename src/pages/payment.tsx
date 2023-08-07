@@ -11,6 +11,7 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
+import { Booking, Prisma } from "@prisma/client";
 import { format, parseJSON } from "date-fns";
 import { matchIsValidTel } from "mui-tel-input";
 import Head from "next/head";
@@ -284,8 +285,6 @@ function PaymentInformationBillingAddress({
     country,
   ]);
 
-  
-
   return (
     <Paper variant="outlined" className="flex flex-col gap-6 p-6">
       <Typography variant="h5">Payment Information</Typography>
@@ -415,17 +414,15 @@ function PaymentInformationBillingAddress({
 }
 
 interface ConfirmBookingFormProps {
-  currency: string;
-  totalPrice: string;
   enteredPrimaryGuestData: PrimaryGuestData;
   enteredPaymentInformationBillingAddressData: PaymentInformationBillingAddressData;
+  paymentProps: PaymentProps;
 }
 
 function ConfirmBookingForm({
-  currency,
-  totalPrice,
   enteredPrimaryGuestData,
   enteredPaymentInformationBillingAddressData,
+  paymentProps,
 }: ConfirmBookingFormProps) {
   const [isFirstCheckboxChecked, setIsFirstCheckboxChecked] = useState(false);
   const [isSecondCheckboxChecked, setIsSecondCheckboxChecked] = useState(false);
@@ -527,7 +524,7 @@ function ConfirmBookingForm({
       throw error;
     }
   }
-  
+
   async function fetchBookingWithId(id: string) {
     try {
       const response = await fetch(`http://localhost:3001/api/booking/${id}`);
@@ -571,27 +568,31 @@ function ConfirmBookingForm({
       setShowPaymentInformationBillingAddressErrorAlert(false);
     } else {
       // Both checkboxes are checked, you can proceed with booking logic here
-      const bookingData = {
-        destinationID: 12,
-        hotelID: 12,
-        uid: 1232,
+      const bookingData: Booking = {
+        destinationId: paymentProps.destinationId,
+        hotelId: paymentProps.hotelId,
+        roomId: paymentProps.roomId,
+        nameTitle: enteredPrimaryGuestData.title,
         firstName: enteredPrimaryGuestData.firstName,
         lastName: enteredPrimaryGuestData.lastName,
         phoneNumber: enteredPrimaryGuestData.phoneNumber,
         email: enteredPrimaryGuestData.validEmail,
-        numberOfNights: 3,
-        numberOfRooms: 2,
-        startDate: new Date().toISOString(),
-        endDate: new Date().toISOString(),
-        adults: 2,
-        children: 1,
+        numberOfNights: paymentProps.numberOfNights,
+        numberOfRooms: paymentProps.numberOfRooms,
+        startDate: paymentProps.startDate,
+        endDate: paymentProps.endDate,
+        adults: paymentProps.adults,
+        children: paymentProps.children,
         messageToHotel: enteredPrimaryGuestData.specialRequest,
-        roomTypes: "double",
-        avgRoomCost: 123.0,
-        roomRate: 50.0,
-        tax: 10.0,
-        additionalInfo: "check in at 3pm",
-      };
+        roomType: paymentProps.roomType,
+        avgRoomCost: new Prisma.Decimal(paymentProps.avgRoomCost),
+        roomRate: new Prisma.Decimal(paymentProps.roomRate),
+        tax: new Prisma.Decimal(paymentProps.tax),
+        additionalInfo: paymentProps.additionalInfo,
+        payeeId: "",
+        paymentId: "",
+        uid: "",
+      } as Booking;
       fetch("http://localhost:3001/api/createbooking", {
         method: "POST",
         headers: {
@@ -604,10 +605,6 @@ function ConfirmBookingForm({
           console.log(data);
           console.log("bookingId", data.id);
         })
-        .catch((error) => console.error("Error:", error));
-
-      fetchBookingWithId("31")
-        .then((data) => console.log("fetchBookingWithId", data))
         .catch((error) => console.error("Error:", error));
 
       console.log("Booking confirmed");
@@ -717,7 +714,23 @@ export default function Payment(props) {
     obj.startDate = parseJSON(obj.startDate);
     obj.endDate = parseJSON(obj.endDate);
   }
-  const paymentProps: PaymentProps | undefined = obj;
+  const paymentProps: PaymentProps = obj ?? {
+    destinationId: "",
+    hotelName: "",
+    hotelId: "",
+    roomId: "",
+    startDate: new Date(),
+    endDate: new Date(),
+    adults: 0,
+    children: 0,
+    numberOfRooms: 0,
+    numberOfNights: 0,
+    roomType: "",
+    avgRoomCost: 0,
+    roomRate: 0,
+    tax: 0,
+    additionalInfo: "",
+  };
 
   console.log(paymentJson);
   console.log(obj);
@@ -748,19 +761,19 @@ export default function Payment(props) {
   });
 
   const bookingSummary: BookingSummaryProps = {
-    hotelName: paymentProps?.hotelName ?? "",
-    roomType: paymentProps?.roomType ?? "",
-    checkInDate: format(paymentProps?.startDate ?? new Date(), "dd MMM yyyy"),
-    checkOutDate: format(paymentProps?.endDate ?? new Date(), "dd MMM yyyy"),
-    numberOfNights: paymentProps?.numberOfNights ?? 0,
+    hotelName: paymentProps.hotelName,
+    roomType: paymentProps.roomType,
+    checkInDate: format(paymentProps.startDate, "dd MMM yyyy"),
+    checkOutDate: format(paymentProps.endDate, "dd MMM yyyy"),
+    numberOfNights: paymentProps.numberOfNights,
     currency: "SGD",
-    roomCount: paymentProps?.numberOfRooms ?? 1,
-    adultCount: paymentProps?.adults ?? 1,
-    childCount: paymentProps?.children ?? 0,
-    roomPrice: paymentProps?.avgRoomCost ?? 0,
-    roomRate: paymentProps?.roomRate ?? 0,
-    taxAndRecoveryCharges: paymentProps?.tax ?? 0, // Example tax and charges
-    grandTotal: paymentProps ? paymentProps?.roomRate + paymentProps?.tax : 0,
+    roomCount: paymentProps.numberOfRooms,
+    adultCount: paymentProps.adults,
+    childCount: paymentProps.children,
+    roomPrice: paymentProps.avgRoomCost,
+    roomRate: paymentProps.roomRate,
+    taxAndRecoveryCharges: paymentProps.tax, // Example tax and charges
+    grandTotal: paymentProps.roomRate + paymentProps.tax,
   };
   return (
     <>
@@ -780,12 +793,11 @@ export default function Payment(props) {
             }
           />
           <ConfirmBookingForm
-            currency="SGD"
-            totalPrice="500"
             enteredPrimaryGuestData={enteredPrimaryGuestData}
             enteredPaymentInformationBillingAddressData={
               enteredPaymentInformationBillingAddressData
             }
+            paymentProps={paymentProps}
           />
         </Stack>
         <Box className="w-96 shrink-0">

@@ -1,8 +1,6 @@
-import { PrismaClient, Booking } from "@prisma/client";
+import { PrismaClient, Booking, BookingPayload } from "@prisma/client";
 
 const prisma = new PrismaClient();
-
-
 
 // Function to add a new booking
 async function addBooking(bookingData: Booking): Promise<Booking> {
@@ -63,7 +61,7 @@ async function getBookingWithId(idn: number) {
         },
       },
       orderBy: {
-        id: 'desc', // Assuming id is the auto-incrementing primary key or timestamp field
+        id: "desc", // Assuming id is the auto-incrementing primary key or timestamp field
       },
     });
 
@@ -115,4 +113,4 @@ async function getBookingWithId(idn: number) {
 //   }
 // }
 
-export { addBooking, getBookings, getLatestBooking,getBookingWithId };
+export { addBooking, getBookings, getLatestBooking, getBookingWithId };
