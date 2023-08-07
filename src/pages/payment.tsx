@@ -2,20 +2,19 @@ import {
   TextField,
   Box,
   Button,
-  Container,
-  Rating,
   Typography,
-  Stack,
-  FormControl,
   FormControlLabel,
   Divider,
   Checkbox,
   FormGroup,
   Alert,
+  Container,
+  Paper,
+  Stack,
 } from "@mui/material";
 import Head from "next/head";
 import React, { useState, useEffect } from "react";
-import { MuiTelInput, matchIsValidTel } from "mui-tel-input";
+import { matchIsValidTel } from "mui-tel-input";
 
 import DropdownTitle from "~/components/DropdownTitle";
 import CountrySelect from "~/components/CountrySelect";
@@ -98,167 +97,63 @@ function PrimaryGuestBox({
   useEffect(() => {
     // Notify parent component whenever entered data changes
     onEnteredPrimaryGuestDataChange(getEnteredData());
-    console.log("from useEffect", validEmail);
   }, [title, phoneNumber, validEmail, firstName, lastName, specialRequest]);
 
   return (
-    <Box
-      className="my-10 flex h-auto w-auto "
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        padding: "10px",
-        border: "1px solid grey",
-      }}
-    >
-      <Box style={{ display: "flex", flexDirection: "row", padding: "10px" }}>
-        <Typography>Primary Guest</Typography>
-      </Box>
-      <Box style={{ display: "flex", flexDirection: "row", padding: "10px" }}>
-        <Box
-          style={{
-            flex: 2,
-            display: "flex",
-            flexDirection: "column",
-            padding: "10px",
+    <Paper className="flex flex-col gap-6 p-6" variant="outlined">
+      <Typography variant="h5">Primary Guest Details</Typography>
+      <Stack direction="row" spacing={2}>
+        <DropdownTitle
+          className="w-1/6"
+          label="Title"
+          value={title}
+          onChange={handleTitleChange}
+          inputProps={{
+            required: true,
           }}
-        >
-          <Box
-            style={{ display: "flex", flexDirection: "row", padding: "10px" }}
-          >
-            Title
-          </Box>
-          <Box style={{ display: "flex", flexDirection: "row" }}>
-            <DropdownTitle
-              label="Title"
-              value={title}
-              onChange={handleTitleChange}
-            />
-          </Box>
-        </Box>
-        <Box
-          style={{
-            flex: 5,
-            display: "flex",
-            flexDirection: "column",
-            padding: "10px",
+        />
+        <TextField
+          id="first-name"
+          className="shrink-0 grow"
+          label="First Name"
+          onChange={(event) => handleFirstNameChange(event.target.value)}
+          required
+        />
+        <TextField
+          id="last-name"
+          className="shrink-0 grow"
+          label="Last Name"
+          onChange={(event) => handleLastNameChange(event.target.value)}
+          required
+        />
+      </Stack>
+      <Stack direction="row" spacing={2}>
+        <PhoneNumber
+          className="w-1/3 shrink-0"
+          label="Contact Number"
+          value={phoneNumber}
+          onChange={handlePhoneNumberChange}
+          inputProps={{
+            required: true,
           }}
-        >
-          <Box
-            style={{ display: "flex", flexDirection: "row", padding: "10px" }}
-          >
-            First name
-          </Box>
-          <TextField
-            id="first-name"
-            variant="outlined"
-            onChange={(event) => handleFirstNameChange(event.target.value)}
-          />
-        </Box>
-        <Box
-          style={{
-            flex: 5,
-            display: "flex",
-            flexDirection: "column",
-            padding: "10px",
+        />
+        <EmailInput
+          label="Email Address"
+          onValidEmailChange={handleValidEmailChange}
+          inputProps={{
+            required: true,
           }}
-        >
-          <Box
-            style={{ display: "flex", flexDirection: "row", padding: "10px" }}
-          >
-            Last name
-          </Box>
-          <TextField
-            id="last-name"
-            variant="outlined"
-            onChange={(event) => handleLastNameChange(event.target.value)}
-          />
-        </Box>
-      </Box>
-      <Box style={{ display: "flex", flexDirection: "row", padding: "10px" }}>
-        <Box
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            padding: "10px",
-            flex: 1,
-          }}
-        >
-          <Box
-            style={{ display: "flex", flexDirection: "row", padding: "10px" }}
-          >
-            Phone Number
-          </Box>
-
-          <Box
-            style={{ display: "flex", flexDirection: "row", padding: "10px" }}
-          >
-            <PhoneNumber
-              label="Phone Number"
-              value={phoneNumber}
-              onChange={handlePhoneNumberChange}
-            />
-          </Box>
-        </Box>
-        <Box
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            padding: "10px",
-            flex: 1,
-          }}
-        >
-          <Box
-            style={{ display: "flex", flexDirection: "row", padding: "10px" }}
-          >
-            Email
-          </Box>
-
-          <Box
-            style={{
-              display: "flex",
-              flexDirection: "row",
-              padding: "10px",
-              width: "w-full",
-            }}
-          >
-            <EmailInput onValidEmailChange={handleValidEmailChange} />
-
-            {/*{validEmail && <p>Valid Email: {validEmail}</p>}*/}
-          </Box>
-        </Box>
-      </Box>
-      <Box style={{ display: "flex", flexDirection: "row", padding: "10px" }}>
-        <Box
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            padding: "10px",
-          }}
-        >
-          <Box
-            style={{ display: "flex", flexDirection: "row", padding: "10px" }}
-          >
-            Special Requests
-          </Box>
-          <Box
-            style={{ display: "flex", flexDirection: "row", padding: "10px" }}
-          >
-            <TextField
-              id="special-requests"
-              placeholder="We will pass on the requests to the hotel."
-              multiline
-              rows={4}
-              defaultValue=""
-              style={{ width: 700 }}
-              onChange={(event) =>
-                handleSpecialRequestChange(event.target.value)
-              }
-            />
-          </Box>
-        </Box>
-      </Box>
-    </Box>
+        />
+      </Stack>
+      <TextField
+        id="special-requests"
+        label="Special Requests"
+        placeholder="We will pass on the requests to the hotel."
+        rows={4}
+        onChange={(event) => handleSpecialRequestChange(event.target.value)}
+        multiline
+      />
+    </Paper>
   );
 }
 
@@ -318,6 +213,7 @@ function PaymentInformationBillingAddress({
     }
   };
   const [expiryDate, setExpiryDate] = useState("");
+  const expiryDateError = () => !isNotInPast(expiryDate) && expiryDate !== "";
 
   const handleExpiryDateChange = (value: string) => {
     setExpiryDate(value);
@@ -386,291 +282,134 @@ function PaymentInformationBillingAddress({
   ]);
 
   return (
-    <Box
-      className="my-10 h-auto w-auto "
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        padding: "10px",
-        border: "1px solid grey",
-      }}
-    >
-      <Box style={{ display: "flex", flexDirection: "row", padding: "10px" }}>
-        <Typography>Payment Information</Typography>
-      </Box>
-      <Box
-        style={{
-          display: "flex",
-          flexDirection: "row",
-          padding: "10px",
-        }}
-      >
-        <Box
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            padding: "10px",
-            width: "w-full",
-            flex: 1, // Set flex property to 1 to make it take equal space within the row
+    <Paper variant="outlined" className="flex flex-col gap-6 p-6">
+      <Typography variant="h5">Payment Information</Typography>
+      <Stack direction="row" spacing={2}>
+        <TextField
+          id="card-number"
+          className="shrink-0"
+          label="Credit Card Number"
+          placeholder="1234 1234 1234 1234"
+          inputProps={{
+            maxLength: 19, // Set the maximum allowed length (including spaces) to 19 characters
           }}
-        >
-          <Box
-            style={{
-              display: "flex",
-              flexDirection: "row",
-              padding: "10px",
-              width: "w-full",
-            }}
-          >
-            Card Number
-          </Box>
-          <Box
-            style={{
-              display: "flex",
-              flexDirection: "row",
-              padding: "10px",
-              width: "w-full",
-            }}
-          >
-            <TextField
-              id="card-number"
-              variant="outlined"
-              placeholder="1234 1234 1234 1234"
-              style={{ width: "w-full" }}
-              inputProps={{
-                maxLength: 19, // Set the maximum allowed length (including spaces) to 19 characters
-              }}
-              onChange={(event) => {
-                const { value } = event.target;
-                // Remove all non-digit characters (e.g., spaces) from the input value
-                const formattedValue = value.replace(/\D/g, "");
-                // Insert spaces at appropriate positions to achieve the desired format
-                const formattedValueWithSpaces = formattedValue.replace(
-                  /(\d{4})(?=\d)/g,
-                  "$1 "
-                );
-                // Update the value of the input field
-                event.target.value = formattedValueWithSpaces;
-                handleCardNumberChange(event.target.value);
-              }}
-            />
-          </Box>
-        </Box>
-        <Box
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            padding: "10px",
-            flex: 1,
+          onChange={(event) => {
+            const { value } = event.target;
+            // Remove all non-digit characters (e.g., spaces) from the input value
+            const formattedValue = value.replace(/\D/g, "");
+            // Insert spaces at appropriate positions to achieve the desired format
+            const formattedValueWithSpaces = formattedValue.replace(
+              /(\d{4})(?=\d)/g,
+              "$1 "
+            );
+            // Update the value of the input field
+            event.target.value = formattedValueWithSpaces;
+            handleCardNumberChange(event.target.value);
           }}
-        >
-          <Box
-            style={{ display: "flex", flexDirection: "row", padding: "10px" }}
-          >
-            Name on Card
-          </Box>
-          <Box
-            style={{ display: "flex", flexDirection: "row", padding: "10px" }}
-          >
-            <TextField
-              id="name-oncard"
-              variant="outlined"
-              onChange={(event) => handleNameOnCardChange(event.target.value)}
-            />
-          </Box>
-        </Box>
-      </Box>
-      <Box style={{ display: "flex", flexDirection: "row", padding: "10px" }}>
-        <Box
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            padding: "10px",
-            flex: 1,
+          required
+        />
+        <TextField
+          id="name-oncard"
+          className="w-full"
+          label="Name on Card"
+          onChange={(event) => handleNameOnCardChange(event.target.value)}
+          required
+        />
+      </Stack>
+      <Stack direction="row" spacing={2} className="w-full">
+        <TextField
+          id="expiry-date"
+          className="w-1/5 shrink-0"
+          placeholder="MM/YY"
+          label="Expiry Date"
+          inputProps={{
+            maxLength: 5, // Set the maximum allowed length (including the slash) to 5 characters
           }}
-        >
-          <Box
-            style={{ display: "flex", flexDirection: "row", padding: "10px" }}
-          >
-            Expiry Date
-          </Box>
-          <Box
-            style={{ display: "flex", flexDirection: "row", padding: "10px" }}
-          >
-            <TextField
-              id="expiry-date"
-              variant="outlined"
-              placeholder="MM/YY"
-              inputProps={{
-                maxLength: 5, // Set the maximum allowed length (including the slash) to 5 characters
-              }}
-              onChange={(event) => {
-                const { value } = event.target;
-                // Remove all non-digit characters (e.g., slashes) from the input value
-                const formattedValue = value.replace(/\D/g, "");
-                // Insert a slash after the first 2 characters to achieve the desired format
-                const formattedValueWithSlash = formattedValue
-                  .replace(/^(\d\d)(\d)/g, "$1/$2")
-                  .slice(0, 5); // Limit the input length to 5 characters (including the slash)
-                // Update the value of the input field
-                event.target.value = formattedValueWithSlash;
-                handleExpiryDateChange(event.target.value);
-              }}
-            />
-            {!isNotInPast(expiryDate) && expiryDate !== "" && (
-              <div style={{ color: "red" }}>Invalid Expiry Date</div>
-            )}
-          </Box>
-        </Box>
-        <Box
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            padding: "10px",
-            flex: 1,
+          onChange={(event) => {
+            const { value } = event.target;
+            // Remove all non-digit characters (e.g., slashes) from the input value
+            const formattedValue = value.replace(/\D/g, "");
+            // Insert a slash after the first 2 characters to achieve the desired format
+            const formattedValueWithSlash = formattedValue
+              .replace(/^(\d\d)(\d)/g, "$1/$2")
+              .slice(0, 5); // Limit the input length to 5 characters (including the slash)
+            // Update the value of the input field
+            event.target.value = formattedValueWithSlash;
+            handleExpiryDateChange(event.target.value);
           }}
-        >
-          <Box
-            style={{ display: "flex", flexDirection: "row", padding: "10px" }}
-          >
-            CVV/CVC
-          </Box>
-          <Box
-            style={{ display: "flex", flexDirection: "row", padding: "10px" }}
-          >
-            <TextField
-              id="CVV-CVC"
-              variant="outlined"
-              placeholder="CVC"
-              inputProps={{
-                maxLength: 4, // Set the maximum allowed length (including the slash) to 5 characters
-              }}
-              onChange={(event) => {
-                const { value } = event.target;
-                // Remove all non-digit characters from the input value
-                const formattedValue = value.replace(/\D/g, "");
-                // Limit the input length to 4 characters
-                const formattedValueLimited = formattedValue.slice(0, 4);
-                // Update the value of the input field
-                event.target.value = formattedValueLimited;
-                handleCvvcvcChange(event.target.value);
-              }}
-            />
-          </Box>
-        </Box>
-      </Box>
-      <Box style={{ display: "flex", flexDirection: "row", padding: "10px" }}>
-        <Typography>Billing Address</Typography>
-      </Box>
-      <Box style={{ display: "flex", flexDirection: "row", padding: "10px" }}>
-        <Box
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            padding: "10px",
-            flex: 1,
+          error={expiryDateError()}
+          helperText={expiryDateError() ? "Invalid expiry date" : ""}
+          required
+        />
+        <TextField
+          id="CVV-CVC"
+          className="w-1/6 shrink-0"
+          label="CVC"
+          placeholder="CVC"
+          inputProps={{
+            maxLength: 4, // Set the maximum allowed length (including the slash) to 5 characters
           }}
-        >
-          <Box
-            style={{ display: "flex", flexDirection: "row", padding: "10px" }}
-          >
-            Address
-          </Box>
-          <Box
-            style={{ display: "flex", flexDirection: "row", padding: "10px" }}
-          >
-            <TextField
-              id="address"
-              variant="outlined"
-              onChange={(event) => handleAddressChange(event.target.value)}
-            />
-          </Box>
-        </Box>
-        <Box
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            padding: "10px",
-            flex: 1,
+          onChange={(event) => {
+            const { value } = event.target;
+            // Remove all non-digit characters from the input value
+            const formattedValue = value.replace(/\D/g, "");
+            // Limit the input length to 4 characters
+            const formattedValueLimited = formattedValue.slice(0, 4);
+            // Update the value of the input field
+            event.target.value = formattedValueLimited;
+            handleCvvcvcChange(event.target.value);
           }}
-        >
-          <Box
-            style={{ display: "flex", flexDirection: "row", padding: "10px" }}
-          >
-            City
-          </Box>
-          <Box
-            style={{ display: "flex", flexDirection: "row", padding: "10px" }}
-          >
-            <TextField
-              id="city"
-              variant="outlined"
-              onChange={(event) => handleCityChange(event.target.value)}
-            />
-          </Box>
-        </Box>
-      </Box>
-      <Box style={{ display: "flex", flexDirection: "row", padding: "10px" }}>
-        <Box
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            padding: "10px",
-            flex: 1,
+          required
+        />
+      </Stack>
+      <Typography variant="h5">Billing Address</Typography>
+      <Stack direction="row" spacing={2} className="w-full">
+        <TextField
+          id="address"
+          label="Address"
+          fullWidth
+          onChange={(event) => handleAddressChange(event.target.value)}
+          required
+        />
+        <TextField
+          id="city"
+          className="w-1/3 shrink-0"
+          label="City"
+          onChange={(event) => handleCityChange(event.target.value)}
+          required
+        />
+      </Stack>
+      <Stack direction="row" spacing={2} className="w-full">
+        <TextField
+          id="zip-post-code"
+          label="Zip/Postal Code"
+          inputProps={{
+            maxLength: 6,
           }}
-        >
-          <Box
-            style={{ display: "flex", flexDirection: "row", padding: "10px" }}
-          >
-            Zip/Post code
-          </Box>
-          <Box
-            style={{ display: "flex", flexDirection: "row", padding: "10px" }}
-          >
-            <TextField
-              id="zip-post-code"
-              variant="outlined"
-              inputProps={{
-                maxLength: 6, // Set the maximum allowed length to 4 characters (CVC/CVV is usually 3 or 4 digits)
-              }}
-              onChange={(event) => {
-                const { value } = event.target;
-                // Remove all non-digit characters from the input value
-                const formattedValue = value.replace(/\D/g, "");
-                // Limit the input length to 4 characters
-                const formattedValueLimited = formattedValue.slice(0, 6);
-                // Update the value of the input field
-                event.target.value = formattedValueLimited;
-                handleZipPostCodeChange(event.target.value);
-              }}
-            />
-          </Box>
-        </Box>
-        <Box
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            padding: "10px",
-            flex: 1,
+          onChange={(event) => {
+            const { value } = event.target;
+            // Remove all non-digit characters from the input value
+            const formattedValue = value.replace(/\D/g, "");
+            // Limit the input length to 4 characters
+            const formattedValueLimited = formattedValue.slice(0, 6);
+            // Update the value of the input field
+            event.target.value = formattedValueLimited;
+            handleZipPostCodeChange(event.target.value);
           }}
-        >
-          <Box
-            style={{ display: "flex", flexDirection: "row", padding: "10px" }}
-          >
-            Country
-          </Box>
-          <Box
-            style={{ display: "flex", flexDirection: "row", padding: "10px" }}
-          >
-            <CountrySelect handleCountryChange={handleCountryChange} />
-          </Box>
-        </Box>
-      </Box>
-    </Box>
+          required
+        />
+        <CountrySelect
+          className="shrink-0 grow"
+          label="Country"
+          handleCountryChange={handleCountryChange}
+          inputProps={{ required: true }}
+        />
+      </Stack>
+    </Paper>
   );
 }
 
-interface confirmBookingFormProps {
+interface ConfirmBookingFormProps {
   currency: string;
   totalPrice: string;
   enteredPrimaryGuestData: PrimaryGuestData;
@@ -682,7 +421,7 @@ function ConfirmBookingForm({
   totalPrice,
   enteredPrimaryGuestData,
   enteredPaymentInformationBillingAddressData,
-}: confirmBookingFormProps) {
+}: ConfirmBookingFormProps) {
   const [isFirstCheckboxChecked, setIsFirstCheckboxChecked] = useState(false);
   const [isSecondCheckboxChecked, setIsSecondCheckboxChecked] = useState(false);
 
@@ -702,14 +441,12 @@ function ConfirmBookingForm({
     event: React.ChangeEvent<HTMLInputElement>
   ) {
     setIsFirstCheckboxChecked(event.target.checked);
-    console.log("first checked");
   }
 
   function handleSecondCheckboxChange(
     event: React.ChangeEvent<HTMLInputElement>
   ) {
     setIsSecondCheckboxChecked(event.target.checked);
-    console.log("second checked");
   }
 
   const isPrimaryGuestInputValid = (
@@ -717,8 +454,6 @@ function ConfirmBookingForm({
   ) => {
     const { title, phoneNumber, validEmail, firstName, lastName } =
       enteredPrimaryGuestData;
-    console.log("from isPrimaryGuestInputValid:", validEmail);
-    console.log(phoneNumber.length);
     return (
       title !== "" &&
       matchIsValidTel(phoneNumber) &&
@@ -842,13 +577,8 @@ function ConfirmBookingForm({
     }
   }
   return (
-    <Box
-      className="my-10 h-auto w-auto "
-      display="flex"
-      justifyContent="center"
-      alignItems="center"
-      style={{ border: "1px solid grey" }}
-    >
+    <Paper className="flex flex-col gap-4 p-6" variant="outlined">
+      <Typography variant="h5">Terms and Conditions</Typography>
       <FormGroup>
         <FormControlLabel
           required
@@ -860,11 +590,6 @@ function ConfirmBookingForm({
           }
           label="I agree to the Cancellation Policy and Kaligo's Terms of Use and Privacy policy"
         />
-        <Divider
-          variant="middle"
-          sx={{ marginY: 2, borderColor: "transparent" }}
-        />
-
         <FormControlLabel
           required
           control={
@@ -875,33 +600,16 @@ function ConfirmBookingForm({
           }
           label="I confirm that my payment details and preferred loyalty program are correct."
         />
-        <Divider
-          variant="middle"
-          sx={{ marginY: 2, borderColor: "transparent" }}
-        />
-
-        <Button variant="contained" onClick={handleConfirmBooking}>
-          Confirm Booking
-        </Button>
-
-        <Divider
-          variant="middle"
-          sx={{ marginY: 2, borderColor: "transparent" }}
-        />
-
-        <Typography display="flex" justifyContent="center" alignItems="center">
-          {currency} {totalPrice} will be charged to your card immediately
-        </Typography>
-        <Divider
-          variant="middle"
-          sx={{ marginY: 2, borderColor: "transparent" }}
-        />
       </FormGroup>
+      <Button variant="contained" onClick={handleConfirmBooking}>
+        Confirm Booking
+      </Button>
 
       {/* Alert to display on successful booking confirmation */}
       {showSuccessAlert && (
         <Alert severity="success" onClose={() => setShowSuccessAlert(false)}>
-          Booking confirmed
+          Booking confirmed. We will redirect you to the confirmation page in a
+          short while.
         </Alert>
       )}
 
@@ -936,11 +644,11 @@ function ConfirmBookingForm({
           the Payment Information and Billing Address form.
         </Alert>
       )}
-    </Box>
+    </Paper>
   );
 }
 
-export default function Book() {
+export default function Payment(props) {
   const [enteredPrimaryGuestData, setEnteredPrimaryGuestData] =
     useState<PrimaryGuestData>({
       title: "",
@@ -983,18 +691,12 @@ export default function Book() {
   return (
     <>
       <Head>
-        <title>Payment</title>
-        <meta name="description" content="Details of chosen hotel here." />
+        <title>Payment - SUTDHotelBooking</title>
+        <meta name="description" content="Confirm your booking now!" />
       </Head>
-      <Box style={{ display: "flex", flexDirection: "row", padding: "10px" }}>
-        <Box
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            padding: "10px",
-            flex: 5,
-          }}
-        >
+      <Box className="h-32 w-full" bgcolor="secondary.main"></Box>
+      <Container maxWidth="lg" className="flex flex-row gap-3 py-6">
+        <Stack className="w-full" spacing={2}>
           <PrimaryGuestBox
             onEnteredPrimaryGuestDataChange={setEnteredPrimaryGuestData}
           />
@@ -1011,22 +713,11 @@ export default function Book() {
               enteredPaymentInformationBillingAddressData
             }
           />
-        </Box>
-        <Box
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            padding: "10px",
-            flex: 5,
-          }}
-        >
-          <Divider
-            variant="middle"
-            sx={{ marginY: 5, borderColor: "transparent" }}
-          />
+        </Stack>
+        <Box className="w-96 shrink-0">
           <BookingSummary {...bookingData} />
         </Box>
-      </Box>
+      </Container>
     </>
   );
 }
