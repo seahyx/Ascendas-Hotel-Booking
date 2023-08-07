@@ -11,15 +11,19 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
+import { format, parseJSON } from "date-fns";
 import { matchIsValidTel } from "mui-tel-input";
 import Head from "next/head";
 import React, { useEffect, useState } from "react";
 
-import BookingSummary from "~/components/BookingSummary";
+import BookingSummary, {
+  BookingSummaryProps,
+} from "~/components/BookingSummary";
 import CountrySelect from "~/components/CountrySelect";
 import DropdownTitle from "~/components/DropdownTitle";
 import EmailInput from "~/components/EmailInput";
 import PhoneNumber from "~/components/PhoneNumber";
+import useStorage from "~/utils/useStorage";
 
 interface PrimaryGuestData {
   title: string;
@@ -687,6 +691,7 @@ function ConfirmBookingForm({
 
 export interface PaymentProps {
   destinationId: string;
+  hotelName: string;
   hotelId: string;
   roomId: string;
   startDate: Date;
@@ -703,6 +708,21 @@ export interface PaymentProps {
 }
 
 export default function Payment(props) {
+  const { getItem } = useStorage();
+  const paymentJson = getItem("paymentProps", "session");
+  const obj: any | undefined = paymentJson
+    ? JSON.parse(paymentJson)
+    : undefined;
+  if (obj) {
+    obj.startDate = parseJSON(obj.startDate);
+    obj.endDate = parseJSON(obj.endDate);
+  }
+  const paymentProps: PaymentProps | undefined = obj;
+
+  console.log(paymentJson);
+  console.log(obj);
+  console.log(paymentProps);
+
   const [enteredPrimaryGuestData, setEnteredPrimaryGuestData] =
     useState<PrimaryGuestData>({
       title: "",
@@ -727,20 +747,20 @@ export default function Payment(props) {
     country: "",
   });
 
-  const bookingData = {
-    hotelName: "Sample Hotel",
-    roomType: "Deluxe Room",
-    checkInDate: "2023-08-02",
-    checkOutDate: "2023-08-10",
-    numberOfNights: 2,
+  const bookingSummary: BookingSummaryProps = {
+    hotelName: paymentProps?.hotelName ?? "",
+    roomType: paymentProps?.roomType ?? "",
+    checkInDate: format(paymentProps?.startDate ?? new Date(), "dd MMM yyyy"),
+    checkOutDate: format(paymentProps?.endDate ?? new Date(), "dd MMM yyyy"),
+    numberOfNights: paymentProps?.numberOfNights ?? 0,
     currency: "SGD",
-    roomCount: 2,
-    adultCount: 2,
-    childCount: 2,
-    roomPrice: 200, // Example room price
-    roomRate: 400,
-    taxAndRecoveryCharges: 50, // Example tax and charges
-    grandTotal: 500, // Example total
+    roomCount: paymentProps?.numberOfRooms ?? 1,
+    adultCount: paymentProps?.adults ?? 1,
+    childCount: paymentProps?.children ?? 0,
+    roomPrice: paymentProps?.avgRoomCost ?? 0,
+    roomRate: paymentProps?.roomRate ?? 0,
+    taxAndRecoveryCharges: paymentProps?.tax ?? 0, // Example tax and charges
+    grandTotal: paymentProps ? paymentProps?.roomRate + paymentProps?.tax : 0,
   };
   return (
     <>
@@ -769,7 +789,7 @@ export default function Payment(props) {
           />
         </Stack>
         <Box className="w-96 shrink-0">
-          <BookingSummary {...bookingData} />
+          <BookingSummary {...bookingSummary} />
         </Box>
       </Container>
     </>

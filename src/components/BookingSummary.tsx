@@ -9,7 +9,7 @@ import {
   Stack,
 } from "@mui/material";
 
-interface BookingSummaryProps {
+export interface BookingSummaryProps {
   hotelName: string;
   roomType: string;
   checkInDate: string;

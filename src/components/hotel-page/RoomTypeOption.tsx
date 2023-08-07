@@ -3,17 +3,18 @@ import {
   Button,
   CardActionArea,
   CardContent,
+  Link,
   Stack,
   Typography,
 } from "@mui/material";
 import { differenceInDays } from "date-fns";
-import Link from "next/link";
 import { useState } from "react";
 import { Room, mapBreakfastInfoToText } from "~/utils/idPricing";
 import { SearchParams } from "~/utils/searchParams";
 import { AdditionalDetailsModal } from "./AdditionalDetailsModal";
 import { PaymentProps } from "~/pages/payment";
 import { DestinationHotel } from "~/utils/destinationHotel";
+import useStorage from "~/utils/useStorage";
 import { useRouter } from "next/router";
 
 export const RoomTypeOption = ({
@@ -31,6 +32,8 @@ export const RoomTypeOption = ({
   const currency = "SGD";
   const router = useRouter();
 
+  const { setItem } = useStorage();
+
   const avgRoomCost =
     searchParams && room.price
       ? room.price /
@@ -43,6 +46,7 @@ export const RoomTypeOption = ({
 
   const paymentProps: PaymentProps = {
     destinationId: searchParams?.uid ?? "",
+    hotelName: hotelDetails?.name ?? "",
     hotelId: hotelDetails?.id ?? "",
     roomId: room.key ?? "",
     startDate: searchParams?.checkInDate ?? new Date(),
@@ -82,12 +86,17 @@ export const RoomTypeOption = ({
               </Typography>
 
               <Button
-                component="a"
+                component="span"
                 onMouseDown={(event) => event.stopPropagation()}
                 onClick={(event) => {
                   event.stopPropagation();
                   event.preventDefault();
-                  router.push("/payment", "/payment");
+                  setItem(
+                    "paymentProps",
+                    JSON.stringify(paymentProps),
+                    "session"
+                  );
+                  router.push("/payment");
                 }}
               >
                 Select Room

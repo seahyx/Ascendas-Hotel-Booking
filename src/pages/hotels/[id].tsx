@@ -179,7 +179,7 @@ export default function HotelDetails({
   return (
     <>
       <Head>
-        <title>{hotelDetails?.name} - SUTDHotelBooking</title>
+        <title>{`${hotelDetails?.name} - SUTDHotelBooking`}</title>
         <meta name="description" content="Details of chosen hotel here." />
       </Head>
       <TopBarWithSearch defaultValues={defaultValues} />
