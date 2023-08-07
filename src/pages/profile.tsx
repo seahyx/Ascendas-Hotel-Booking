@@ -17,6 +17,10 @@ import {
   AccordionDetails,
   FormControlLabel,
   Checkbox,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import Head from "next/head";
@@ -29,6 +33,8 @@ export default function Profile() {
   const [editedLastName, setEditedLastName] = useState("");
   const [editedEmail, setEditedEmail] = useState("");
   const [number, setEditedNumber] = useState("");
+  const [isDeleteDialogOpen, setDeleteDialogOpen] = useState(false);
+  
 
   const firstName = "Test";
   const lastName = "Account";
@@ -74,6 +80,18 @@ export default function Profile() {
     setEditedLastName(lastName);
     setEditedEmail(email);
     setEditedNumber(number);
+  };
+
+  const handleDeleteAccount = () => {
+    setDeleteDialogOpen(true);
+  };
+
+  const handleDeleteConfirm = () => {
+    setDeleteDialogOpen(false);
+  };
+  
+  const handleDeleteCancel = () => {
+    setDeleteDialogOpen(false);
   };
 
   return (
@@ -228,13 +246,31 @@ export default function Profile() {
                   control={<Checkbox />}
                   label="Misc Setting 3"
                 />
-                <Button variant="contained" color="primary" /*onClick={}*/>
+                <Button variant="contained" color="primary" onClick={handleDeleteAccount}>
                   Delete Account
                 </Button>
                 <Button variant="contained" color="primary" /*onClick={}*/>
                   Logout
                 </Button>
               </Stack>
+              <Dialog
+                open={isDeleteDialogOpen}
+                onClose={handleDeleteCancel}
+              >
+                <DialogContent>
+                  <DialogContentText>
+                    Are you sure you want to delete your account?
+                  </DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                  <Button onClick={handleDeleteCancel} color="primary">
+                    Cancel
+                  </Button>
+                  <Button onClick={handleDeleteConfirm} color="primary" autoFocus>
+                    Delete
+                  </Button>
+                </DialogActions>
+              </Dialog>
             </>
             )}
             {/* Add more conditions for other pages */}
