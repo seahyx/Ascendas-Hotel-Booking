@@ -14,15 +14,18 @@ import { CustomLightbox } from "./CustomLightbox";
 import { RoomTypeOption } from "./RoomTypeOption";
 import { groupBy } from "./RoomSection";
 import { SearchParams } from "~/utils/searchParams";
+import { DestinationHotel } from "~/utils/destinationHotel";
 
 export const RoomTypeCard = ({
   groupTitle,
   hotelRooms,
   searchParams,
+  hotelDetails,
 }: {
   groupTitle: string;
   hotelRooms?: Room[];
   searchParams?: SearchParams;
+  hotelDetails?: DestinationHotel;
 }) => {
   let uniqueRoomOptions: Room[] | undefined;
   if (hotelRooms) {
@@ -62,7 +65,7 @@ export const RoomTypeCard = ({
     src:
       image.high_resolution_url && image.high_resolution_url !== ""
         ? image.high_resolution_url
-        : image.url,
+        : image.url ?? "",
   }));
   return (
     <Card variant="outlined">
@@ -105,6 +108,7 @@ export const RoomTypeCard = ({
               room={room}
               onImageViewAllClick={() => setLightboxOpen(true)}
               searchParams={searchParams}
+              hotelDetails={hotelDetails}
             />
           ))}
         </Stack>

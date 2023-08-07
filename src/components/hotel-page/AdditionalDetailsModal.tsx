@@ -23,7 +23,6 @@ export const AdditionalDetailsModal = ({
   onImageViewAllClick?: () => void;
 }) => {
   let heroImageUrl: string | undefined;
-  console.log(room);
   if (room.images) {
     for (let i = 0; i < room.images.length; i++) {
       if (room.images[i]?.hero_image) {

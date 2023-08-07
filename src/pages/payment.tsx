@@ -685,6 +685,23 @@ function ConfirmBookingForm({
   );
 }
 
+export interface PaymentProps {
+  destinationId: string;
+  hotelId: string;
+  roomId: string;
+  startDate: Date;
+  endDate: Date;
+  adults: number;
+  children: number;
+  numberOfRooms: number;
+  numberOfNights: number;
+  roomType: string;
+  avgRoomCost: number;
+  roomRate: number;
+  tax: number;
+  additionalInfo: string;
+}
+
 export default function Payment(props) {
   const [enteredPrimaryGuestData, setEnteredPrimaryGuestData] =
     useState<PrimaryGuestData>({

@@ -6,23 +6,59 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
+import { differenceInDays } from "date-fns";
+import Link from "next/link";
 import { useState } from "react";
 import { Room, mapBreakfastInfoToText } from "~/utils/idPricing";
-import { AdditionalDetailsModal } from "./AdditionalDetailsModal";
 import { SearchParams } from "~/utils/searchParams";
-import { differenceInDays } from "date-fns";
+import { AdditionalDetailsModal } from "./AdditionalDetailsModal";
+import { PaymentProps } from "~/pages/payment";
+import { DestinationHotel } from "~/utils/destinationHotel";
+import { useRouter } from "next/router";
 
 export const RoomTypeOption = ({
   room,
   onImageViewAllClick,
   searchParams,
+  hotelDetails,
 }: {
   room: Room;
   onImageViewAllClick?: () => void;
   searchParams?: SearchParams;
+  hotelDetails?: DestinationHotel;
 }) => {
   const [detailsOpen, setDetailsOpen] = useState(false);
   const currency = "SGD";
+  const router = useRouter();
+
+  const avgRoomCost =
+    searchParams && room.price
+      ? room.price /
+        differenceInDays(searchParams.checkOutDate, searchParams.checkInDate) /
+        searchParams.rooms
+      : room.price ?? 0;
+  const roomOptionInfo = mapBreakfastInfoToText(
+    room.roomAdditionalInfo?.breakfastInfo
+  );
+
+  const paymentProps: PaymentProps = {
+    destinationId: searchParams?.uid ?? "",
+    hotelId: hotelDetails?.id ?? "",
+    roomId: room.key ?? "",
+    startDate: searchParams?.checkInDate ?? new Date(),
+    endDate: searchParams?.checkOutDate ?? new Date(),
+    adults: searchParams?.adults ?? 1,
+    children: searchParams?.child ?? 0,
+    numberOfRooms: searchParams?.rooms ?? 1,
+    numberOfNights: searchParams
+      ? differenceInDays(searchParams?.checkOutDate, searchParams?.checkInDate)
+      : 0,
+    roomType: room.roomNormalizedDescription ?? "",
+    tax: 0,
+    additionalInfo: roomOptionInfo,
+    roomRate: room.price ?? 0,
+    avgRoomCost: avgRoomCost,
+  };
 
   return (
     <>
@@ -30,9 +66,7 @@ export const RoomTypeOption = ({
         <CardContent>
           <Stack direction="row" className="place-content-between">
             <Box>
-              <Typography variant="h6">
-                {mapBreakfastInfoToText(room.roomAdditionalInfo?.breakfastInfo)}
-              </Typography>
+              <Typography variant="h6">{roomOptionInfo}</Typography>
               <Typography className="mt-3" color="text.secondary">
                 {room.free_cancellation
                   ? "Free cancellation ✓"
@@ -41,27 +75,19 @@ export const RoomTypeOption = ({
             </Box>
             <Box className="flex flex-col place-items-end">
               <Typography variant="h6">
-                {currency}{" "}
-                {(searchParams && room.price
-                  ? room.price /
-                    differenceInDays(
-                      searchParams.checkOutDate,
-                      searchParams.checkInDate
-                    ) /
-                    searchParams.rooms
-                  : room.price ?? 0
-                ).toFixed(0)}
+                {currency} {avgRoomCost.toFixed(0)}
               </Typography>
               <Typography variant="body2" color="text.secondary">
                 per room per night
               </Typography>
+
               <Button
-                className="mt-2"
-                component="span"
+                component="a"
                 onMouseDown={(event) => event.stopPropagation()}
                 onClick={(event) => {
                   event.stopPropagation();
                   event.preventDefault();
+                  router.push("/payment", "/payment");
                 }}
               >
                 Select Room

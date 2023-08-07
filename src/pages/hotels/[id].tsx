@@ -348,6 +348,7 @@ export default function HotelDetails({
           <RoomSection
             hotelRooms={hotelPricing?.rooms}
             searchParams={searchParams}
+            hotelDetails={hotelDetails}
           />
         </Stack>
       </Container>

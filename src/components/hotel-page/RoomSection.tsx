@@ -3,6 +3,7 @@ import { Room } from "~/utils/idPricing";
 import { RoomTypeCard } from "./RoomTypeCard";
 import ExpandableBox from "../ExpandableBox";
 import { SearchParams } from "~/utils/searchParams";
+import { DestinationHotel } from "~/utils/destinationHotel";
 
 export const groupBy = <T, K extends keyof any>(arr: T[], key: (i: T) => K) =>
   arr.reduce((groups, item) => {
@@ -13,9 +14,11 @@ export const groupBy = <T, K extends keyof any>(arr: T[], key: (i: T) => K) =>
 export const RoomSection = ({
   hotelRooms,
   searchParams,
+  hotelDetails,
 }: {
   hotelRooms?: Room[];
   searchParams?: SearchParams;
+  hotelDetails?: DestinationHotel;
 }) => {
   hotelRooms &&
     hotelRooms.sort((a, b) => {
@@ -38,6 +41,7 @@ export const RoomSection = ({
               groupTitle={groupTitle}
               hotelRooms={roomGroupings[groupTitle]}
               searchParams={searchParams}
+              hotelDetails={hotelDetails}
             />
           ))}
       </Stack>
