@@ -12,7 +12,7 @@ export default function Home(props) {
   return (
     <>
       <ThemeProvider theme={getTheme("dark")}>
-        <Box className="relative mb-6 h-[20rem] w-full">
+        <Box className="relative mb-6 h-[65vh] w-full">
           <Container
             maxWidth="lg"
             className="absolute bottom-0 left-0 right-0 z-20"

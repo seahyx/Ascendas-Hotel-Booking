@@ -97,6 +97,7 @@ export const GuestSelectorPopper = ({
               zIndex: 20,
             }}
             disablePortal
+            keepMounted
             transition
           >
             {({ TransitionProps }) => (

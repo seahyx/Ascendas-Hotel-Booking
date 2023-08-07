@@ -97,6 +97,7 @@ export const DateSelectorPopper = ({
               zIndex: 20,
             }}
             disablePortal
+            keepMounted
             transition
           >
             {({ TransitionProps }) => (

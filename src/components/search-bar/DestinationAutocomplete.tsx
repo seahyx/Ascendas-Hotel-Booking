@@ -48,7 +48,7 @@ export default function DestinationAutocomplete({
       onChange={(event, value: Destination | null) =>
         onChange ? onChange(value) : null
       }
-      defaultValue={defaultValues?.destination}
+      defaultValue={defaultValues?.dest}
       loading={loading}
       options={options}
       getOptionLabel={(option) => option.term}
@@ -64,7 +64,7 @@ export default function DestinationAutocomplete({
           {...params}
           variant="standard"
           placeholder="Search destinations"
-          defaultValue={defaultValues?.destination?.term}
+          defaultValue={defaultValues?.dest?.term}
           sx={{
             input: {
               "&::placeholder": {
