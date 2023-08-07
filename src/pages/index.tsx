@@ -48,7 +48,7 @@ export default function Home(props) {
               maxWidth="md"
               className="absolute -bottom-6 left-0 right-0 z-20"
             >
-              <SearchBar onSearchButtonClick={onSearchButtonClick} />
+              <SearchBar />
             </Container>
           </ThemeProvider>
         </Box>
