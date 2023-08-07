@@ -1,7 +1,10 @@
 import { Box, ClickAwayListener, Fade, Popper, Tooltip } from "@mui/material";
 import { format } from "date-fns";
 import { PropsWithChildren, useEffect, useState } from "react";
-import DateSelectorCard from "./DateSelectorCard";
+import DateSelectorCard, {
+  getDefaultCheckInDate,
+  getDefaultCheckOutDate,
+} from "./DateSelectorCard";
 
 export interface DateSelectorPopperProps {
   onCheckInDateChange: (newDate: Date) => void;
@@ -29,13 +32,12 @@ export const DateSelectorPopper = ({
   defaultValues,
 }: PropsWithChildren<DateSelectorPopperProps>) => {
   // Check in/out date range picker
-
   const defaultCheckInOutText = "Check-in/out";
   const [checkInDate, setCheckInDate] = useState<Date>(
-    defaultValues?.checkInDate ?? new Date()
+    getDefaultCheckInDate(defaultValues)
   );
   const [checkOutDate, setCheckOutDate] = useState<Date>(
-    defaultValues?.checkOutDate ?? new Date()
+    getDefaultCheckOutDate(defaultValues)
   );
   const [isCheckInOutOpened, setIsCheckInOutOpened] = useState(
     showTextOnStart ?? false

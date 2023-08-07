@@ -37,7 +37,7 @@ export default function HotelSearchResultItem({
     fetcher,
     {
       onSuccess(data, key, config) {
-        console.log(data);
+        // console.log(data);
       },
     }
   );

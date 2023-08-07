@@ -10,6 +10,15 @@ export type SearchParams = {
   rooms: number;
 } & Destination;
 
+export interface DefaultValues {
+  dest?: Destination;
+  checkInDate?: Date;
+  checkOutDate?: Date;
+  adults?: number;
+  child?: number;
+  rooms?: number;
+}
+
 export const searchParamsToQuery = (searchParams: SearchParams): string => {
   const queryParams: Record<string, string> = Object.fromEntries(
     Object.entries(searchParams).map((entry) => [
@@ -52,6 +61,15 @@ export const jsonToSearchParams = (json: string): SearchParams => {
   obj.checkOutDate = parseJSON(obj.checkOutDate);
   const searchParams: SearchParams = obj;
   return searchParams;
+};
+
+export const searchParamsToDefaultValues = (
+  searchParams?: SearchParams
+): DefaultValues => {
+  return {
+    dest: searchParams,
+    ...searchParams,
+  };
 };
 
 export const parsedQueryToSearchParams = (

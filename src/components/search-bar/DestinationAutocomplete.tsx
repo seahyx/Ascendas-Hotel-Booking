@@ -8,7 +8,7 @@ interface DestinationAutocompleteProps {
   className?: React.HTMLProps<HTMLElement>["className"];
   onChange?: (value: Destination | null) => void;
   defaultValues?: {
-    destination?: Destination;
+    dest?: Destination;
   };
 }
 

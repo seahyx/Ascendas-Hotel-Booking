@@ -86,6 +86,36 @@ function Day(
 interface OnDateChange {
   (newDate: Date): void;
 }
+const nextDay = (date: Date) => add(date, { days: 1 });
+const prevDay = (date: Date) => add(date, { days: -1 });
+const clearTime = (date: Date) =>
+  set(date, { hours: 0, minutes: 0, seconds: 0, milliseconds: 0 });
+
+export const getDefaultCheckInDate = (defaultValues?: {
+  checkInDate?: Date;
+}): Date => {
+  return (
+    defaultValues?.checkInDate ??
+    clearTime(
+      add(new Date(), {
+        weeks: 1,
+      })
+    )
+  );
+};
+export const getDefaultCheckOutDate = (defaultValues?: {
+  checkOutDate?: Date;
+}): Date => {
+  return (
+    defaultValues?.checkOutDate ??
+    clearTime(
+      add(new Date(), {
+        weeks: 1,
+        days: 1,
+      })
+    )
+  );
+};
 
 interface DateSelectorCardProps {
   onStartDateChange?: OnDateChange;
@@ -101,27 +131,11 @@ export default function DateSelectorCard({
   onEndDateChange,
   defaultValues,
 }: DateSelectorCardProps) {
-  const nextDay = (date: Date) => add(date, { days: 1 });
-  const prevDay = (date: Date) => add(date, { days: -1 });
-  const clearTime = (date: Date) =>
-    set(date, { hours: 0, minutes: 0, seconds: 0, milliseconds: 0 });
-
   const [startDate, _setStartDate] = useState<Date>(
-    defaultValues?.checkInDate ??
-      clearTime(
-        add(new Date(), {
-          weeks: 1,
-        })
-      )
+    getDefaultCheckInDate(defaultValues)
   );
   const [endDate, _setEndDate] = useState<Date>(
-    defaultValues?.checkOutDate ??
-      clearTime(
-        add(new Date(), {
-          weeks: 1,
-          days: 1,
-        })
-      )
+    getDefaultCheckOutDate(defaultValues)
   );
   const setStartDate = (date: Date) => {
     _setStartDate(date);

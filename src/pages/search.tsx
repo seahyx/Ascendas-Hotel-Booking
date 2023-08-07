@@ -19,7 +19,13 @@ import TopBarWithSearch from "src/components/search-bar/TopBarWithSearch";
 import HotelSearchResultList from "src/components/search-page/HotelSearchResultList";
 import { Convert, DestinationPricing } from "src/utils/destinationPricing";
 import useSWR from "swr";
-import { SearchParams, parsedQueryToSearchParams } from "~/utils/searchParams";
+import {
+  DefaultValues,
+  SearchParams,
+  jsonToSearchParams,
+  parsedQueryToSearchParams,
+  searchParamsToDefaultValues,
+} from "~/utils/searchParams";
 
 function Sidebar() {
   const [ratingRange, setRatingRange] = useState<number[]>([2.5, 5.0]);
@@ -173,10 +179,13 @@ export default function SearchResults({
       destQueryUrl,
     }: InferGetServerSidePropsType<typeof getServerSideProps>) {
   const maxItemsPerPage = 10;
+
   const searchParams: SearchParams | undefined = searchParamsJSON
-    ? JSON.parse(searchParamsJSON)
+    ? jsonToSearchParams(searchParamsJSON)
     : undefined;
-  console.log(searchParams);
+  const defaultValues: DefaultValues | undefined =
+    searchParamsToDefaultValues(searchParams);
+
   const fetcher = (url: string) => fetch(url).then((r) => r.json());
   const checkSearchComplete = (data: DestinationPricing) => {
     if (!data || data.completed) return 0;
@@ -192,7 +201,7 @@ export default function SearchResults({
         <title>Search results for Singapore</title>
         <meta name="description" content="Search results for Singapore." />
       </Head>
-      <TopBarWithSearch />
+      <TopBarWithSearch defaultValues={defaultValues} />
       {data && data.hotels && (
         <Container
           maxWidth="md"

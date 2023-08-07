@@ -26,9 +26,11 @@ import { DestinationHotel } from "~/utils/destinationHotel";
 import { Convert } from "~/utils/destinationPricing";
 import { IdPricing, Room } from "~/utils/idPricing";
 import {
+  DefaultValues,
   SearchParams,
   jsonToSearchParams,
   parsedQueryToSearchParams,
+  searchParamsToDefaultValues,
 } from "~/utils/searchParams";
 import { DateSelectorPopper } from "../../components/search-bar/DateSelectorPopper";
 import { GuestSelectorPopper } from "~/components/search-bar/GuestSelectorPopper";
@@ -130,7 +132,9 @@ export default function HotelDetails({
   const searchParams: SearchParams | undefined = searchParamsJSON
     ? jsonToSearchParams(searchParamsJSON)
     : undefined;
-  console.log(searchParams);
+  const defaultValues: DefaultValues | undefined =
+    searchParamsToDefaultValues(searchParams);
+  // console.log(searchParams);
 
   // Check in/out date range picker
   const checkInOutRef = useRef(null);
@@ -178,15 +182,7 @@ export default function HotelDetails({
         <title>{hotelDetails?.name} - SUTDHotelBooking</title>
         <meta name="description" content="Details of chosen hotel here." />
       </Head>
-      <TopBarWithSearch
-        initialValues={{
-          checkInDate: searchParams?.checkInDate,
-          checkOutDate: searchParams?.checkOutDate,
-          adults: searchParams?.adults,
-          child: searchParams?.child,
-          rooms: searchParams?.rooms,
-        }}
-      />
+      <TopBarWithSearch defaultValues={defaultValues} />
       <Container maxWidth="lg" className="my-6">
         <Stack direction="column" spacing={3}>
           <TitleSection hotelDetails={hotelDetails} />
@@ -275,10 +271,7 @@ export default function HotelDetails({
                   showError={checkInOutErr}
                   showTextOnStart={true}
                   anchorEl={checkInOutPopperAnchor}
-                  defaultValues={{
-                    checkInDate: checkInDate,
-                    checkOutDate: checkOutDate,
-                  }}
+                  defaultValues={defaultValues}
                 >
                   <CardActionArea
                     className="mt-4 p-3"
@@ -304,11 +297,7 @@ export default function HotelDetails({
                   onClickAway={() => setGuestPopperAnchor(null)}
                   onSetGuestsText={setGuestText}
                   showError={guestErr}
-                  defaultValues={{
-                    adults: searchParams?.adults,
-                    child: searchParams?.child,
-                    rooms: searchParams?.rooms,
-                  }}
+                  defaultValues={defaultValues}
                 >
                   <CardActionArea
                     className="p-3"

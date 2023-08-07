@@ -13,7 +13,11 @@ import { isBefore } from "date-fns";
 import { useEffect, useRef, useState } from "react";
 import { Destination } from "src/utils/destinations";
 import DestinationAutocomplete from "./DestinationAutocomplete";
-import { SearchParams, searchParamsToQuery } from "~/utils/searchParams";
+import {
+  DefaultValues,
+  SearchParams,
+  searchParamsToQuery,
+} from "~/utils/searchParams";
 import { DateSelectorPopper } from "./DateSelectorPopper";
 import { GuestSelectorPopper } from "./GuestSelectorPopper";
 
@@ -21,21 +25,14 @@ export interface SearchBarProps {
   onDestChange?: (value: Destination | null) => void;
   onSearchButtonClick?: (searchParams: SearchParams) => void;
   urlFunc?: (searchParams: SearchParams) => string;
-  initialValues?: {
-    destination?: Destination;
-    checkInDate?: Date;
-    checkOutDate?: Date;
-    adults?: number;
-    child?: number;
-    rooms?: number;
-  };
+  defaultValues?: DefaultValues;
 }
 
 export default function SearchBar({
   onDestChange,
   onSearchButtonClick,
   urlFunc,
-  initialValues,
+  defaultValues,
 }: SearchBarProps) {
   // URL function
   if (!urlFunc) {
@@ -173,7 +170,7 @@ export default function SearchBar({
             <DestinationAutocomplete
               className="w-full"
               onChange={setDest}
-              defaultValues={{ ...initialValues }}
+              defaultValues={defaultValues}
             />
           </Box>
         </Tooltip>
@@ -188,9 +185,7 @@ export default function SearchBar({
           showError={checkInOutErr}
           anchorEl={checkInOutPopperAnchor}
           showTextOnStart={true}
-          defaultValues={{
-            ...initialValues,
-          }}
+          defaultValues={defaultValues}
         >
           <CardActionArea
             className="flex h-full"
@@ -213,7 +208,7 @@ export default function SearchBar({
           onClickAway={() => setGuestPopperAnchor(null)}
           onSetGuestsText={setGuestText}
           showError={guestErr}
-          defaultValues={{ ...initialValues }}
+          defaultValues={defaultValues}
         >
           <CardActionArea
             ref={guestRef}
