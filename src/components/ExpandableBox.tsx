@@ -29,7 +29,7 @@ export default function ExpandableBox({
   useEffect(() => {
     const contentHeight = ref.current?.clientHeight ?? 0;
     const maxHeightPx =
-      maxHeightRem *
+      (maxHeightRem - 1) *
       parseFloat(getComputedStyle(document.documentElement).fontSize);
     setIsClipped(contentHeight > maxHeightPx);
   }, [children]);
