@@ -26,16 +26,16 @@
 
 */
 -- DropForeignKey
-ALTER TABLE `booking` DROP FOREIGN KEY `Booking_bookingInfoId_fkey`;
+ALTER TABLE `Booking` DROP FOREIGN KEY `Booking_bookingInfoId_fkey`;
 
 -- DropForeignKey
-ALTER TABLE `booking` DROP FOREIGN KEY `Booking_guestInfoId_fkey`;
+ALTER TABLE `Booking` DROP FOREIGN KEY `Booking_guestInfoId_fkey`;
 
 -- DropForeignKey
-ALTER TABLE `booking` DROP FOREIGN KEY `Booking_payeeInfoId_fkey`;
+ALTER TABLE `Booking` DROP FOREIGN KEY `Booking_payeeInfoId_fkey`;
 
 -- AlterTable
-ALTER TABLE `booking` DROP COLUMN `bookingInfoId`,
+ALTER TABLE `Booking` DROP COLUMN `bookingInfoId`,
     DROP COLUMN `guestInfoId`,
     DROP COLUMN `payeeInfoId`,
     ADD COLUMN `adults` INTEGER NOT NULL,
@@ -56,10 +56,10 @@ ALTER TABLE `booking` DROP COLUMN `bookingInfoId`,
     ADD COLUMN `uid` INTEGER NOT NULL;
 
 -- DropTable
-DROP TABLE `bookingdisplayinformation`;
+DROP TABLE `BookingDisplayInformation`;
 
 -- DropTable
-DROP TABLE `guestinformation`;
+DROP TABLE `GuestInformation`;
 
 -- DropTable
-DROP TABLE `payeeinformation`;
+DROP TABLE `PayeeInformation`;

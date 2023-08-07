@@ -779,6 +779,38 @@ function ConfirmBookingForm({
       setShowPaymentInformationBillingAddressErrorAlert(false);
     } else {
       // Both checkboxes are checked, you can proceed with booking logic here
+      const bookingData = {
+        destinationID: 12,
+        hotelID: 12,
+        uid: 1232,
+        firstName: enteredPrimaryGuestData.firstName,
+        lastName: enteredPrimaryGuestData.lastName,
+        phoneNumber: enteredPrimaryGuestData.phoneNumber,
+        email: enteredPrimaryGuestData.validEmail,
+        numberOfNights: 3,
+        numberOfRooms: 2,
+        startDate: new Date().toISOString(),
+        endDate: new Date().toISOString(),
+        adults: 2,
+        children: 1,
+        messageToHotel: enteredPrimaryGuestData.specialRequest,
+        roomTypes: "double",
+        avgRoomCost: 123.0,
+        roomRate: 50.0,
+        tax: 10.0,
+        additionalInfo: "check in at 3pm",
+      };
+      fetch("http://localhost:3001/api/createbooking", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(bookingData),
+      })
+        .then((response) => response.json())
+        .then((data) => console.log(data))
+        .catch((error) => console.error("Error:", error));
+
       console.log("Booking confirmed");
       setShowSuccessAlert(true);
       setShowCheckingBoxErrorAlert(false);

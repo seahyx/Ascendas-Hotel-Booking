@@ -61,7 +61,7 @@ async function getBookings(uidn: number) {
       },
     });
 
-    console.log(res);
+    return (res);
   } catch (err) {
     console.log(err);
   } finally {
@@ -97,11 +97,13 @@ async function run() {
 
     const bookings = await getBookings(3);
 
+    console.log("This code is ran from bookingfunctions.ts async function run ()")
+
     console.log('Read Booking', bookings)
   } catch (error) {
     console.error('Error creating booking:', error);
   }
 }
 
-run();
+
 export { addBooking, getBookings };
