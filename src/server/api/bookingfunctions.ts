@@ -92,6 +92,29 @@ async function getLatestBooking(uidn: number) {
   }
 }
 
+async function getBookingWithId(idn: number) {
+  try {
+    const res = await prisma.booking.findMany({
+      where: {
+        id: {
+          equals: idn,
+        },
+      },
+      orderBy: {
+        id: 'desc', // Assuming id is the auto-incrementing primary key or timestamp field
+      },
+    });
+
+    console.log(res);
+    return res.length > 0 ? res[0] : null; // Return the first item (latest booking) if available, otherwise return null
+  } catch (err) {
+    console.log(err);
+    return null;
+  } finally {
+    await prisma.$disconnect();
+  }
+}
+
 async function run() {
   try {
     const newBooking = await addBooking(
@@ -129,4 +152,4 @@ async function run() {
 }
 
 
-export { addBooking, getBookings };
+export { addBooking, getBookings,getLatestBooking,getBookingWithId };

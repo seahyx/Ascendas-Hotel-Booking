@@ -669,6 +669,35 @@ function PaymentInformationBillingAddress({
     </Box>
   );
 }
+async function fetchLatestBooking(uid: string) {
+  try {
+    const response = await fetch(
+      `http://localhost:3001/api/getlatestbooking/${uid}`
+    );
+    if (!response.ok) {
+      throw new Error("Network response was not ok");
+    }
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Error:", error);
+    throw error;
+  }
+}
+
+async function fetchBookingWithId(id: string) {
+  try {
+    const response = await fetch(`http://localhost:3001/api/booking/${id}`);
+    if (!response.ok) {
+      throw new Error("Network response was not ok");
+    }
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Error:", error);
+    throw error;
+  }
+}
 
 interface confirmBookingFormProps {
   currency: string;
@@ -831,7 +860,14 @@ function ConfirmBookingForm({
         body: JSON.stringify(bookingData),
       })
         .then((response) => response.json())
-        .then((data) => console.log(data))
+        .then((data) => {
+          console.log(data);
+          console.log("bookingId", data.id);
+        })
+        .catch((error) => console.error("Error:", error));
+
+      fetchBookingWithId("31")
+        .then((data) => console.log("fetchBookingWithId", data))
         .catch((error) => console.error("Error:", error));
 
       console.log("Booking confirmed");
