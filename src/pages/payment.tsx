@@ -901,25 +901,7 @@ function ConfirmBookingForm({
       {/* Alert to display on successful booking confirmation */}
       {showSuccessAlert && (
         <Alert severity="success" onClose={() => setShowSuccessAlert(false)}>
-          Booking confirmed for {enteredPrimaryGuestData.title}{" "}
-          {enteredPrimaryGuestData.firstName} {enteredPrimaryGuestData.lastName}
-          . Phone number: {enteredPrimaryGuestData.phoneNumber}. Email:{" "}
-          {enteredPrimaryGuestData.validEmail}. specialRequest:{" "}
-          {enteredPrimaryGuestData.specialRequest}.
-          {enteredPaymentInformationBillingAddressData.cardNumber}
-          {", "}
-          nameOnCard:{enteredPaymentInformationBillingAddressData.nameOnCard}
-          {", "}expiryDate:
-          {enteredPaymentInformationBillingAddressData.expiryDate}
-          {", "}
-          cvv/cvc:{enteredPaymentInformationBillingAddressData.cvvcvc}
-          {", "}address"{enteredPaymentInformationBillingAddressData.address}
-          {", "}
-          city:{enteredPaymentInformationBillingAddressData.city}
-          {", "}zippostcode:
-          {enteredPaymentInformationBillingAddressData.zipPostCode}
-          {", "}
-          country:{enteredPaymentInformationBillingAddressData.country}
+          Booking confirmed
         </Alert>
       )}
 
@@ -939,11 +921,7 @@ function ConfirmBookingForm({
           onClose={() => setShowPrimaryGuestErrorAlert(false)}
         >
           Please check that you have entered all required inputs correctly in
-          the Primary Guest Form. {enteredPrimaryGuestData.title}{" "}
-          {enteredPrimaryGuestData.firstName} {enteredPrimaryGuestData.lastName}
-          . Phone number: {enteredPrimaryGuestData.phoneNumber}. Email:{" "}
-          {enteredPrimaryGuestData.validEmail}. specialRequest:{" "}
-          {enteredPrimaryGuestData.specialRequest}.
+          the Primary Guest Form.
         </Alert>
       )}
 
@@ -955,21 +933,7 @@ function ConfirmBookingForm({
           }
         >
           Please check that you have entered all required inputs correctly in
-          the Payment Information and Billing Address form.cardNumber:{" "}
-          {enteredPaymentInformationBillingAddressData.cardNumber}
-          {", "}
-          nameOnCard:{enteredPaymentInformationBillingAddressData.nameOnCard}
-          {", "}expiryDate:
-          {enteredPaymentInformationBillingAddressData.expiryDate}
-          {", "}
-          cvv/cvc:{enteredPaymentInformationBillingAddressData.cvvcvc}
-          {", "}address"{enteredPaymentInformationBillingAddressData.address}
-          {", "}
-          city:{enteredPaymentInformationBillingAddressData.city}
-          {", "}zippostcode:
-          {enteredPaymentInformationBillingAddressData.zipPostCode}
-          {", "}
-          country:{enteredPaymentInformationBillingAddressData.country}
+          the Payment Information and Billing Address form.
         </Alert>
       )}
     </Box>
