@@ -204,7 +204,7 @@ export default function SearchResults({
       <TopBarWithSearch defaultValues={defaultValues} />
       {data && data.hotels && (
         <Container
-          maxWidth="md"
+          maxWidth="lg"
           className="mt-3 flex w-full flex-row place-content-between items-baseline"
         >
           <Typography variant="body1">
