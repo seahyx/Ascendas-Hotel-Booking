@@ -28,6 +28,10 @@ export const getTheme = (mode: PaletteMode) =>
               main: "#240900",
               contrastText: "#ffffffaa",
             },
+            warning: {
+              main:"#ed6c02",
+              contrastText: "#ffffff66",
+            }
           }
         : {
             // Palette values for dark mode
@@ -38,6 +42,10 @@ export const getTheme = (mode: PaletteMode) =>
               main: "#240900",
               contrastText: "#ffffffaa",
             },
+            warning: {
+              main:"#e65100",
+              contrastText: "#ffffff66",
+            }
           }),
     },
     shape: {
