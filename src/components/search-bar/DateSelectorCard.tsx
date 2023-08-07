@@ -1,7 +1,7 @@
 import { Card, Typography, styled } from "@mui/material";
 import { DateCalendar, PickersDay, PickersDayProps } from "@mui/x-date-pickers";
-import { addYears, isAfter, isBefore, isEqual, isSameDay } from "date-fns";
-import { ComponentType, useState } from "react";
+import { add, addYears, isAfter, isBefore, isSameDay, set } from "date-fns";
+import { ComponentType, useEffect, useState } from "react";
 
 interface CustomPickerDayProps extends PickersDayProps<Date> {
   dayIsBetween: boolean;
@@ -49,8 +49,8 @@ const CustomPickersDay = styled(PickersDay, {
 
 function Day(
   props: PickersDayProps<Date> & {
-    startDate?: Date | null;
-    endDate?: Date | null;
+    startDate?: Date;
+    endDate?: Date;
   }
 ) {
   const { day, startDate, endDate, ...other } = props;
@@ -84,31 +84,92 @@ function Day(
 }
 
 interface OnDateChange {
-  (newDate: Date | null): void;
+  (newDate: Date): void;
 }
+const nextDay = (date: Date) => add(date, { days: 1 });
+const prevDay = (date: Date) => add(date, { days: -1 });
+const clearTime = (date: Date) =>
+  set(date, { hours: 0, minutes: 0, seconds: 0, milliseconds: 0 });
+
+export const getDefaultCheckInDate = (defaultValues?: {
+  checkInDate?: Date;
+}): Date => {
+  return (
+    defaultValues?.checkInDate ??
+    clearTime(
+      add(new Date(), {
+        weeks: 1,
+      })
+    )
+  );
+};
+export const getDefaultCheckOutDate = (defaultValues?: {
+  checkOutDate?: Date;
+}): Date => {
+  return (
+    defaultValues?.checkOutDate ??
+    clearTime(
+      add(new Date(), {
+        weeks: 1,
+        days: 1,
+      })
+    )
+  );
+};
 
 interface DateSelectorCardProps {
   onStartDateChange?: OnDateChange;
   onEndDateChange?: OnDateChange;
+  defaultValues?: {
+    checkInDate?: Date;
+    checkOutDate?: Date;
+  };
 }
 
 export default function DateSelectorCard({
   onStartDateChange,
   onEndDateChange,
+  defaultValues,
 }: DateSelectorCardProps) {
-  const [startDate, _setStartDate] = useState<Date | null>(new Date());
-  const [endDate, _setEndDate] = useState<Date | null>(new Date());
-  const setStartDate = (date: Date | null) => {
+  const [startDate, _setStartDate] = useState<Date>(
+    getDefaultCheckInDate(defaultValues)
+  );
+  const [endDate, _setEndDate] = useState<Date>(
+    getDefaultCheckOutDate(defaultValues)
+  );
+  const setStartDate = (date: Date) => {
     _setStartDate(date);
     if (onStartDateChange) onStartDateChange(date);
   };
-  const setEndDate = (date: Date | null) => {
+  const setEndDate = (date: Date) => {
     _setEndDate(date);
     if (onEndDateChange) onEndDateChange(date);
+  };
+  const onChangeStart = (newDate: Date | null) => {
+    if (!newDate) return;
+    newDate = clearTime(newDate);
+    setStartDate(newDate);
+    if (newDate && endDate && isAfter(nextDay(newDate), endDate)) {
+      setEndDate(nextDay(newDate));
+    }
+  };
+  const onChangeEnd = (newDate: Date | null) => {
+    if (!newDate) return;
+    newDate = clearTime(newDate);
+    setEndDate(newDate);
+    if (newDate && startDate && isBefore(prevDay(newDate), startDate)) {
+      setStartDate(prevDay(newDate));
+    }
   };
 
   const today = new Date();
   const maxDate = addYears(today, 2);
+
+  useEffect(() => {
+    onChangeStart(startDate);
+    onChangeEnd(endDate);
+  }, []);
+
   return (
     <Card id="calendar" className="grid grid-cols-2 p-4">
       <Typography
@@ -129,12 +190,7 @@ export default function DateSelectorCard({
       </Typography>
       <DateCalendar
         value={startDate}
-        onChange={(newDate) => {
-          setStartDate(newDate);
-          if (newDate && endDate && isAfter(newDate, endDate)) {
-            setEndDate(newDate);
-          }
-        }}
+        onChange={onChangeStart}
         maxDate={maxDate}
         disablePast
         slots={{ day: Day }}
@@ -146,16 +202,10 @@ export default function DateSelectorCard({
         }}
       />
       <DateCalendar
-        id='endDate'
         value={endDate}
-        onChange={(newDate) => {
-          setEndDate(newDate);
-          if (newDate && startDate && isBefore(newDate, startDate)) {
-            setStartDate(newDate);
-          }
-        }}
+        onChange={onChangeEnd}
         maxDate={maxDate}
-        disablePast
+        minDate={nextDay(today)}
         slots={{ day: Day }}
         slotProps={{
           day: {

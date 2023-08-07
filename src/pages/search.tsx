@@ -11,20 +11,21 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
-import { parseJSON } from "date-fns";
-import GoogleMapReact from "google-map-react";
+import GoogleMap from "google-maps-react-markers";
+import { GetServerSideProps, InferGetServerSidePropsType } from "next";
 import Head from "next/head";
-import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import TopBarWithSearch from "src/components/search-bar/TopBarWithSearch";
 import HotelSearchResultList from "src/components/search-page/HotelSearchResultList";
-import {
-  Convert,
-  DestinationPricing,
-  PricingSearchQueryParams,
-} from "src/utils/destinationPricing";
+import { Convert, DestinationPricing } from "src/utils/destinationPricing";
 import useSWR from "swr";
-import { SearchParams } from "../components/search-bar/SearchBar";
+import {
+  DefaultValues,
+  SearchParams,
+  jsonToSearchParams,
+  parsedQueryToSearchParams,
+  searchParamsToDefaultValues,
+} from "~/utils/searchParams";
 
 function Sidebar() {
   const [ratingRange, setRatingRange] = useState<number[]>([2.5, 5.0]);
@@ -74,17 +75,17 @@ function Sidebar() {
       lat: 10.99835602,
       lng: 77.01502627,
     },
-    zoom: 11,
+    zoom: 14,
   };
 
   return (
     <Stack className="w-64 shrink-0 self-start" spacing={2}>
       <Paper className="h-52 overflow-hidden">
-        <GoogleMapReact
-          bootstrapURLKeys={{ key: "" }}
+        <GoogleMap
+          apiKey=""
           defaultCenter={defaultMapProps.center}
           defaultZoom={defaultMapProps.zoom}
-        ></GoogleMapReact>
+        ></GoogleMap>
       </Paper>
       <Paper className="px-6 py-4">
         <Button className="mb-4 w-full" size="large" variant="outlined">
@@ -152,52 +153,47 @@ function Sidebar() {
   );
 }
 
-export default function SearchResults(props) {
+export const getServerSideProps: GetServerSideProps<{
+  searchParamsJSON: string | null;
+  destQueryUrl: string | null;
+}> = async (context) => {
+  const query = context.query;
+  let searchParams: SearchParams | null = null;
+  let destQueryUrl: string | null = null;
+
+  if (query.uid) {
+    searchParams = parsedQueryToSearchParams(query);
+    const pricingSearchParams =
+      Convert.searchParamsToPricingSearchParams(searchParams);
+    destQueryUrl = Convert.buildDestinationPricingQueryUrl(pricingSearchParams);
+  } else {
+    console.error("Error retrieving search parameters from url query string.");
+  }
+  return {
+    props: { searchParamsJSON: JSON.stringify(searchParams), destQueryUrl },
+  };
+};
+
+export default function SearchResults({
+      searchParamsJSON,
+      destQueryUrl,
+    }: InferGetServerSidePropsType<typeof getServerSideProps>) {
   const maxItemsPerPage = 10;
 
-  // Search result update
-  const router = useRouter();
+  const searchParams: SearchParams | undefined = searchParamsJSON
+    ? jsonToSearchParams(searchParamsJSON)
+    : undefined;
+  const defaultValues: DefaultValues | undefined =
+    searchParamsToDefaultValues(searchParams);
 
   const fetcher = (url: string) => fetch(url).then((r) => r.json());
   const checkSearchComplete = (data: DestinationPricing) => {
-    // console.log(data);
     if (!data || data.completed) return 0;
     return 500;
   };
-  const [url, setUrl] = useState<string | null>(null);
-  const { data }: { data: DestinationPricing } = useSWR(url, fetcher, {
+  const { data }: { data: DestinationPricing } = useSWR(destQueryUrl, fetcher, {
     refreshInterval: checkSearchComplete,
   });
-
-  // Attempt to extract search params
-  const { search } = router.query;
-
-  useEffect(() => {
-    if (search) {
-      const searchParams: SearchParams = JSON.parse(search as string);
-      searchParams.checkInDate = searchParams.checkInDate
-        ? parseJSON(searchParams.checkInDate)
-        : new Date();
-      searchParams.checkOutDate = searchParams.checkOutDate
-        ? parseJSON(searchParams.checkOutDate)
-        : new Date();
-      // console.log(searchParams);
-      const pricingSearchParams: PricingSearchQueryParams = {
-        destination_id: searchParams.dest?.uid ?? "",
-        checkin: searchParams.checkInDate ?? new Date(),
-        checkout: searchParams.checkOutDate ?? new Date(),
-        lang: "en_US",
-        currency: "SGD",
-        country_code: "SG",
-        rooms: searchParams.guests.rooms,
-        guests: searchParams.guests.adults + searchParams.guests.child,
-      };
-      // console.log(pricingSearchParams);
-      const url = Convert.buildDestinationPricingQueryUrl(pricingSearchParams);
-      console.log(url);
-      setUrl(url);
-    }
-  }, [search]);
 
   return (
     <>
@@ -205,10 +201,10 @@ export default function SearchResults(props) {
         <title>Search results for Singapore</title>
         <meta name="description" content="Search results for Singapore." />
       </Head>
-      <TopBarWithSearch />
+      <TopBarWithSearch defaultValues={defaultValues} />
       {data && data.hotels && (
         <Container
-          maxWidth="md"
+          maxWidth="lg"
           className="mt-3 flex w-full flex-row place-content-between items-baseline"
         >
           <Typography variant="body1">
@@ -227,6 +223,7 @@ export default function SearchResults(props) {
             hotelsPricing={data?.hotels}
             currency="SGD"
             maxItemsPerPage={maxItemsPerPage}
+            searchParams={searchParams}
           />
         </Stack>
       </Container>

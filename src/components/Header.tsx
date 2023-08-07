@@ -10,7 +10,7 @@ export default function Header() {
       component="header"
       className="absolute left-0 right-0 top-0 z-50 w-full py-4"
     >
-      <Container maxWidth="md" className="flex w-full items-start">
+      <Container maxWidth="lg" className="flex w-full items-start">
         <Box className="grow">
           <Link href="/">
             <Image src="/logo.png" width={60} height={60} alt="Site Logo" />
@@ -21,8 +21,11 @@ export default function Header() {
           startIcon={<AccountCircleOutlinedIcon fontSize="large" />}
           href="/login"
         >
-          {status === 'authenticated' ? <>{data.user.name}</> : 'Login/register'}
-          
+          {status === "authenticated" ? (
+            <>{data.user.name}</>
+          ) : (
+            "Login/register"
+          )}
         </Button>
       </Container>
     </Box>

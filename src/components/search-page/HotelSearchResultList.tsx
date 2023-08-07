@@ -4,21 +4,24 @@ import HotelSearchResultItem, {
   HotelSearchResultItemProps,
 } from "./HotelSearchResultItem";
 import { useEffect, useState } from "react";
+import { SearchParams, searchParamsToQuery } from "~/utils/searchParams";
+import { differenceInDays } from "date-fns";
 
 export interface HotelSearchResultListProps {
   hotelsPricing: Hotel[];
   currency: string;
   maxItemsPerPage: number;
+  searchParams?: SearchParams;
 }
 
 export default function HotelSearchResultList({
   hotelsPricing,
   currency,
   maxItemsPerPage,
+  searchParams,
 }: HotelSearchResultListProps) {
   // Pagination options
   const [currentPage, setCurrentPage] = useState(1);
-  const [hotelsPricingSliced, setHotelsPricingSliced] = useState<Hotel[]>([]);
   const [hotelResultList, setHotelResultList] = useState<JSX.Element[]>([]);
   const totalPages =
     !hotelsPricing || hotelsPricing.length == 0
@@ -46,15 +49,22 @@ export default function HotelSearchResultList({
         (currentPage - 1) * maxItemsPerPage,
         currentPage * maxItemsPerPage
       ) ?? [];
-    setHotelsPricingSliced(newHotelsPricingSliced);
     setHotelResultList(
       newHotelsPricingSliced
         .map(
           (hotel): HotelSearchResultItemProps => ({
-            url: `/hotels/${hotel.id}`,
+            url: `/hotels/${hotel.id}?${
+              searchParams ? searchParamsToQuery(searchParams) : ""
+            }`,
             key: hotel.id,
             currency: currency,
             hotelPricing: hotel,
+            perRoomPerNight: searchParams
+              ? differenceInDays(
+                  searchParams?.checkOutDate,
+                  searchParams?.checkInDate
+                ) * searchParams.rooms
+              : 1,
           })
         )
         .map((props) => <HotelSearchResultItem {...props} />)
@@ -62,7 +72,7 @@ export default function HotelSearchResultList({
   }, [hotelsPricing, currentPage]);
 
   return (
-    <Stack id='hotel-list' direction="column" className="w-full items-center" spacing={2}>
+    <Stack direction="column" className="w-full items-center" spacing={2}>
       {...hotelResultList}
 
       <Pagination

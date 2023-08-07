@@ -30,7 +30,6 @@ export default function Register(props) {
       headers: {
         "Content-Type": "application/json",
       },
-
       body: JSON.stringify({
         name: form.get("name"),
         email: form.get("email"),
@@ -119,7 +118,7 @@ export default function Register(props) {
         maxWidth="lg"
         className="z-10 flex grow flex-col place-content-center items-center"
       >
-        <Paper className="w-[28rem] max-w-full p-6" elevation={4}>
+        <Paper className="w-[30rem] max-w-full p-6" elevation={4}>
           <Stack direction="column">
             <Typography
               component="h1"
