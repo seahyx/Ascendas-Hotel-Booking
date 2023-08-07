@@ -6,7 +6,7 @@ import {
   getBookings,
   getLatestBooking,
   getBookingWithId,
-} from "../../../server/api/bookingfunctions";
+} from "../../../server/api/bookingFunctions";
 import { Booking } from "@prisma/client";
 
 const app = express();

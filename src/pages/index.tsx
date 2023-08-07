@@ -48,13 +48,7 @@ export default function Home(props) {
               maxWidth="lg"
               className="absolute -bottom-6 left-0 right-0 z-20"
             >
-              <SearchBar
-                onDestChange={(dest) => {
-                  setDestOption(dest);
-                  console.log(`Destination value selected:`);
-                  console.log(dest);
-                }}
-              />
+              <SearchBar />
             </Container>
           </ThemeProvider>
         </Box>

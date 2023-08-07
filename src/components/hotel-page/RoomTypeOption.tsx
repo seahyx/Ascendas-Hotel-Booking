@@ -2,12 +2,10 @@ import {
   Box,
   Button,
   CardActionArea,
-  CardContent,
-  Link,
-  Stack,
-  Typography,
+  CardContent, Stack,
+  Typography
 } from "@mui/material";
-import { differenceInDays, format } from "date-fns";
+import { differenceInDays } from "date-fns";
 import { useState } from "react";
 import { Room, mapBreakfastInfoToText } from "~/utils/idPricing";
 import { SearchParams } from "~/utils/searchParams";

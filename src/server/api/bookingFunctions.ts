@@ -1,4 +1,4 @@
-import { PrismaClient, Booking, BookingPayload } from "@prisma/client";
+import { PrismaClient, Booking } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
@@ -72,6 +72,36 @@ async function getBookingWithId(idn: number) {
     return null;
   } finally {
     await prisma.$disconnect();
+  }
+}
+
+async function fetchLatestBooking(uid: string) {
+  try {
+    const response = await fetch(
+      `http://localhost:3001/api/getlatestbooking/${uid}`
+    );
+    if (!response.ok) {
+      throw new Error("Network response was not ok");
+    }
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Error:", error);
+    throw error;
+  }
+}
+
+async function fetchBookingWithId(id: string) {
+  try {
+    const response = await fetch(`http://localhost:3001/api/booking/${id}`);
+    if (!response.ok) {
+      throw new Error("Network response was not ok");
+    }
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Error:", error);
+    throw error;
   }
 }
 

@@ -16,6 +16,7 @@ import { format, parseJSON } from "date-fns";
 import { matchIsValidTel } from "mui-tel-input";
 import { getSession, useSession } from "next-auth/react";
 import Head from "next/head";
+import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 
 import BookingSummary, {
@@ -25,6 +26,7 @@ import CountrySelect from "~/components/CountrySelect";
 import DropdownTitle from "~/components/DropdownTitle";
 import EmailInput from "~/components/EmailInput";
 import PhoneNumber from "~/components/PhoneNumber";
+import { addBooking } from "~/server/api/bookingFunctions";
 import useStorage from "~/utils/useStorage";
 
 interface PrimaryGuestData {
@@ -426,6 +428,7 @@ function ConfirmBookingForm({
   paymentProps,
 }: ConfirmBookingFormProps) {
   const session = useSession();
+  const router = useRouter();
 
   const [isFirstCheckboxChecked, setIsFirstCheckboxChecked] = useState(false);
   const [isSecondCheckboxChecked, setIsSecondCheckboxChecked] = useState(false);
@@ -441,6 +444,8 @@ function ConfirmBookingForm({
     showPaymentInformationBillingAddressErrorAlert,
     setShowPaymentInformationBillingAddressErrorAlert,
   ] = useState(false);
+
+  const [confirmButtonEnabled, setConfirmButtonEnabled] = useState(true);
 
   function handleFirstCheckboxChange(
     event: React.ChangeEvent<HTMLInputElement>
@@ -512,35 +517,6 @@ function ConfirmBookingForm({
       country !== ""
     );
   };
-  async function fetchLatestBooking(uid: string) {
-    try {
-      const response = await fetch(
-        `http://localhost:3001/api/getlatestbooking/${uid}`
-      );
-      if (!response.ok) {
-        throw new Error("Network response was not ok");
-      }
-      const data = await response.json();
-      return data;
-    } catch (error) {
-      console.error("Error:", error);
-      throw error;
-    }
-  }
-
-  async function fetchBookingWithId(id: string) {
-    try {
-      const response = await fetch(`http://localhost:3001/api/booking/${id}`);
-      if (!response.ok) {
-        throw new Error("Network response was not ok");
-      }
-      const data = await response.json();
-      return data;
-    } catch (error) {
-      console.error("Error:", error);
-      throw error;
-    }
-  }
 
   function handleConfirmBooking() {
     if (!isPrimaryGuestInputValid(enteredPrimaryGuestData)) {
@@ -570,6 +546,7 @@ function ConfirmBookingForm({
       setShowPrimaryGuestErrorAlert(false);
       setShowPaymentInformationBillingAddressErrorAlert(false);
     } else {
+      setConfirmButtonEnabled(false);
       // Both checkboxes are checked, you can proceed with booking logic here
       const bookingData: Booking = {
         destinationId: paymentProps.destinationId,
@@ -594,9 +571,26 @@ function ConfirmBookingForm({
         additionalInfo: paymentProps.additionalInfo,
         payeeId: "",
         paymentId: "",
-        uid: session.data?.user.id,
+        uid: session.data?.user.id ?? "",
       } as Booking;
-      fetch("http://localhost:3001/api/createbooking", {
+
+      // addBooking(bookingData)
+      //   .then((newBooking: Booking) => {
+      //     console.log(newBooking);
+      //     console.log("bookingId", newBooking.id);
+      //     if (newBooking && newBooking.id) {
+      //       (async () => {
+      //         setTimeout(() => {
+      //           router.push(`/confirmation?bookingId=${newBooking.id}`);
+      //         }, 3000);
+      //       })();
+      //     } else {
+      //       setConfirmButtonEnabled(true);
+      //     }
+      //   })
+      //   .catch((error) => console.error("Error:", error));
+
+      fetch("api/db/create-booking", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -607,6 +601,15 @@ function ConfirmBookingForm({
         .then((data) => {
           console.log(data);
           console.log("bookingId", data.id);
+          if (data) {
+            (async () => {
+              setTimeout(() => {
+                router.push(`/confirmation?bookingId=${data.id}`);
+              }, 3000);
+            })();
+          } else {
+            setConfirmButtonEnabled(true);
+          }
         })
         .catch((error) => console.error("Error:", error));
 
@@ -642,7 +645,12 @@ function ConfirmBookingForm({
           label="I confirm that my payment details and preferred loyalty program are correct."
         />
       </FormGroup>
-      <Button variant="contained" onClick={handleConfirmBooking} size="large">
+      <Button
+        variant="contained"
+        onClick={handleConfirmBooking}
+        size="large"
+        disabled={!confirmButtonEnabled}
+      >
         Confirm Booking
       </Button>
 
