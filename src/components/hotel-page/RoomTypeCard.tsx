@@ -59,7 +59,10 @@ export const RoomTypeCard = ({
   const slides = (
     uniqueRoomOptions ? uniqueRoomOptions[0]?.images ?? [] : []
   ).map((image) => ({
-    src: image.high_resolution_url ?? "",
+    src:
+      image.high_resolution_url && image.high_resolution_url !== ""
+        ? image.high_resolution_url
+        : image.url,
   }));
   return (
     <Card variant="outlined">

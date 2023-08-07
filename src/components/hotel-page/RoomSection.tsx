@@ -30,7 +30,7 @@ export const RoomSection = ({
   // console.log(roomGroupings);
   return (
     <ExpandableBox maxHeightRem={48} openText="Show More Rooms">
-      <Stack spacing={3}>
+      <Stack spacing={3} className="mb-6">
         {roomGroupings &&
           Object.keys(roomGroupings).map((groupTitle) => (
             <RoomTypeCard

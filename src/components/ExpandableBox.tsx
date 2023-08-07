@@ -42,7 +42,7 @@ export default function ExpandableBox({
         sx={
           isClipped && !expanded
             ? {
-                overflowY: "hidden",
+                overflowY: "clip",
                 maskImage: `linear-gradient(to bottom, rgba(0, 0, 0, 1) ${fadePercent}%, transparent 100%)`,
               }
             : {}

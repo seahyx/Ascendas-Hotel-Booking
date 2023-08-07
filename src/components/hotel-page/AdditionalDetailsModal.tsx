@@ -23,14 +23,26 @@ export const AdditionalDetailsModal = ({
   onImageViewAllClick?: () => void;
 }) => {
   let heroImageUrl: string | undefined;
+  console.log(room);
   if (room.images) {
     for (let i = 0; i < room.images.length; i++) {
       if (room.images[i]?.hero_image) {
-        heroImageUrl = room.images[i]?.high_resolution_url;
+        heroImageUrl =
+          room.images[i]?.high_resolution_url &&
+          room.images[i]?.high_resolution_url !== ""
+            ? room.images[i]?.high_resolution_url
+            : room.images[i]?.url;
         break;
       }
-      if (!heroImageUrl && room.images[i]?.high_resolution_url) {
-        heroImageUrl = room.images[i]?.high_resolution_url;
+      if (
+        !heroImageUrl &&
+        (room.images[i]?.high_resolution_url || room.images[i]?.url)
+      ) {
+        heroImageUrl =
+          room.images[i]?.high_resolution_url &&
+          room.images[i]?.high_resolution_url !== ""
+            ? room.images[i]?.high_resolution_url
+            : room.images[i]?.url;
       }
     }
   }
