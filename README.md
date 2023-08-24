@@ -7,7 +7,9 @@ run npm install on terminal.
 
 To view payment page and booking api in action,
 split terminal.
+
 On one terminal, run: npm run dev
+
 On the second terminal, run:  npx ts-node-dev src/pages/api/db/bookingServer.ts
 
 
