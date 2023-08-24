@@ -12,4 +12,7 @@ On one terminal, run: npm run dev
 
 On the second terminal, run:  npx ts-node-dev src/pages/api/db/bookingServer.ts
 
+Then open http://localhost:3000/payment in your browser.
+
+Here is an image of what you will see:
 
